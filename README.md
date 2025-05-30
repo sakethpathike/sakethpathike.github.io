@@ -1,3 +1,19 @@
-### sakethpathike.github.io
+# sakethpathike.github.io
 
-static mirror of HTML served by [kamp](https://github.com/sakethpathike/kamp)
+**Full-Page HTML Replacement** _client_ for [kamp](https://github.com/sakethpathike/kamp).
+
+### Request Flow
+```mermaid
+sequenceDiagram
+    Client->>kamp: GET /path
+    activate kamp
+    kamp->>kapsule: Build HTML template
+    kapsule-->>kamp: Raw HTML string
+    kamp->>Client: Full HTML document
+    deactivate kamp
+    Note over Client: Performs Full-Page Replacement
+```
+
+### Why
+- 300ms fade.
+- kamp serves the full page; this plugs it in.
