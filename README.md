@@ -1,6 +1,6 @@
 ## sakethpathike.github.io
 
-**Full-Page HTML Replacement** _client_ for [kamp](https://github.com/sakethpathike/kamp).
+personal site / portfolio
 
 ### Request Flow
 ```mermaid
