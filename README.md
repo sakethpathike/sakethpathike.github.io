@@ -1,7 +1,5 @@
 ## sakethpathike.github.io
 
-personal site / portfolio
-
 ### Request Flow
 ```mermaid
 sequenceDiagram
