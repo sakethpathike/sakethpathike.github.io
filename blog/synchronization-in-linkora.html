@@ -1,0 +1,675 @@
+<html>
+  <head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <style>::selection {
+  background: #BFC2FF;
+  color: #272B60;
+}</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  </head>
+  <body style="padding: 0px;  margin: 0px;  background-color: #131318;  overflow-y: auto;">
+    <script type="text/javascript">document.addEventListener("DOMContentLoaded", () => {
+  const current_page = document.getElementById("current_page");
+  const footerOnBlogLists = document.getElementById("footerOnBlogLists");
+  const isMobile = window.matchMedia("(max-width: 767px)").matches;
+  
+  if(isMobile){
+      current_page.style.boxSizing = "border-box";
+      current_page.style.padding = "15px";
+      current_page.style.width = "99.25%";
+      footerOnBlogLists.style.padding = "15px";
+      footerOnBlogLists.style.width = "99.25%";
+  } else {            
+      current_page.style.transform = "scale(1.2)";
+      current_page.style.transformOrigin = "top left";
+  }
+  
+});</script>
+    <div id="current_page" style="display: flex; flex-direction: column; padding: 50px;  width: 70.0%; ">
+      <div style="display: flex; flex-direction: row; "><span style="" onclick="window.open(&quot;/&quot;, &quot;_self&quot;);"><code style="background-color: #1e1e2e;  border-radius: 4px;  color: #3E4278;  padding:2px 4px; font-family: JetBrains Mono;  user-select: none; cursor: pointer; ">Home.kt</code></span>
+        <div style="width: 10px; "></div>
+<span style="" onclick="window.open(&quot;/blog&quot;, &quot;_self&quot;);"><code style="background-color: #BFC2FF;  border-radius: 4px;  color: #272B60;  padding:2px 4px; font-family: JetBrains Mono;  user-select: none; cursor: pointer; ">Blog.kt</code></span>
+        <div style="width: 10px; "></div>
+      </div>
+      <div style="height: 25px; "></div>
+      <div style="font-weight: 700; color: #BFC2FF; font-family: &quot;Inter&quot;; font-size: 24px; text-align: start; display: inline; ">Synchronization in Linkora</div>
+      <div style="height: 5px; "></div>
+      <div style="display: flex; flex-direction: row; align-items: center; width: fit-content; "><span class="material-symbols-outlined" style="color: #C5C4DD;  font-size: 16px; ">calendar_clock</span>
+        <div style="width: 5px; "></div>
+        <div style="font-weight: 400; color: #C5C4DD; font-family: &quot;Inter&quot;; font-size: 14px; text-align: start; display: inline; ">Feb 16, 2025 01:05 PM IST</div>
+      </div>
+      <div style="height: 10px; "></div>
+      <div style="font-weight: 100; color: #BFC2FF; font-family: &quot;Inter&quot;; font-size: 14px; text-align: start; display: inline; ">The following rendered output is parsed using a custom parser based on the <a target="_blank" style = "color: #BFC2FF" href="https://spec.commonmark.org/0.31.2/#appendix-a-parsing-strategy">CommonMark spec</a>.</div>
+      <div style="height: 25px; "></div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 600; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline; "><a style = "color: #BFC2FF" href="https://github.com/LinkoraApp/Linkora" target="_blank">Linkora App</a></div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> uses multiple </div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline; "><i>techniques</i></div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> to make sure the data is synced with the remote database even when the </div>
+            <div style="font-weight: 600; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline; "><a style = "color: #BFC2FF" href="https://github.com/LinkoraApp/sync-server" target="_blank">self-hostable sync-server</a></div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> is not up (i.e., Linkora will push changes once the server is up the next time). Most of the important parts of this implementation happen in the app because it's the source of the data, so we'll have fine control over what's supposed to be pushed and what's not.</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">Linkora supports </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">Two-Way Sync</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> synchronization. It's up to people who use the app to decide how to use the syncing method. Linkora supports:</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">•  </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">Client To Server</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"></div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">•  </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">Server To Client</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"></div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">•  </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">Two-Way Sync</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"></div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">Based on the selected option, Linkora will handle the respective implementations.</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">All this in a nutshell looks like:</div>
+          </span></div>
+      </div>
+      <div style="display: flex; flex-direction: column; clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-top: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-bottom: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-start: 0px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-end: 0px; ">
+        <div id="45040afb-0f67-466b-ad71-6fa1d7b3707a" style="font-weight: 500; color: #BFC2FF; font-size: 16px; text-align: start; display: inline; padding: 12px;  overflow: auto; "><pre>suspend fun syncData() {<br>   if (canPushToServer()) {<br>      pushUnSyncedDataToServer()<br>   }<br><br>   if (canReadFromServer()) {<br>      establishSocketConnectionAndPerformOperations()<br><br>      getTombstonesInfoFromServer(after = TIME_STAMP).let {<br>         deleteFromLocalDataBasedOnTombstones(it)<br>      }<br><br>      getNewUpdatesFromServer(after = TIME_STAMP).let {<br>         updateLocalDataBasedOnRemoteUpdates(it)<br>      }<br>   }<br>}</pre></div>
+        <div style="background-color: #3E4278; "><span class="material-icons" style="margin: 10px;  user-select: none; cursor: pointer;  font-size: 16px;  color: #BFC2FF; " onclick="const currentCodeBlock = document.getElementById('45040afb-0f67-466b-ad71-6fa1d7b3707a');
+const textToCopy = currentCodeBlock.innerText;
+
+if (navigator.clipboard &amp;&amp; navigator.clipboard.writeText) {
+  navigator.clipboard.writeText(textToCopy)
+    .then(() =&gt; console.log('Copied to clipboard!'))
+    .catch(err =&gt; alert('Copy failed: ' + err));
+} else {
+  const textarea = document.createElement('textarea');
+  textarea.value = textToCopy;
+  textarea.style.position = 'absolute';
+  textarea.style.left = '-9999px';
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand('copy');
+    console.log('Copied via execCommand');
+  } catch (err) {
+    alert('Fallback copy failed: ' + err);
+  }
+  document.body.removeChild(textarea);
+}">content_copy</span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">By this, it is straightforward to understand that if the sync type is set to </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">Two-Way Sync</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">, both of these conditional blocks will be true. Hence, we need to implement </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">Client-to-Server</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> and </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">Server-To-Client</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">.</div>
+          </span></div>
+      </div>
+      <h3 style="font-family: Inter;  color: #BFC2FF; ">1. Client-to-Server</h3>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">In this case, we only need to consider:</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">1. Pushing </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">CREATE</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">• </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">UPDATE</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">• </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">DELETE</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> operations that happen locally.  </div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">That's all we care about. But there may be cases when the </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">sync-server</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> might not be up. In that case, we need to save what's supposed to be pushed so that whenever the server and app are up, the app can send those changes. This also makes it local-first, as irrespective of server changes; it will always update locally.</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">Now, the first thing is to </div>
+            <div style="font-weight: 700; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline; ">try saving locally and then pushing the changes</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">. There are many operations where we need to push changes to the server, so I made a generic function that works for all these cases where we need to perform local operations and then push to the remote server:</div>
+          </span></div>
+      </div>
+      <div style="display: flex; flex-direction: column; clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-top: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-bottom: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-start: 0px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-end: 0px; ">
+        <div id="663540b9-c617-4cb1-b69c-7e1d871c1c46" style="font-weight: 500; color: #BFC2FF; font-size: 16px; text-align: start; display: inline; padding: 12px;  overflow: auto; "><pre>fun &lt;LocalType, RemoteType&gt; performLocalOperationWithRemoteSyncFlow(<br>   performRemoteOperation: Boolean,<br>   remoteOperation: suspend () -&gt; Flow&lt;Result&lt;RemoteType&gt;&gt; = { emptyFlow() },<br>   remoteOperationOnSuccess: suspend (RemoteType) -&gt; Unit = {},<br>   onRemoteOperationFailure: suspend () -&gt; Unit = {},<br>   localOperation: suspend () -&gt; LocalType<br>): Flow&lt;Result&lt;LocalType&gt;&gt; {<br>   return flow {<br>      emit(Result.Loading())<br>      val localResult = localOperation()<br>      Result.Success(localResult).let { success -&gt;<br>         if (performRemoteOperation &amp;&amp; canPushToServer()) {<br>            remoteOperation().collect { remoteResult -&gt;<br>               remoteResult.onFailure { failureMessage -&gt;<br>                  success.isRemoteExecutionSuccessful = false<br>                  success.remoteFailureMessage = failureMessage<br>                  onRemoteOperationFailure()<br>               }<br>               remoteResult.onSuccess {<br>                  remoteOperationOnSuccess(it.data)<br>               }<br>            }<br>         }<br>         emit(success)<br>      }<br>   }.catchAsThrowableAndEmitFailure(init = {<br>      if (performRemoteOperation &amp;&amp; canPushToServer()) {<br>         onRemoteOperationFailure()<br>      }<br>   })<br>}</pre></div>
+        <div style="background-color: #3E4278; "><span class="material-icons" style="margin: 10px;  user-select: none; cursor: pointer;  font-size: 16px;  color: #BFC2FF; " onclick="const currentCodeBlock = document.getElementById('663540b9-c617-4cb1-b69c-7e1d871c1c46');
+const textToCopy = currentCodeBlock.innerText;
+
+if (navigator.clipboard &amp;&amp; navigator.clipboard.writeText) {
+  navigator.clipboard.writeText(textToCopy)
+    .then(() =&gt; console.log('Copied to clipboard!'))
+    .catch(err =&gt; alert('Copy failed: ' + err));
+} else {
+  const textarea = document.createElement('textarea');
+  textarea.value = textToCopy;
+  textarea.style.position = 'absolute';
+  textarea.style.left = '-9999px';
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand('copy');
+    console.log('Copied via execCommand');
+  } catch (err) {
+    alert('Fallback copy failed: ' + err);
+  }
+  document.body.removeChild(textarea);
+}">content_copy</span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">It may seem like a lot is happening, but it's not. What this does is:</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">1. Perform local operation.</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">2. Try to push changes. If successful, the operation is successful.</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">3. If pushing fails, </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">onRemoteOperationFailure()</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> will be triggered if the sync type is set to </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">Client-to-Server</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> or </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">Two-Way Sync</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">.</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">Now we need to figure out how to save the operations locally when there's a failure on the remote server (mostly because the server is down), so once the server is up, Linkora App can send those operations.</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">For that, I have a table called </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">PendingSyncQueue</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">:</div>
+          </span></div>
+      </div>
+      <div style="display: flex; flex-direction: column; clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-top: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-bottom: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-start: 0px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-end: 0px; ">
+        <div id="322272a9-bce4-4940-997f-9555bdac77bb" style="font-weight: 500; color: #BFC2FF; font-size: 16px; text-align: start; display: inline; padding: 12px;  overflow: auto; "><pre>@Entity("pending_sync_queue")<br>data class PendingSyncQueue(<br>   @PrimaryKey(autoGenerate = true) val id: Long = 0,<br>   val operation: String,<br>   val payload: String<br>)</pre></div>
+        <div style="background-color: #3E4278; "><span class="material-icons" style="margin: 10px;  user-select: none; cursor: pointer;  font-size: 16px;  color: #BFC2FF; " onclick="const currentCodeBlock = document.getElementById('322272a9-bce4-4940-997f-9555bdac77bb');
+const textToCopy = currentCodeBlock.innerText;
+
+if (navigator.clipboard &amp;&amp; navigator.clipboard.writeText) {
+  navigator.clipboard.writeText(textToCopy)
+    .then(() =&gt; console.log('Copied to clipboard!'))
+    .catch(err =&gt; alert('Copy failed: ' + err));
+} else {
+  const textarea = document.createElement('textarea');
+  textarea.value = textToCopy;
+  textarea.style.position = 'absolute';
+  textarea.style.left = '-9999px';
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand('copy');
+    console.log('Copied via execCommand');
+  } catch (err) {
+    alert('Fallback copy failed: ' + err);
+  }
+  document.body.removeChild(textarea);
+}">content_copy</span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">Now, the </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">operation</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> refers to the endpoint at which the operation needs to be performed, and the </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">payload</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> is the body of the POST request.</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">A simple example of how this is done:</div>
+          </span></div>
+      </div>
+      <div style="display: flex; flex-direction: column; clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-top: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-bottom: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-start: 0px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-end: 0px; ">
+        <div id="11917d13-4d0e-48b9-a54d-5a2916360b64" style="font-weight: 500; color: #BFC2FF; font-size: 16px; text-align: start; display: inline; padding: 12px;  overflow: auto; "><pre>onRemoteOperationFailure = {<br>   pendingSyncQueueRepo.addInQueue(<br>      PendingSyncQueue(<br>         operation = RemoteRoute.Link.ARCHIVE_LINK.name,<br>         payload = Json.encodeToString(<br>            IDBasedDTO(<br>               linkId, eventTimestamp<br>            )<br>         )<br>      )<br>   )<br>}</pre></div>
+        <div style="background-color: #3E4278; "><span class="material-icons" style="margin: 10px;  user-select: none; cursor: pointer;  font-size: 16px;  color: #BFC2FF; " onclick="const currentCodeBlock = document.getElementById('11917d13-4d0e-48b9-a54d-5a2916360b64');
+const textToCopy = currentCodeBlock.innerText;
+
+if (navigator.clipboard &amp;&amp; navigator.clipboard.writeText) {
+  navigator.clipboard.writeText(textToCopy)
+    .then(() =&gt; console.log('Copied to clipboard!'))
+    .catch(err =&gt; alert('Copy failed: ' + err));
+} else {
+  const textarea = document.createElement('textarea');
+  textarea.value = textToCopy;
+  textarea.style.position = 'absolute';
+  textarea.style.left = '-9999px';
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand('copy');
+    console.log('Copied via execCommand');
+  } catch (err) {
+    alert('Fallback copy failed: ' + err);
+  }
+  document.body.removeChild(textarea);
+}">content_copy</span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">Where </div>
+            <div style="font-weight: 700; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline; ">every</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> DTO contains </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">correlation</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">. Here, the </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">IDBasedDTO</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> looks like:</div>
+          </span></div>
+      </div>
+      <div style="display: flex; flex-direction: column; clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-top: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-bottom: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-start: 0px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-end: 0px; ">
+        <div id="a1be7ac5-970c-42be-807c-c52d5386b996" style="font-weight: 500; color: #BFC2FF; font-size: 16px; text-align: start; display: inline; padding: 12px;  overflow: auto; "><pre>@Serializable<br>data class IDBasedDTO(<br>   val id: Long,<br>   val eventTimestamp: Long,<br>   val correlation: Correlation = AppPreferences.getCorrelation(),<br>)<br><br>@Serializable<br>data class Correlation(<br>   val id: String, val clientName: String<br>)</pre></div>
+        <div style="background-color: #3E4278; "><span class="material-icons" style="margin: 10px;  user-select: none; cursor: pointer;  font-size: 16px;  color: #BFC2FF; " onclick="const currentCodeBlock = document.getElementById('a1be7ac5-970c-42be-807c-c52d5386b996');
+const textToCopy = currentCodeBlock.innerText;
+
+if (navigator.clipboard &amp;&amp; navigator.clipboard.writeText) {
+  navigator.clipboard.writeText(textToCopy)
+    .then(() =&gt; console.log('Copied to clipboard!'))
+    .catch(err =&gt; alert('Copy failed: ' + err));
+} else {
+  const textarea = document.createElement('textarea');
+  textarea.value = textToCopy;
+  textarea.style.position = 'absolute';
+  textarea.style.left = '-9999px';
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand('copy');
+    console.log('Copied via execCommand');
+  } catch (err) {
+    alert('Fallback copy failed: ' + err);
+  }
+  document.body.removeChild(textarea);
+}">content_copy</span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">Correlation</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> helps in identifying the client which performs the operation, because we don't want to perform locally after reading remote updates if that update was performed by us. If done by a different client, it won't match our </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">Correlation</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">, so we can perform that knowing we're not the source.</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">Now, once the server and app are both online, we can send queued data from </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">PendingSyncQueue</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">. For the same example considered earlier, here's how it will be sent:</div>
+          </span></div>
+      </div>
+      <div style="display: flex; flex-direction: column; clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-top: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-bottom: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-start: 0px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-end: 0px; ">
+        <div id="713da9fb-b69e-403e-9815-213528da7ee4" style="font-weight: 500; color: #BFC2FF; font-size: 16px; text-align: start; display: inline; padding: 12px;  overflow: auto; "><pre>when (queue.operation) {<br>   ARCHIVE_LINK.name -&gt; {<br>      val idBasedDTO = Json.decodeFromString&lt;IDBasedDTO&gt;(queueItem.payload)<br>      val remoteLinkId = localLinksRepo.getRemoteLinkId(idBasedDTO.id)<br>      remoteLinksRepo.archiveALink(idBasedDTO.copy(id = remoteLinkId))<br>         .removeQueueItemAndSyncTimestamp(queueItem.id)<br>   }<br>}<br><br>private suspend inline fun Flow&lt;Result&lt;TimeStampBasedResponse&gt;&gt;.removeQueueItemAndSyncTimestamp(<br>   queueId: Long<br>) {<br>   this.collectLatest {<br>      it.onSuccess {<br>         pendingSyncQueueRepo.removeFromQueue(queueId)<br>         preferencesRepository.updateLastSyncedWithServerTimeStamp(it.data.eventTimestamp)<br>      }<br>   }<br>}<br><br>@Serializable<br>data class TimeStampBasedResponse(<br>   val eventTimestamp: Long,<br>   val message: String<br>)</pre></div>
+        <div style="background-color: #3E4278; "><span class="material-icons" style="margin: 10px;  user-select: none; cursor: pointer;  font-size: 16px;  color: #BFC2FF; " onclick="const currentCodeBlock = document.getElementById('713da9fb-b69e-403e-9815-213528da7ee4');
+const textToCopy = currentCodeBlock.innerText;
+
+if (navigator.clipboard &amp;&amp; navigator.clipboard.writeText) {
+  navigator.clipboard.writeText(textToCopy)
+    .then(() =&gt; console.log('Copied to clipboard!'))
+    .catch(err =&gt; alert('Copy failed: ' + err));
+} else {
+  const textarea = document.createElement('textarea');
+  textarea.value = textToCopy;
+  textarea.style.position = 'absolute';
+  textarea.style.left = '-9999px';
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand('copy');
+    console.log('Copied via execCommand');
+  } catch (err) {
+    alert('Fallback copy failed: ' + err);
+  }
+  document.body.removeChild(textarea);
+}">content_copy</span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">This way, we can confirm the client will definitely send the data to the server (if it gets uninstalled, we can't do anything about it).</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">In conclusion, the following image should give you a clear idea of how all these components work together to ensure </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">Client-to-Server</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> sync works as expected:</div>
+          </span></div>
+      </div>
+<img src="/images/linkora-sync--client-to-server.png" style="object-position: center; object-fit: cover; margin-top: 5px;  margin-bottom: 5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  border: 2.75px solid #3E4278; border-radius: 15px; ">
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">Now on the server-side, LWW (Last Write Wins) is implemented for some routes where updating is required. This makes sure the server only updates newer values in case all clients and the server aren't up at the same time:</div>
+          </span></div>
+      </div>
+      <div style="display: flex; flex-direction: column; clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-top: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-bottom: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-start: 0px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-end: 0px; ">
+        <div id="31ed60c5-6e7d-4688-9b31-4910fcc0b558" style="font-weight: 500; color: #BFC2FF; font-size: 16px; text-align: start; display: inline; padding: 12px;  overflow: auto; "><pre>// on server-side<br>private fun checkForLWWConflictAndThrow(id: Long, timeStamp: Long) {<br>   transaction {<br>      FoldersTable.select(FoldersTable.lastModified).where {<br>         FoldersTable.id.eq(id)<br>      }.let {<br>         if (it.single()[FoldersTable.lastModified] &gt; timeStamp) {<br>            throw LWWConflictException()<br>         }<br>      }<br>   }<br>}<br>---<br>override suspend fun markAsArchive(idBasedDTO: IDBasedDTO): Result&lt;TimeStampBasedResponse&gt; {<br>   return try {<br>      checkForLWWConflictAndThrow(id = idBasedDTO.id, timeStamp = idBasedDTO.eventTimestamp)<br>      // further impl<br>   } catch (e: Exception) {<br>      Result.Failure(e)<br>   }<br>}</pre></div>
+        <div style="background-color: #3E4278; "><span class="material-icons" style="margin: 10px;  user-select: none; cursor: pointer;  font-size: 16px;  color: #BFC2FF; " onclick="const currentCodeBlock = document.getElementById('31ed60c5-6e7d-4688-9b31-4910fcc0b558');
+const textToCopy = currentCodeBlock.innerText;
+
+if (navigator.clipboard &amp;&amp; navigator.clipboard.writeText) {
+  navigator.clipboard.writeText(textToCopy)
+    .then(() =&gt; console.log('Copied to clipboard!'))
+    .catch(err =&gt; alert('Copy failed: ' + err));
+} else {
+  const textarea = document.createElement('textarea');
+  textarea.value = textToCopy;
+  textarea.style.position = 'absolute';
+  textarea.style.left = '-9999px';
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand('copy');
+    console.log('Copied via execCommand');
+  } catch (err) {
+    alert('Fallback copy failed: ' + err);
+  }
+  document.body.removeChild(textarea);
+}">content_copy</span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">To support this, every table contains a column called </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">lastModified</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">, which will also be sent in the POST request body and is needed for the </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">sync-server</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">:</div>
+          </span></div>
+      </div>
+      <div style="display: flex; flex-direction: column; clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-top: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-bottom: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-start: 0px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-end: 0px; ">
+        <div id="44974987-b55a-437d-8c8c-e37caa1efd00" style="font-weight: 500; color: #BFC2FF; font-size: 16px; text-align: start; display: inline; padding: 12px;  overflow: auto; "><pre>@Entity(tableName = "folders")<br>@Serializable<br>data class Folder(<br>   val name: String,<br>   val note: String,<br>   val parentFolderId: Long?,<br>   @PrimaryKey(autoGenerate = true)<br>   val localId: Long = 0,<br>   val remoteId: Long? = null,<br>   val isArchived: Boolean = false,<br>   val lastModified: Long<br>)</pre></div>
+        <div style="background-color: #3E4278; "><span class="material-icons" style="margin: 10px;  user-select: none; cursor: pointer;  font-size: 16px;  color: #BFC2FF; " onclick="const currentCodeBlock = document.getElementById('44974987-b55a-437d-8c8c-e37caa1efd00');
+const textToCopy = currentCodeBlock.innerText;
+
+if (navigator.clipboard &amp;&amp; navigator.clipboard.writeText) {
+  navigator.clipboard.writeText(textToCopy)
+    .then(() =&gt; console.log('Copied to clipboard!'))
+    .catch(err =&gt; alert('Copy failed: ' + err));
+} else {
+  const textarea = document.createElement('textarea');
+  textarea.value = textToCopy;
+  textarea.style.position = 'absolute';
+  textarea.style.left = '-9999px';
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand('copy');
+    console.log('Copied via execCommand');
+  } catch (err) {
+    alert('Fallback copy failed: ' + err);
+  }
+  document.body.removeChild(textarea);
+}">content_copy</span></div>
+      </div>
+      <h3 style="font-family: Inter;  color: #BFC2FF; ">2. Server-to-Client</h3>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">Client-to-Server</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> focuses on pushing changes, while </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">Server-to-Client</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> focuses on reading changes that occurred on the remote database through the server.</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">The app saves a </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">TIME_STAMP</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> in its preferences, updated at every successful remote request. The </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">TIME_STAMP</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> value is sent from the server (since server operations happen there).</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">Changes can be read in two ways:</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">1. </div>
+            <div style="font-weight: 700; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline; ">Using sockets</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> if both app and server are online.</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">2. </div>
+            <div style="font-weight: 700; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline; ">Custom implementations</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> if the client is offline or disconnected from the server.</div>
+          </span></div>
+      </div>
+      <h3 style="font-family: Inter;  color: #BFC2FF; ">1. Using sockets if both app and server are online</h3>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">When both app and server are online, it’s simple: use sockets and update as required. Linkora App handles this as follows:</div>
+          </span></div>
+      </div>
+      <div style="display: flex; flex-direction: column; clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-top: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-bottom: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-start: 0px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-end: 0px; ">
+        <div id="ba5b1fab-363c-4025-b9d2-aeb7f457ce43" style="font-weight: 500; color: #BFC2FF; font-size: 16px; text-align: start; display: inline; padding: 12px;  overflow: auto; "><pre>private suspend fun updateLocalDBAccordingToEvent(<br>   deserializedWebSocketEvent: WebSocketEvent<br>) {<br>   when (deserializedWebSocketEvent.operation) {<br>      MARK_FOLDER_AS_ARCHIVE.name -&gt; {<br>         val idBasedDTO = json.decodeFromJsonElement&lt;IDBasedDTO&gt;(<br>            deserializedWebSocketEvent.payload<br>         )<br>         if (idBasedDTO.correlation.isSameAsCurrentClient()) {<br>            preferencesRepository.updateLastSyncedWithServerTimeStamp(idBasedDTO.eventTimestamp)<br>            return<br>         }<br><br>         val folderId = localFoldersRepo.getLocalIdOfAFolder(idBasedDTO.id)<br>         if (folderId != null) {<br>            localFoldersRepo.markFolderAsArchive(<br>               folderId, viaSocket = true<br>            ).collectAndUpdateTimestamp(idBasedDTO.eventTimestamp)<br>         }<br>      }<br>   }<br>}</pre></div>
+        <div style="background-color: #3E4278; "><span class="material-icons" style="margin: 10px;  user-select: none; cursor: pointer;  font-size: 16px;  color: #BFC2FF; " onclick="const currentCodeBlock = document.getElementById('ba5b1fab-363c-4025-b9d2-aeb7f457ce43');
+const textToCopy = currentCodeBlock.innerText;
+
+if (navigator.clipboard &amp;&amp; navigator.clipboard.writeText) {
+  navigator.clipboard.writeText(textToCopy)
+    .then(() =&gt; console.log('Copied to clipboard!'))
+    .catch(err =&gt; alert('Copy failed: ' + err));
+} else {
+  const textarea = document.createElement('textarea');
+  textarea.value = textToCopy;
+  textarea.style.position = 'absolute';
+  textarea.style.left = '-9999px';
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand('copy');
+    console.log('Copied via execCommand');
+  } catch (err) {
+    alert('Fallback copy failed: ' + err);
+  }
+  document.body.removeChild(textarea);
+}">content_copy</span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">Similarly handle for every possible operation.</div>
+          </span></div>
+      </div>
+      <h3 style="font-family: Inter;  color: #BFC2FF; ">2. Custom implementations if the client is offline or disconnected from the server</h3>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">We need to handle two scenarios if the client is offline or disconnected from the server:</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">1. Handling deletions.</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">2. Updating data after the last known </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">TIME_STAMP</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">.</div>
+          </span></div>
+      </div>
+      <h3 style="font-family: Inter;  color: #BFC2FF; ">2.1 Handling deletions when offline</h3>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">We track deleted items using a server-side </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">Tombstone</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> table structured as:</div>
+          </span></div>
+      </div>
+      <div style="display: flex; flex-direction: column; clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-top: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-bottom: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-start: 0px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-end: 0px; ">
+        <div id="38d0a1bc-2156-459b-af80-962ea2d94e33" style="font-weight: 500; color: #BFC2FF; font-size: 16px; text-align: start; display: inline; padding: 12px;  overflow: auto; "><pre>object TombstoneTable : LongIdTable("tombstone") {<br>   val deletedAt = long("deleted_at")<br>   val operation = text("operation")<br>   val payload = text("payload")<br>}</pre></div>
+        <div style="background-color: #3E4278; "><span class="material-icons" style="margin: 10px;  user-select: none; cursor: pointer;  font-size: 16px;  color: #BFC2FF; " onclick="const currentCodeBlock = document.getElementById('38d0a1bc-2156-459b-af80-962ea2d94e33');
+const textToCopy = currentCodeBlock.innerText;
+
+if (navigator.clipboard &amp;&amp; navigator.clipboard.writeText) {
+  navigator.clipboard.writeText(textToCopy)
+    .then(() =&gt; console.log('Copied to clipboard!'))
+    .catch(err =&gt; alert('Copy failed: ' + err));
+} else {
+  const textarea = document.createElement('textarea');
+  textarea.value = textToCopy;
+  textarea.style.position = 'absolute';
+  textarea.style.left = '-9999px';
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand('copy');
+    console.log('Copied via execCommand');
+  } catch (err) {
+    alert('Fallback copy failed: ' + err);
+  }
+  document.body.removeChild(textarea);
+}">content_copy</span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">The following example should give a brief idea about how this table is used:</div>
+          </span></div>
+      </div>
+      <div style="display: flex; flex-direction: column; clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-top: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-bottom: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-start: 0px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-end: 0px; ">
+        <div id="2289674d-afbe-448f-a9ab-d903af5f7cdc" style="font-weight: 500; color: #BFC2FF; font-size: 16px; text-align: start; display: inline; padding: 12px;  overflow: auto; "><pre>transaction {<br>   TombStoneHelper.insert(<br>      payload = Json.encodeToString(idBasedDTO),<br>      operation = LinkRoute.DELETE_A_LINK.name,<br>      deletedAt = eventTimestamp<br>   )<br>   LinksTable.deleteWhere {<br>      id.eq(idBasedDTO.id)<br>   }<br>}</pre></div>
+        <div style="background-color: #3E4278; "><span class="material-icons" style="margin: 10px;  user-select: none; cursor: pointer;  font-size: 16px;  color: #BFC2FF; " onclick="const currentCodeBlock = document.getElementById('2289674d-afbe-448f-a9ab-d903af5f7cdc');
+const textToCopy = currentCodeBlock.innerText;
+
+if (navigator.clipboard &amp;&amp; navigator.clipboard.writeText) {
+  navigator.clipboard.writeText(textToCopy)
+    .then(() =&gt; console.log('Copied to clipboard!'))
+    .catch(err =&gt; alert('Copy failed: ' + err));
+} else {
+  const textarea = document.createElement('textarea');
+  textarea.value = textToCopy;
+  textarea.style.position = 'absolute';
+  textarea.style.left = '-9999px';
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand('copy');
+    console.log('Copied via execCommand');
+  } catch (err) {
+    alert('Fallback copy failed: ' + err);
+  }
+  document.body.removeChild(textarea);
+}">content_copy</span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">And now on the client side, when both the app and server are online, we pull these tombstone records and delete the corresponding items locally.</div>
+          </span></div>
+      </div>
+      <h3 style="font-family: Inter;  color: #BFC2FF; ">2.2 Updating data after the last known TIME_STAMP</h3>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">As mentioned earlier, the local database in the app contains a column called </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">lastModified</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">. Similarly, tables in the remote database also include this column. The app sends its last known </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">TIME_STAMP</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> to the server, which returns all changes made after that timestamp:</div>
+          </span></div>
+      </div>
+      <div style="display: flex; flex-direction: column; clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-top: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-bottom: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-start: 0px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-end: 0px; ">
+        <div id="16f28364-9565-473e-a417-222e3d9a1667" style="font-weight: 500; color: #BFC2FF; font-size: 16px; text-align: start; display: inline; padding: 12px;  overflow: auto; "><pre>LinksTable.selectAll().where {<br>   LinksTable.lastModified.greater(TIME_STAMP)<br>}.toList().forEach {<br>   updatedLinks.add(<br>      Link(<br>         id = it[LinksTable.id].value,<br>         linkType = LinkType.valueOf(it[LinksTable.linkType]),<br>         title = it[LinksTable.linkTitle],<br>         url = it[LinksTable.url],<br>         baseURL = it[LinksTable.baseURL],<br>         imgURL = it[LinksTable.imgURL],<br>         note = it[LinksTable.note],<br>         idOfLinkedFolder = it[LinksTable.idOfLinkedFolder],<br>         userAgent = it[LinksTable.userAgent],<br>         markedAsImportant = it[LinksTable.markedAsImportant],<br>         mediaType = MediaType.valueOf(it[LinksTable.mediaType]),<br>         eventTimestamp = it[LinksTable.lastModified]<br>      )<br>   )<br>}</pre></div>
+        <div style="background-color: #3E4278; "><span class="material-icons" style="margin: 10px;  user-select: none; cursor: pointer;  font-size: 16px;  color: #BFC2FF; " onclick="const currentCodeBlock = document.getElementById('16f28364-9565-473e-a417-222e3d9a1667');
+const textToCopy = currentCodeBlock.innerText;
+
+if (navigator.clipboard &amp;&amp; navigator.clipboard.writeText) {
+  navigator.clipboard.writeText(textToCopy)
+    .then(() =&gt; console.log('Copied to clipboard!'))
+    .catch(err =&gt; alert('Copy failed: ' + err));
+} else {
+  const textarea = document.createElement('textarea');
+  textarea.value = textToCopy;
+  textarea.style.position = 'absolute';
+  textarea.style.left = '-9999px';
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand('copy');
+    console.log('Copied via execCommand');
+  } catch (err) {
+    alert('Fallback copy failed: ' + err);
+  }
+  document.body.removeChild(textarea);
+}">content_copy</span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">Now the collected updates will be sent back to client, which it will update accordingly.</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">In conclusion, the following images should give you a clear idea of how all these components work together to make sure </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">Server-to-Client</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> sync operates as expected:</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">1. If both app and server are online.</div>
+          </span></div>
+      </div>
+<img src="/images/linkora-sync--server-to-client-with-socket.png" style="object-position: center; object-fit: cover; margin-top: 5px;  margin-bottom: 5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  border: 2.75px solid #3E4278; border-radius: 15px; ">
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">2. If the client is offline or disconnected from the server.</div>
+          </span></div>
+      </div>
+<img src="/images/linkora-sync--server-to-client-with-manual.png" style="object-position: center; object-fit: cover; margin-top: 5px;  margin-bottom: 5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  border: 2.75px solid #3E4278; border-radius: 15px; ">
+      <div style="display: flex; flex-direction: row; justify-content: center; align-items: center; ">
+        <div style="width: 98.0%;  border: 1.15px solid #1e1e2e; border-radius: 5px;  background-color: #1e1e2e;  margin-top: 8.5px;  width: 98.0%;  border: 1.15px solid #1e1e2e; border-radius: 5px;  background-color: #1e1e2e;  margin-bottom: 5px;  width: 98.0%;  border: 1.15px solid #1e1e2e; border-radius: 5px;  background-color: #1e1e2e;  margin-inline-start: 0px;  width: 98.0%;  border: 1.15px solid #1e1e2e; border-radius: 5px;  background-color: #1e1e2e;  margin-inline-end: 0px; "></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">Overall, this is how synchronization works in Linkora. These operations are also used when performing manual syncing or importing data from external files, but that is outside the context of this topic, hence I didn't include it.</div>
+          </span></div>
+      </div>
+      <div style="height: 25px; "></div>
+      <div style="display: flex; flex-direction: column; padding: 10px;  border: 1.5px solid #BFC2FF; border-radius: 15px; "><span class="material-icons" style="color: #BFC2FF;  ">info</span>
+        <div style="height: 5px; "></div>
+        <div style="font-weight: 600; color: #BFC2FF; font-family: &quot;Inter&quot;; font-size: 16px; text-align: start; display: inline; "><a style = "color: #BFC2FF" href="https://github.com/sakethpathike/kamp">This site</a> is built with <a style = "color: #BFC2FF" href= "https://github.com/sakethpathike/kapsule" target="_blank">kapsule</a> and served by <a style = "color: #BFC2FF" href="https://ktor.io" target="_blank">Ktor</a>.</div>
+      </div>
+      <div style="height: 25px; "></div>
+    </div>
+  </body>
+</html>

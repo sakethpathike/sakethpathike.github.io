@@ -1,91 +1,161 @@
 <html>
-<head>
-    <script>
-        fetch('https://energetic-tina-sakethpathike-52a4b526.koyeb.app/')
-            .then(res => {
-                if (!res.ok) throw new Error('Network response error');
-                return res.text();
-            })
-            .then(html => {
-                document.documentElement.style.transition = "opacity 0.3s";
-                document.documentElement.style.opacity    = "0";
-
-                setTimeout(() => {
-                    const parser = new DOMParser();
-                    const newDoc = parser.parseFromString(html, "text/html");
-                    document.documentElement.innerHTML = newDoc.documentElement.innerHTML;
-
-                    requestAnimationFrame(() => {
-                        document.documentElement.style.opacity = "1";
-                    });
-
-                    const reapplyStyles = () => {
-                        const home_page = document.getElementById("home_page");
-                        if (!home_page) return;
-                        const isMobile = window.matchMedia("(max-width: 767px)").matches;
-                        Object.assign(home_page.style, isMobile
-                            ? { boxSizing: "border-box", padding: "15px", width: "100%", transform: "none" }
-                            : { transform: "scale(1.2)", transformOrigin: "top left" }
-                        );
-                    };
-                    reapplyStyles();
-
-                    let resizeTimer;
-                    window.addEventListener("resize", () => {
-                        clearTimeout(resizeTimer);
-                        resizeTimer = setTimeout(reapplyStyles, 250);
-                    });
-                }, 300);
-            })
-
-            .catch(error => {
-                console.error('Failed to load content:', error);
-            });
-    </script>
+  <head>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <style>::selection {
-        background: #BFC2FF;
-        color: #272B60;
-    }</style>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">  </head>
-<body style="padding: 0px;  margin: 0px;  background-color: #131318;  overflow-y: auto;">
-<script type="text/javascript">document.addEventListener("DOMContentLoaded", () => {
-    const home_page = document.getElementById("home_page");
-    const isMobile = window.matchMedia("(max-width: 767px)").matches;
-
-    if(isMobile){
-        home_page.style.boxSizing = "border-box";
-        home_page.style.padding = "25px";
-        home_page.style.width = "100%";
-    } else {
-        home_page.style.transform = "scale(1.2)";
-        home_page.style.transformOrigin = "top left";
-    }
-
+  background: #BFC2FF;
+  color: #272B60;
+}</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  </head>
+  <body style="padding: 0px;  margin: 0px;  background-color: #131318;  overflow-y: auto;">
+    <script type="text/javascript">document.addEventListener("DOMContentLoaded", () => {
+  const current_page = document.getElementById("current_page");
+  const footerOnBlogLists = document.getElementById("footerOnBlogLists");
+  const isMobile = window.matchMedia("(max-width: 767px)").matches;
+  
+  if(isMobile){
+      current_page.style.boxSizing = "border-box";
+      current_page.style.padding = "15px";
+      current_page.style.width = "99.25%";
+      footerOnBlogLists.style.padding = "15px";
+      footerOnBlogLists.style.width = "99.25%";
+  } else {            
+      current_page.style.transform = "scale(1.2)";
+      current_page.style.transformOrigin = "top left";
+  }
+  
 });</script>
-<div id="home_page" style="display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 50px;  width: 70.0%;  height: 70.0%; "><span style=""><code style="background-color: #BFC2FF;  border-radius: 4px;  color: #272B60;  padding:2px 4px; font-family: JetBrains Mono;  user-select: none;">Home.kt</code></span>
-    <div style="height: 50px; "></div>
-    <style>
-        @keyframes spin { to { transform: rotate(360deg); } }
-    </style>
-    <div style="
-  display: inline-block;
-  width: 24px;
-  height: 24px;
-  border: 4px solid transparent;
-  /* from 0°–90° = primary, 90°–360° = transparent */
-  border-image: conic-gradient(
-    from 0deg,
-    #BFC2FF 0deg 90deg,
-    transparent 90deg 360deg
-  ) 1 round;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  vertical-align: middle;
-"></div>      <div style="height: 15px; "></div>
-    <div style="font-weight: 700; color: #BFC2FF; font-family: &quot;Inter&quot;; font-size: 32px; text-align: start; display: inline; ">Composing the screen...</div>
-</div>
-</body>
+    <div id="current_page" style="display: flex; flex-direction: column; padding: 50px;  width: 70.0%; ">
+      <div style="display: flex; flex-direction: row; "><span style="" onclick="window.open(&quot;/&quot;, &quot;_self&quot;);"><code style="background-color: #BFC2FF;  border-radius: 4px;  color: #272B60;  padding:2px 4px; font-family: JetBrains Mono;  user-select: none; cursor: pointer; ">Home.kt</code></span>
+        <div style="width: 10px; "></div>
+<span style="" onclick="window.open(&quot;/blog&quot;, &quot;_self&quot;);"><code style="background-color: #1e1e2e;  border-radius: 4px;  color: #3E4278;  padding:2px 4px; font-family: JetBrains Mono;  user-select: none; cursor: pointer; ">Blog.kt</code></span>
+        <div style="width: 10px; "></div>
+      </div>
+      <div style="height: 25px; "></div>
+      <div style="font-weight: 900; color: #BFC2FF; font-family: &quot;Inter&quot;; font-size: 32px; text-align: start; display: inline; ">Saketh Pathike</div>
+      <div style="font-weight: 500; color: #C5C4DD; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; ">Android Dev • Kotlin Multiplatform • B.Tech CSE student</div>
+      <div style="font-weight: 400; color: #C5C4DD; font-family: &quot;Inter&quot;; font-size: 16px; text-align: start; display: inline; ">i build stuff <i>passionately</i>.</div>
+      <div style="height: 20px; "></div>
+      <div style="font-weight: 600; color: #BFC2FF; font-family: &quot;Inter&quot;; font-size: 24px; text-align: start; display: inline; ">Profiles<br>& Contact</div>
+      <div style="height: 10px; "></div>
+      <div style="display: flex; flex-direction: row; display: flex;  flex-wrap: wrap; gap: 10px;">
+        <div style="display: flex; flex-direction: row; align-items: center; user-select: none; cursor: pointer;  background-color: #3E4278;  clip-path: inset(0.0 0.0 0.0 0.0 round 1.5px); ;  user-select: none; cursor: pointer;  background-color: #3E4278;  overflow: hidden;  color: #E0E0FF;  padding: 6.9px;  width: fit-content; " onmousedown="window.open(&quot;https://github.com/sakethpathike&quot;, &quot;_blank&quot;);"><img src="/images/github.svg" style="object-position: center; object-fit: cover; height: 20px;  width: 20px; ">
+          <div style="width: 5px; "></div>
+          <div style="font-weight: 500; font-family: &quot;Inter&quot;; font-size: 16px; text-align: start; display: inline; ">Github</div>
+        </div>
+        <div style="display: flex; flex-direction: row; align-items: center; user-select: none; cursor: pointer;  background-color: #3E4278;  clip-path: inset(0.0 0.0 0.0 0.0 round 1.5px); ;  user-select: none; cursor: pointer;  background-color: #3E4278;  overflow: hidden;  color: #E0E0FF;  padding: 6.9px;  width: fit-content; " onmousedown="window.open(&quot;mailto:sakethpathike@gmail.com&quot;, &quot;_blank&quot;);"><span class="material-icons" style="font-size: 20px; ">mail_outline</span>
+          <div style="width: 5px; "></div>
+          <div style="font-weight: 500; font-family: &quot;Inter&quot;; font-size: 16px; text-align: start; display: inline; ">Email</div>
+        </div>
+        <div style="display: flex; flex-direction: row; align-items: center; user-select: none; cursor: pointer;  background-color: #3E4278;  clip-path: inset(0.0 0.0 0.0 0.0 round 1.5px); ;  user-select: none; cursor: pointer;  background-color: #3E4278;  overflow: hidden;  color: #E0E0FF;  padding: 6.9px;  width: fit-content; " onmousedown="window.open(&quot;https://x.com/sakethpathike&quot;, &quot;_blank&quot;);"><img src="/images/twitter.svg" style="object-position: center; object-fit: cover; height: 20px;  width: 20px; ">
+          <div style="width: 5px; "></div>
+          <div style="font-weight: 500; font-family: &quot;Inter&quot;; font-size: 16px; text-align: start; display: inline; ">Twitter/X</div>
+        </div>
+        <div style="display: flex; flex-direction: row; align-items: center; user-select: none; cursor: pointer;  background-color: #3E4278;  clip-path: inset(0.0 0.0 0.0 0.0 round 1.5px); ;  user-select: none; cursor: pointer;  background-color: #3E4278;  overflow: hidden;  color: #E0E0FF;  padding: 6.9px;  width: fit-content; " onmousedown="window.open(&quot;https://www.linkedin.com/in/sakethpathike/&quot;, &quot;_blank&quot;);"><img src="/images/linkedin.svg" style="object-position: center; object-fit: cover; height: 20px;  width: 20px; ">
+          <div style="width: 5px; "></div>
+          <div style="font-weight: 500; font-family: &quot;Inter&quot;; font-size: 16px; text-align: start; display: inline; ">LinkedIn</div>
+        </div>
+      </div>
+      <div style="height: 20px; "></div>
+      <div style="font-weight: 600; color: #BFC2FF; font-family: &quot;Inter&quot;; font-size: 24px; text-align: start; display: inline; ">Projects</div>
+      <div style="height: 5px; "></div>
+      <div style="font-weight: 300; color: #BFC2FF; font-family: &quot;Inter&quot;; font-size: 14px; text-align: start; display: inline; ">Data includes information from my pinned GitHub repositories and project tags.</div>
+      <div style="height: 15px; "></div>
+      <div style="display: flex; flex-direction: column; ">
+        <div style="display: flex; flex-direction: row; align-items: center; cursor: pointer; " onmousedown="window.open(&quot;https://github.com/LinkoraApp/Linkora&quot;, &quot;_blank&quot;);"><span class="material-icons" style="color: #BFC2FF;  font-size: 14px; ">open_in_new</span>
+          <div style="width: 2.5px; "></div>
+          <div style="font-weight: 700; color: #BFC2FF; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; ">LinkoraApp/Linkora</div>
+        </div>
+        <div style="height: 5px; "></div>
+        <div style="color: #C5C4DD; font-family: &quot;Inter&quot;; font-size: 16px; text-align: start; display: inline; ">The only link utility app you need for Android, now available on desktop.</div>
+        <div style="height: 5px; "></div>
+        <div style="display: flex; flex-direction: row; align-items: center; "><span class="material-icons" style="font-size: 18px;  color: #C5C4DD;  user-select: none;">star_outline</span>
+          <div style="width: 5px; "></div>
+          <div style="color: #C5C4DD; font-family: &quot;Inter&quot;; font-size: 14px; text-align: start; display: inline; ">574</div>
+        </div>
+        <div style="height: 5px; "></div>
+        <div style="display: flex; flex-direction: row; display: flex;  flex-wrap: wrap; gap: 5px;">
+          <div style="font-weight: 400; color: #8F8FA6; font-family: &quot;Inter&quot;; font-size: 12.5px; text-align: start; display: inline; padding: 2.5px; ">Kotlin</div>
+          <div style="font-weight: 400; color: #8F8FA6; font-family: &quot;Inter&quot;; font-size: 12.5px; text-align: start; display: inline; padding: 2.5px; ">Kotlin Multiplatform</div>
+          <div style="font-weight: 400; color: #8F8FA6; font-family: &quot;Inter&quot;; font-size: 12.5px; text-align: start; display: inline; padding: 2.5px; ">Compose Multiplatform</div>
+          <div style="font-weight: 400; color: #8F8FA6; font-family: &quot;Inter&quot;; font-size: 12.5px; text-align: start; display: inline; padding: 2.5px; ">Android SDK</div>
+          <div style="font-weight: 400; color: #8F8FA6; font-family: &quot;Inter&quot;; font-size: 12.5px; text-align: start; display: inline; padding: 2.5px; ">Android Jetpack</div>
+          <div style="font-weight: 400; color: #8F8FA6; font-family: &quot;Inter&quot;; font-size: 12.5px; text-align: start; display: inline; padding: 2.5px; ">Ktor Client</div>
+          <div style="font-weight: 400; color: #8F8FA6; font-family: &quot;Inter&quot;; font-size: 12.5px; text-align: start; display: inline; padding: 2.5px; ">Real-Time Sync</div>
+        </div>
+      </div>
+      <div style="height: 15px; "></div>
+      <div style="display: flex; flex-direction: column; ">
+        <div style="display: flex; flex-direction: row; align-items: center; cursor: pointer; " onmousedown="window.open(&quot;https://github.com/LinkoraApp/sync-server&quot;, &quot;_blank&quot;);"><span class="material-icons" style="color: #BFC2FF;  font-size: 14px; ">open_in_new</span>
+          <div style="width: 2.5px; "></div>
+          <div style="font-weight: 700; color: #BFC2FF; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; ">LinkoraApp/sync-server</div>
+        </div>
+        <div style="height: 5px; "></div>
+        <div style="color: #C5C4DD; font-family: &quot;Inter&quot;; font-size: 16px; text-align: start; display: inline; ">self-hostable sync-server for Linkora</div>
+        <div style="height: 5px; "></div>
+        <div style="display: flex; flex-direction: row; align-items: center; "><span class="material-icons" style="font-size: 18px;  color: #C5C4DD;  user-select: none;">star_outline</span>
+          <div style="width: 5px; "></div>
+          <div style="color: #C5C4DD; font-family: &quot;Inter&quot;; font-size: 14px; text-align: start; display: inline; ">16</div>
+        </div>
+        <div style="height: 5px; "></div>
+        <div style="display: flex; flex-direction: row; display: flex;  flex-wrap: wrap; gap: 5px;">
+          <div style="font-weight: 400; color: #8F8FA6; font-family: &quot;Inter&quot;; font-size: 12.5px; text-align: start; display: inline; padding: 2.5px; ">Kotlin</div>
+          <div style="font-weight: 400; color: #8F8FA6; font-family: &quot;Inter&quot;; font-size: 12.5px; text-align: start; display: inline; padding: 2.5px; ">Ktor Server</div>
+          <div style="font-weight: 400; color: #8F8FA6; font-family: &quot;Inter&quot;; font-size: 12.5px; text-align: start; display: inline; padding: 2.5px; ">Exposed</div>
+          <div style="font-weight: 400; color: #8F8FA6; font-family: &quot;Inter&quot;; font-size: 12.5px; text-align: start; display: inline; padding: 2.5px; ">Real-Time Sync</div>
+        </div>
+      </div>
+      <div style="height: 15px; "></div>
+      <div style="display: flex; flex-direction: column; ">
+        <div style="display: flex; flex-direction: row; align-items: center; cursor: pointer; " onmousedown="window.open(&quot;https://github.com/sakethpathike/kapsule&quot;, &quot;_blank&quot;);"><span class="material-icons" style="color: #BFC2FF;  font-size: 14px; ">open_in_new</span>
+          <div style="width: 2.5px; "></div>
+          <div style="font-weight: 700; color: #BFC2FF; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; ">kapsule</div>
+        </div>
+        <div style="height: 5px; "></div>
+        <div style="color: #C5C4DD; font-family: &quot;Inter&quot;; font-size: 16px; text-align: start; display: inline; ">kapsule is a Kotlin Multiplatform library, wrapping kotlinx.html with Jetpack Compose-style modifiers and layout semantics to simplify static HTML generation.</div>
+        <div style="height: 5px; "></div>
+        <div style="display: flex; flex-direction: row; align-items: center; "><span class="material-icons" style="font-size: 18px;  color: #C5C4DD;  user-select: none;">star_outline</span>
+          <div style="width: 5px; "></div>
+          <div style="color: #C5C4DD; font-family: &quot;Inter&quot;; font-size: 14px; text-align: start; display: inline; ">3</div>
+        </div>
+        <div style="height: 5px; "></div>
+        <div style="display: flex; flex-direction: row; display: flex;  flex-wrap: wrap; gap: 5px;">
+          <div style="font-weight: 400; color: #8F8FA6; font-family: &quot;Inter&quot;; font-size: 12.5px; text-align: start; display: inline; padding: 2.5px; ">Kotlin</div>
+          <div style="font-weight: 400; color: #8F8FA6; font-family: &quot;Inter&quot;; font-size: 12.5px; text-align: start; display: inline; padding: 2.5px; ">Kotlin Multiplatform</div>
+          <div style="font-weight: 400; color: #8F8FA6; font-family: &quot;Inter&quot;; font-size: 12.5px; text-align: start; display: inline; padding: 2.5px; ">kotlinx.html</div>
+          <div style="font-weight: 400; color: #8F8FA6; font-family: &quot;Inter&quot;; font-size: 12.5px; text-align: start; display: inline; padding: 2.5px; ">Kotlin DSL</div>
+        </div>
+      </div>
+      <div style="height: 15px; "></div>
+      <div style="display: flex; flex-direction: column; ">
+        <div style="display: flex; flex-direction: row; align-items: center; cursor: pointer; " onmousedown="window.open(&quot;https://github.com/sakethpathike/JetSpacer&quot;, &quot;_blank&quot;);"><span class="material-icons" style="color: #BFC2FF;  font-size: 14px; ">open_in_new</span>
+          <div style="width: 2.5px; "></div>
+          <div style="font-weight: 700; color: #BFC2FF; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; ">JetSpacer</div>
+        </div>
+        <div style="height: 5px; "></div>
+        <div style="color: #C5C4DD; font-family: &quot;Inter&quot;; font-size: 16px; text-align: start; display: inline; ">An Android client that brings together multiple space-related APIs into a simple and structured application. Built with Kotlin and Jetpack Compose.</div>
+        <div style="height: 5px; "></div>
+        <div style="display: flex; flex-direction: row; align-items: center; "><span class="material-icons" style="font-size: 18px;  color: #C5C4DD;  user-select: none;">star_outline</span>
+          <div style="width: 5px; "></div>
+          <div style="color: #C5C4DD; font-family: &quot;Inter&quot;; font-size: 14px; text-align: start; display: inline; ">30</div>
+        </div>
+        <div style="height: 5px; "></div>
+        <div style="display: flex; flex-direction: row; display: flex;  flex-wrap: wrap; gap: 5px;">
+          <div style="font-weight: 400; color: #8F8FA6; font-family: &quot;Inter&quot;; font-size: 12.5px; text-align: start; display: inline; padding: 2.5px; ">Kotlin</div>
+          <div style="font-weight: 400; color: #8F8FA6; font-family: &quot;Inter&quot;; font-size: 12.5px; text-align: start; display: inline; padding: 2.5px; ">Android SDK</div>
+          <div style="font-weight: 400; color: #8F8FA6; font-family: &quot;Inter&quot;; font-size: 12.5px; text-align: start; display: inline; padding: 2.5px; ">Jetpack Compose</div>
+          <div style="font-weight: 400; color: #8F8FA6; font-family: &quot;Inter&quot;; font-size: 12.5px; text-align: start; display: inline; padding: 2.5px; ">Ktor Client</div>
+        </div>
+      </div>
+      <div style="height: 15px; "></div>
+      <div style="height: 25px; "></div>
+      <div style="display: flex; flex-direction: column; padding: 10px;  border: 1.5px solid #BFC2FF; border-radius: 15px; "><span class="material-icons" style="color: #BFC2FF;  ">info</span>
+        <div style="height: 5px; "></div>
+        <div style="font-weight: 600; color: #BFC2FF; font-family: &quot;Inter&quot;; font-size: 16px; text-align: start; display: inline; "><a style = "color: #BFC2FF" href="https://github.com/sakethpathike/kamp">This site</a> is built with <a style = "color: #BFC2FF" href= "https://github.com/sakethpathike/kapsule" target="_blank">kapsule</a> and served by <a style = "color: #BFC2FF" href="https://ktor.io" target="_blank">Ktor</a>.</div>
+      </div>
+      <div style="height: 25px; "></div>
+    </div>
+  </body>
 </html>
