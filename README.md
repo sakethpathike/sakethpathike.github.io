@@ -1,4 +1,4 @@
-This repo is entirely auto-generated from [kamp](https://github.com/sakethpathike/kamp) @bb41e5ea3c35b175c516a2854393388f68321f63.
+This repo is entirely auto-generated from [kamp](https://github.com/sakethpathike/kamp) @b0434cbb388b8968d36c17bd03031a747df76385.
 
 - Blog markdown files from the kamp repo are converted to HTML using a custom markdown parser combined with [kapsule](https://github.com/sakethpathike/kapsule).
 - The generated HTML reflects kamp’s content exactly at that commit.
