@@ -27,6 +27,52 @@
   }
   
 });</script>
+    <script type="text/javascript">document.addEventListener("DOMContentLoaded", async () => {
+    const starEls = document.querySelectorAll('[id$="|starCount"]');
+    const descEls = document.querySelectorAll('[id$="|desc"]');
+
+    const repoMap = new Map();
+    const userSet = new Set();
+    const orgSet = new Set();
+
+    [...starEls, ...descEls].forEach(el => {
+        const key = el.id.replace(/\|(starCount|desc)$/, "");
+        if (key.includes("/")) orgSet.add(key.split("/")[0]);
+        else userSet.add("sakethpathike");
+    });
+
+    for (const user of userSet) {
+        try {
+            const res = await fetch(`https://api.github.com/users/${user}/repos`);
+            if (!res.ok) continue;
+            const data = await res.json();
+            data.forEach(r => repoMap.set(`${user}/${r.name}`, r));
+        } catch {}
+    }
+
+    for (const org of orgSet) {
+        try {
+            const res = await fetch(`https://api.github.com/orgs/${org}/repos`);
+            if (!res.ok) continue;
+            const data = await res.json();
+            data.forEach(r => repoMap.set(`${org}/${r.name}`, r));
+        } catch {}
+    }
+
+    starEls.forEach(el => {
+        const key = el.id.replace(/\|starCount$/, "");
+        const full = key.includes("/") ? key : `sakethpathike/${key}`;
+        const repo = repoMap.get(full);
+        if (repo) el.textContent = repo.stargazers_count;
+    });
+
+    descEls.forEach(el => {
+        const key = el.id.replace(/\|desc$/, "");
+        const full = key.includes("/") ? key : `sakethpathike/${key}`;
+        const repo = repoMap.get(full);
+        if (repo && repo.description) el.textContent = repo.description;
+    });
+});</script>
     <div id="current_page" style="display: flex; flex-direction: column; padding: 50px;  width: 70.0%; ">
       <div style="display: flex; flex-direction: row; "><span style="" onclick="window.open(&quot;/&quot;, &quot;_self&quot;);"><code style="background-color: #BFC2FF;  border-radius: 4px;  color: #272B60;  padding:2px 4px; font-family: JetBrains Mono;  user-select: none; cursor: pointer; ">Home.kt</code></span>
         <div style="width: 10px; "></div>
@@ -77,11 +123,11 @@
           <div style="font-weight: 700; color: #BFC2FF; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; ">LinkoraApp/Linkora</div>
         </div>
         <div style="height: 5px; "></div>
-        <div style="color: #C5C4DD; font-family: &quot;Inter&quot;; font-size: 16px; text-align: start; display: inline; ">The only link utility app you need for Android, now available on desktop.</div>
+        <div id="LinkoraApp/Linkora|desc" style="color: #C5C4DD; font-family: &quot;Inter&quot;; font-size: 16px; text-align: start; display: inline; ">The only link utility app you need for Android, now available on desktop.</div>
         <div style="height: 5px; "></div>
         <div style="display: flex; flex-direction: row; align-items: center; "><span class="material-icons" style="font-size: 18px;  color: #C5C4DD;  user-select: none;">star_outline</span>
           <div style="width: 5px; "></div>
-          <div style="color: #C5C4DD; font-family: &quot;Inter&quot;; font-size: 14px; text-align: start; display: inline; ">575</div>
+          <div id="LinkoraApp/Linkora|starCount" style="color: #C5C4DD; font-family: &quot;Inter&quot;; font-size: 14px; text-align: start; display: inline; ">575</div>
         </div>
         <div style="height: 5px; "></div>
         <div style="display: flex; flex-direction: row; display: flex;  flex-wrap: wrap; gap: 5px;">
@@ -101,11 +147,11 @@
           <div style="font-weight: 700; color: #BFC2FF; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; ">LinkoraApp/sync-server</div>
         </div>
         <div style="height: 5px; "></div>
-        <div style="color: #C5C4DD; font-family: &quot;Inter&quot;; font-size: 16px; text-align: start; display: inline; ">self-hostable sync-server for Linkora</div>
+        <div id="LinkoraApp/sync-server|desc" style="color: #C5C4DD; font-family: &quot;Inter&quot;; font-size: 16px; text-align: start; display: inline; ">self-hostable sync-server for Linkora</div>
         <div style="height: 5px; "></div>
         <div style="display: flex; flex-direction: row; align-items: center; "><span class="material-icons" style="font-size: 18px;  color: #C5C4DD;  user-select: none;">star_outline</span>
           <div style="width: 5px; "></div>
-          <div style="color: #C5C4DD; font-family: &quot;Inter&quot;; font-size: 14px; text-align: start; display: inline; ">16</div>
+          <div id="LinkoraApp/sync-server|starCount" style="color: #C5C4DD; font-family: &quot;Inter&quot;; font-size: 14px; text-align: start; display: inline; ">16</div>
         </div>
         <div style="height: 5px; "></div>
         <div style="display: flex; flex-direction: row; display: flex;  flex-wrap: wrap; gap: 5px;">
@@ -123,11 +169,11 @@
           <div style="font-weight: 700; color: #BFC2FF; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; ">kapsule</div>
         </div>
         <div style="height: 5px; "></div>
-        <div style="color: #C5C4DD; font-family: &quot;Inter&quot;; font-size: 16px; text-align: start; display: inline; ">kapsule is a Kotlin Multiplatform library, wrapping kotlinx.html with Jetpack Compose-style modifiers and layout semantics to simplify static HTML generation.</div>
+        <div id="kapsule|desc" style="color: #C5C4DD; font-family: &quot;Inter&quot;; font-size: 16px; text-align: start; display: inline; ">kapsule is a Kotlin Multiplatform library, wrapping kotlinx.html with Jetpack Compose-style modifiers and layout semantics to simplify static HTML generation.</div>
         <div style="height: 5px; "></div>
         <div style="display: flex; flex-direction: row; align-items: center; "><span class="material-icons" style="font-size: 18px;  color: #C5C4DD;  user-select: none;">star_outline</span>
           <div style="width: 5px; "></div>
-          <div style="color: #C5C4DD; font-family: &quot;Inter&quot;; font-size: 14px; text-align: start; display: inline; ">3</div>
+          <div id="kapsule|starCount" style="color: #C5C4DD; font-family: &quot;Inter&quot;; font-size: 14px; text-align: start; display: inline; ">3</div>
         </div>
         <div style="height: 5px; "></div>
         <div style="display: flex; flex-direction: row; display: flex;  flex-wrap: wrap; gap: 5px;">
@@ -144,11 +190,11 @@
           <div style="font-weight: 700; color: #BFC2FF; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; ">JetSpacer</div>
         </div>
         <div style="height: 5px; "></div>
-        <div style="color: #C5C4DD; font-family: &quot;Inter&quot;; font-size: 16px; text-align: start; display: inline; ">An Android client that brings together multiple space-related APIs into a simple and structured application. Built with Kotlin and Jetpack Compose.</div>
+        <div id="JetSpacer|desc" style="color: #C5C4DD; font-family: &quot;Inter&quot;; font-size: 16px; text-align: start; display: inline; ">An Android client that brings together multiple space-related APIs into a simple and structured application. Built with Kotlin and Jetpack Compose.</div>
         <div style="height: 5px; "></div>
         <div style="display: flex; flex-direction: row; align-items: center; "><span class="material-icons" style="font-size: 18px;  color: #C5C4DD;  user-select: none;">star_outline</span>
           <div style="width: 5px; "></div>
-          <div style="color: #C5C4DD; font-family: &quot;Inter&quot;; font-size: 14px; text-align: start; display: inline; ">30</div>
+          <div id="JetSpacer|starCount" style="color: #C5C4DD; font-family: &quot;Inter&quot;; font-size: 14px; text-align: start; display: inline; ">30</div>
         </div>
         <div style="height: 5px; "></div>
         <div style="display: flex; flex-direction: row; display: flex;  flex-wrap: wrap; gap: 5px;">
@@ -165,11 +211,11 @@
           <div style="font-weight: 700; color: #BFC2FF; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; ">kamp</div>
         </div>
         <div style="height: 5px; "></div>
-        <div style="color: #C5C4DD; font-family: &quot;Inter&quot;; font-size: 16px; text-align: start; display: inline; ">Ktor backend for my portfolio with custom Markdown parsing and automated GitHub Pages mirroring powered by custom snapshot engine.</div>
+        <div id="kamp|desc" style="color: #C5C4DD; font-family: &quot;Inter&quot;; font-size: 16px; text-align: start; display: inline; ">Ktor backend for my portfolio with custom Markdown parsing and automated GitHub Pages mirroring powered by custom snapshot engine.</div>
         <div style="height: 5px; "></div>
         <div style="display: flex; flex-direction: row; align-items: center; "><span class="material-icons" style="font-size: 18px;  color: #C5C4DD;  user-select: none;">star_outline</span>
           <div style="width: 5px; "></div>
-          <div style="color: #C5C4DD; font-family: &quot;Inter&quot;; font-size: 14px; text-align: start; display: inline; ">0</div>
+          <div id="kamp|starCount" style="color: #C5C4DD; font-family: &quot;Inter&quot;; font-size: 14px; text-align: start; display: inline; ">0</div>
         </div>
         <div style="height: 5px; "></div>
         <div style="display: flex; flex-direction: row; display: flex;  flex-wrap: wrap; gap: 5px;">
