@@ -1,0 +1,506 @@
+<html>
+  <head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <style>::selection {
+  background: #BFC2FF;
+  color: #272B60;
+}</style>
+<link rel="icon" href="/images/kamp.png" type="image/png" /><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Kotlin Multiplatform, in practice. • Saketh Pathike</title><meta property="og:title" content="Kotlin Multiplatform, in practice. • Saketh Pathike" />
+<meta property="og:type" content="article" />
+<meta property="og:image" content="https://sakethpathike.github.io/images/ogImage-kmp-in-practice.png" />
+<meta property="og:description" content="" />
+<meta property="og:site_name" content="kamp" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Kotlin Multiplatform, in practice. • Saketh Pathike" />
+<meta name="twitter:description" content="" />
+<meta name="twitter:image" content="https://sakethpathike.github.io/images/ogImage-kmp-in-practice.png" />
+<meta name="twitter:site" content="@sakethpathike" />  </head>
+  <body style="padding: 0px;  margin: 0px;  background-color: #131318;  overflow-y: auto;">
+    <script type="text/javascript">document.addEventListener("DOMContentLoaded", () => {
+  const current_page = document.getElementById("current_page");
+  const isMobile = window.matchMedia("(max-width: 767px)").matches;
+  
+  if(isMobile){
+      current_page.style.boxSizing = "border-box";
+      current_page.style.padding = "15px";
+      current_page.style.width = "99.25%";
+  } else {            
+      current_page.style.transform = "scale(1.2)";
+      current_page.style.transformOrigin = "top left";
+  }
+  
+});</script>
+    <div id="current_page" style="display: flex; flex-direction: column; padding: 50px;  width: 70.0%; ">
+      <div style="display: flex; flex-direction: row; "><span style="" onclick="window.open(&quot;/&quot;, &quot;_self&quot;);"><code style="background-color: #1e1e2e;  border-radius: 4px;  color: #3E4278;  padding:2px 4px; font-family: JetBrains Mono;  user-select: none; cursor: pointer; ">Home.kt</code></span>
+        <div style="width: 10px; "></div>
+<span style="" onclick="window.open(&quot;/blog&quot;, &quot;_self&quot;);"><code style="background-color: #BFC2FF;  border-radius: 4px;  color: #272B60;  padding:2px 4px; font-family: JetBrains Mono;  user-select: none; cursor: pointer; ">Blog.kt</code></span>
+        <div style="width: 10px; "></div>
+      </div>
+      <div style="height: 25px; "></div>
+      <div style="font-weight: 700; color: #BFC2FF; font-family: &quot;Inter&quot;; font-size: 24px; text-align: start; display: inline; ">Kotlin Multiplatform, in practice.</div>
+      <div style="height: 5px; "></div>
+      <div style="font-weight: 500; color: #C5C4DD; font-family: &quot;Inter&quot;; font-size: 16px; text-align: start; display: inline; ">It Works, and It's Actually Good.</div>
+      <div style="height: 5px; "></div>
+      <div style="display: flex; flex-direction: row; align-items: center; width: fit-content; "><span class="material-symbols-outlined" style="color: #C5C4DD;  font-size: 16px; ">calendar_clock</span>
+        <div style="width: 5px; "></div>
+        <div style="font-weight: 400; color: #C5C4DD; font-family: &quot;Inter&quot;; font-size: 14px; text-align: start; display: inline; ">Aug 03, 2025 07:30 PM IST</div>
+      </div>
+      <div style="height: 10px; "></div>
+      <div style="font-weight: 100; color: #BFC2FF; font-family: &quot;Inter&quot;; font-size: 14px; text-align: start; display: inline; ">The following rendered output is parsed using a custom parser based on the <a target="_blank" style = "color: #BFC2FF" href="https://spec.commonmark.org/0.31.2/#appendix-a-parsing-strategy">CommonMark spec</a>.</div>
+      <div style="height: 25px; "></div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 600; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline; "><a style = "color: #BFC2FF" href="https://kotlinlang.org/" target="_blank">kotlinlang.org</a></div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> used to say </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">A modern programming language that makes developers happier</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> and they did make one which I think is </div>
+            <div style="font-weight: 700; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline; ">the one</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">.</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">While I got to know about Kotlin from Android development, it has grown a lot since then. The first-party library/frameworks/tools support from JetBrains and the Kotlin team, and the software related to development using Kotlin, built and maintained by the community, made the language fun and interesting to work with, not specifically on Android, but also in the backend.</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">Now that there is an official language server, I hope it will continue to evolve further. I'm kinda biased towards Kotlin for a couple of reasons. Irrespective of that, I think Kotlin is great at what it does.</div>
+          </span></div>
+      </div>
+      <h1 style="font-family: Inter;  color: #BFC2FF; ">Multiplatform with Kotlin</h1>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">Kotlin decouples the platform-specific implementations with </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">actual</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> and </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">expect</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">, which makes you directly deal with the platform-specific stuff.</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">The core and common logic is separated from the respective platform stuff in a typical KMP project, so you end up writing platform-specific stuff individually while the common code remains the same across the targeted platforms.</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">expect</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> is the </div>
+            <div style="font-weight: 700; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline; ">skeleton</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> while the actual implementation of it lies in the usage of </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">actual</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> across targeted platforms.</div>
+          </span></div>
+      </div>
+      <div style="display: flex; flex-direction: column; clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-top: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-bottom: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-start: 0px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-end: 0px; ">
+        <div id="259a0020-b33f-466f-a75d-5204f4931ec3" style="font-weight: 500; color: #BFC2FF; font-size: 16px; text-align: start; display: inline; padding: 12px;  overflow: auto; "><pre>expect suspend fun deleteAutoBackups(<br>    backupLocation: String,<br>    threshold: Int, onCompletion: (deletionCount: Int) -&gt; Unit<br>)</pre></div>
+        <div style="background-color: #3E4278; "><span class="material-icons" style="margin: 10px;  user-select: none; cursor: pointer;  font-size: 16px;  color: #BFC2FF; " onclick="const currentCodeBlock = document.getElementById('259a0020-b33f-466f-a75d-5204f4931ec3');
+const textToCopy = currentCodeBlock.innerText;
+
+if (navigator.clipboard &amp;&amp; navigator.clipboard.writeText) {
+  navigator.clipboard.writeText(textToCopy)
+    .then(() =&gt; console.log('Copied to clipboard!'))
+    .catch(err =&gt; alert('Copy failed: ' + err));
+} else {
+  const textarea = document.createElement('textarea');
+  textarea.value = textToCopy;
+  textarea.style.position = 'absolute';
+  textarea.style.left = '-9999px';
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand('copy');
+    console.log('Copied via execCommand');
+  } catch (err) {
+    alert('Fallback copy failed: ' + err);
+  }
+  document.body.removeChild(textarea);
+}">content_copy</span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">If the project is targeting Android and desktop, then the respective implementation for these platforms must be implemented based on this </div>
+            <div style="font-weight: 700; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline; ">expected</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> block.</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">Now on Android, the implementation for this may look like:</div>
+          </span></div>
+      </div>
+      <div style="display: flex; flex-direction: column; clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-top: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-bottom: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-start: 0px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-end: 0px; ">
+        <div id="301d5096-c157-475d-befc-1bd667a9c956" style="font-weight: 500; color: #BFC2FF; font-size: 16px; text-align: start; display: inline; padding: 12px;  overflow: auto; "><pre>actual suspend fun deleteAutoBackups(<br>    backupLocation: String, threshold: Int, onCompletion: (deletionCount: Int) -&gt; Unit<br>) {<br>    try {<br>        withContext(Dispatchers.IO) {<br>            DocumentFile.fromTreeUri(LinkoraApp.getContext(), backupLocation.toUri())?.listFiles()<br>                ?.filter {<br>                    it.name?.startsWith("LinkoraSnapshot-") == true<br>                }?.let { snapshots -&gt;<br>                    // delete the backups<br>                }<br>        }<br>    } catch (e: Exception) {<br>        e.printStackTrace()<br>        e.pushSnackbar()<br>    }<br>}</pre></div>
+        <div style="background-color: #3E4278; "><span class="material-icons" style="margin: 10px;  user-select: none; cursor: pointer;  font-size: 16px;  color: #BFC2FF; " onclick="const currentCodeBlock = document.getElementById('301d5096-c157-475d-befc-1bd667a9c956');
+const textToCopy = currentCodeBlock.innerText;
+
+if (navigator.clipboard &amp;&amp; navigator.clipboard.writeText) {
+  navigator.clipboard.writeText(textToCopy)
+    .then(() =&gt; console.log('Copied to clipboard!'))
+    .catch(err =&gt; alert('Copy failed: ' + err));
+} else {
+  const textarea = document.createElement('textarea');
+  textarea.value = textToCopy;
+  textarea.style.position = 'absolute';
+  textarea.style.left = '-9999px';
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand('copy');
+    console.log('Copied via execCommand');
+  } catch (err) {
+    alert('Fallback copy failed: ' + err);
+  }
+  document.body.removeChild(textarea);
+}">content_copy</span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">But the same function's implementation on a desktop target will look like:</div>
+          </span></div>
+      </div>
+      <div style="display: flex; flex-direction: column; clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-top: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-bottom: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-start: 0px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-end: 0px; ">
+        <div id="2b65956c-5092-4a8f-b666-7b41daac8c56" style="font-weight: 500; color: #BFC2FF; font-size: 16px; text-align: start; display: inline; padding: 12px;  overflow: auto; "><pre>actual suspend fun deleteAutoBackups(<br>    backupLocation: String, threshold: Int, onCompletion: (deletionCount: Int) -&gt; Unit<br>) {<br>    try {<br>        withContext(Dispatchers.IO) {<br>            File(backupLocation).listFiles {<br>                it.nameWithoutExtension.startsWith("LinkoraSnapshot-")<br>            }?.let { snapshots -&gt;<br>               // delete the backups<br>            }<br>        }<br>    } catch (e: Exception) {<br>        e.printStackTrace()<br>        e.pushSnackbar()<br>    }<br>}</pre></div>
+        <div style="background-color: #3E4278; "><span class="material-icons" style="margin: 10px;  user-select: none; cursor: pointer;  font-size: 16px;  color: #BFC2FF; " onclick="const currentCodeBlock = document.getElementById('2b65956c-5092-4a8f-b666-7b41daac8c56');
+const textToCopy = currentCodeBlock.innerText;
+
+if (navigator.clipboard &amp;&amp; navigator.clipboard.writeText) {
+  navigator.clipboard.writeText(textToCopy)
+    .then(() =&gt; console.log('Copied to clipboard!'))
+    .catch(err =&gt; alert('Copy failed: ' + err));
+} else {
+  const textarea = document.createElement('textarea');
+  textarea.value = textToCopy;
+  textarea.style.position = 'absolute';
+  textarea.style.left = '-9999px';
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand('copy');
+    console.log('Copied via execCommand');
+  } catch (err) {
+    alert('Fallback copy failed: ' + err);
+  }
+  document.body.removeChild(textarea);
+}">content_copy</span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">The platform-specific APIs or implementations get involved with this expect/actual mechanism, which makes things straightforward and pretty clear.</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">Now </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">pushSnackbar()</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> is an extension function which exists in the common codebase; the platform codebase cannot be accessed from the common codebase, but vice versa is possible with KMP.</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">If you are dealing with composables or classes or an interface implementation on specific platforms or anything that is platform-specific, this mechanism remains the same.</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">I never tried other multiplatform frameworks/tools, but I think this is the simplest yet finest way to deal with platform-level implementations, although most of the commonly used libraries like Coil, Ktor, koin, Room, and material components (via Compose multiplatform) already support KMP, but there may be cases where you have to stick with platform-level APIs, and I think KMP does it most finely.</div>
+          </span></div>
+      </div>
+      <h3 style="font-family: Inter;  color: #BFC2FF; ">The Nitpicks</h3>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">Now the nitpick I have here has to do more with CMP than KMP: CMP is maintained by JetBrains, which is not on the latest version regularly with respect to the upstream version, and some components like material expressive aren't yet possible to use directly in the common codebase, but again, this is just a nitpick.</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">This has nothing to do with KMP, but you also need to know that yep, this sort of thing exists where you might end up not using the library you used to use when on a single targeted codebase, so you end up writing your own thing in the common codebase or with expect/actual blocks, which is fine, at least for me.</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">I used to use Dagger Hilt for DI in </div>
+            <div style="font-weight: 600; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline; "><a style = "color: #BFC2FF" href="https://github.com/LinkoraApp/Linkora" target="_blank">Linkora</a></div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">, when the codebase targeted Android only. Now that I have migrated to KMP, I have switched to manual DI, which I think is fairly simple and the usual way I prefer for my projects now (AS IT SHOULD BE).</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">Live preview sucked with Jetpack Compose in the initial days of my usage, as you had to rebuild for every newly updated preview; which later picked it up and got good, but </div>
+            <div style="font-weight: 600; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline; "><a style = "color: #BFC2FF" href="https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-hot-reload.html" target="_blank">Compose Hot Reload</a></div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> works just fine for me, far better than what it used to be with Compose which only targeted Android back then.</div>
+          </span></div>
+      </div>
+      <h1 style="font-family: Inter;  color: #BFC2FF; ">Coroutines and Flows in KMP</h1>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">Coroutines and Flows play a major role in KMP. Now, when I mentioned "major role", I mean </div>
+            <div style="font-weight: 700; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline; ">major role</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">.</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">The </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">expect</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> and </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">actual</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> usage is required in some cases, and it may require another component to be included to complete the operation, as the expected implementation is supposed to be an individual block and not included wherever in the codebase.</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">We need the "Event-driven" style to complete the operation; this is, of course, your typical asynchronous use case, which Kotlin coroutines and flows do excellently in my usage.</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">This function needs to use platform-specific APIs to pick a directory:</div>
+          </span></div>
+      </div>
+      <div style="display: flex; flex-direction: column; clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-top: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-bottom: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-start: 0px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-end: 0px; ">
+        <div id="43fabe87-4c69-4e5f-8c2c-83c81dc8a634" style="font-weight: 500; color: #BFC2FF; font-size: 16px; text-align: start; display: inline; padding: 12px;  overflow: auto; "><pre>expect suspend fun pickADirectory(): String?</pre></div>
+        <div style="background-color: #3E4278; "><span class="material-icons" style="margin: 10px;  user-select: none; cursor: pointer;  font-size: 16px;  color: #BFC2FF; " onclick="const currentCodeBlock = document.getElementById('43fabe87-4c69-4e5f-8c2c-83c81dc8a634');
+const textToCopy = currentCodeBlock.innerText;
+
+if (navigator.clipboard &amp;&amp; navigator.clipboard.writeText) {
+  navigator.clipboard.writeText(textToCopy)
+    .then(() =&gt; console.log('Copied to clipboard!'))
+    .catch(err =&gt; alert('Copy failed: ' + err));
+} else {
+  const textarea = document.createElement('textarea');
+  textarea.value = textToCopy;
+  textarea.style.position = 'absolute';
+  textarea.style.left = '-9999px';
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand('copy');
+    console.log('Copied via execCommand');
+  } catch (err) {
+    alert('Fallback copy failed: ' + err);
+  }
+  document.body.removeChild(textarea);
+}">content_copy</span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">Now, you would call this typically from a ViewModel or any other class; when dealing with the desktop target, this is straightforward, you implement something like:</div>
+          </span></div>
+      </div>
+      <div style="display: flex; flex-direction: column; clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-top: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-bottom: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-start: 0px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-end: 0px; ">
+        <div id="3ec99c58-03b3-44a4-964a-a7c009cf3377" style="font-weight: 500; color: #BFC2FF; font-size: 16px; text-align: start; display: inline; padding: 12px;  overflow: auto; "><pre>actual suspend fun pickADirectory(): String? {<br>   val fileDialog = FileDialog(<br>        Frame(),<br>        Localization.Key.SelectASourceDir.getLocalizedString(),<br>        FileDialog.LOAD<br>    )<br>    fileDialog.isVisible = true<br>    val sourceDirectory = File(fileDialog.directory)<br>    // rest of the implementation<br>}</pre></div>
+        <div style="background-color: #3E4278; "><span class="material-icons" style="margin: 10px;  user-select: none; cursor: pointer;  font-size: 16px;  color: #BFC2FF; " onclick="const currentCodeBlock = document.getElementById('3ec99c58-03b3-44a4-964a-a7c009cf3377');
+const textToCopy = currentCodeBlock.innerText;
+
+if (navigator.clipboard &amp;&amp; navigator.clipboard.writeText) {
+  navigator.clipboard.writeText(textToCopy)
+    .then(() =&gt; console.log('Copied to clipboard!'))
+    .catch(err =&gt; alert('Copy failed: ' + err));
+} else {
+  const textarea = document.createElement('textarea');
+  textarea.value = textToCopy;
+  textarea.style.position = 'absolute';
+  textarea.style.left = '-9999px';
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand('copy');
+    console.log('Copied via execCommand');
+  } catch (err) {
+    alert('Fallback copy failed: ' + err);
+  }
+  document.body.removeChild(textarea);
+}">content_copy</span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">When targeting Android, the implementation will be based on Android-specific APIs.</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">If you are using Compose, you would typically use </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">rememberLauncherForActivityResult</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">, which is </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">ManagedActivityResultLauncher</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> with a contract to pick the directory. Now, </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">rememberLauncherForActivityResult</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> is a composable function; you cannot call it randomly in the codebase. It needs to be a composable function to call it, similar to suspend functions.</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">pickADirectory</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> isn't a composable; in this case, using flows or channels to make the composable pick the directory makes sense, and on picking it, send the directory URI back, which we can collect from the implementation of </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">pickADirectory</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">, which targets the Android platform.</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">The implementation would look like:</div>
+          </span></div>
+      </div>
+      <div style="display: flex; flex-direction: column; clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-top: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-bottom: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-start: 0px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-end: 0px; ">
+        <div id="991a5b8b-ac82-4b4b-98f7-4e2e144ce4d1" style="font-weight: 500; color: #BFC2FF; font-size: 16px; text-align: start; display: inline; padding: 12px;  overflow: auto; "><pre>actual suspend fun pickADirectory(): String? {<br>    AndroidUIEvent.pushUIEvent(AndroidUIEvent.Type.PickADirectory)<br>    return suspendCancellableCoroutine { continuation -&gt;<br>        val listenerJob = CoroutineScope(continuation.context).launch {<br>            val eventDirectoryPick =<br>                AndroidUIEvent.androidUIEventChannel.first() as AndroidUIEvent.Type.PickedDirectory<br>            try {<br>                continuation.resume(eventDirectoryPick.uri?.toString())<br>            } catch (e: Exception) {<br>                e.printStackTrace()<br>                continuation.cancel()<br>            }<br>        }<br>        continuation.invokeOnCancellation {<br>            listenerJob.cancel()<br>        }<br>    }<br>}</pre></div>
+        <div style="background-color: #3E4278; "><span class="material-icons" style="margin: 10px;  user-select: none; cursor: pointer;  font-size: 16px;  color: #BFC2FF; " onclick="const currentCodeBlock = document.getElementById('991a5b8b-ac82-4b4b-98f7-4e2e144ce4d1');
+const textToCopy = currentCodeBlock.innerText;
+
+if (navigator.clipboard &amp;&amp; navigator.clipboard.writeText) {
+  navigator.clipboard.writeText(textToCopy)
+    .then(() =&gt; console.log('Copied to clipboard!'))
+    .catch(err =&gt; alert('Copy failed: ' + err));
+} else {
+  const textarea = document.createElement('textarea');
+  textarea.value = textToCopy;
+  textarea.style.position = 'absolute';
+  textarea.style.left = '-9999px';
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand('copy');
+    console.log('Copied via execCommand');
+  } catch (err) {
+    alert('Fallback copy failed: ' + err);
+  }
+  document.body.removeChild(textarea);
+}">content_copy</span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">And from the </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">MainActivity</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> or anywhere you are reading the emissions, you collect the events and send them back via </div>
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">PickedDirectory</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">.</div>
+          </span></div>
+      </div>
+      <div style="display: flex; flex-direction: column; clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-top: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-bottom: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-start: 0px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-end: 0px; ">
+        <div id="3f2654dc-c231-4230-968e-0b83ee2d8761" style="font-weight: 500; color: #BFC2FF; font-size: 16px; text-align: start; display: inline; padding: 12px;  overflow: auto; "><pre>val activityResultLauncherForPickingADirectory =<br>     rememberLauncherForActivityResult(contract = OpenDocumentTreeWithPermissionsContract()) { uri: Uri? -&gt;<br>        // persist the URI permissions and then send back the URI<br>        coroutineScope.pushUIEvent(<br>           AndroidUIEvent.Type.PickedDirectory(uri)<br>        )<br> }<br><br>LaunchedEffect(Unit) {<br>    AndroidUIEvent.androidUIEventChannel.collectLatest {<br>        is AndroidUIEvent.Type.PickADirectory -&gt; {<br>           activityResultLauncherForPickingADirectory.launch(null)<br>        }<br>    }<br>}</pre></div>
+        <div style="background-color: #3E4278; "><span class="material-icons" style="margin: 10px;  user-select: none; cursor: pointer;  font-size: 16px;  color: #BFC2FF; " onclick="const currentCodeBlock = document.getElementById('3f2654dc-c231-4230-968e-0b83ee2d8761');
+const textToCopy = currentCodeBlock.innerText;
+
+if (navigator.clipboard &amp;&amp; navigator.clipboard.writeText) {
+  navigator.clipboard.writeText(textToCopy)
+    .then(() =&gt; console.log('Copied to clipboard!'))
+    .catch(err =&gt; alert('Copy failed: ' + err));
+} else {
+  const textarea = document.createElement('textarea');
+  textarea.value = textToCopy;
+  textarea.style.position = 'absolute';
+  textarea.style.left = '-9999px';
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand('copy');
+    console.log('Copied via execCommand');
+  } catch (err) {
+    alert('Fallback copy failed: ' + err);
+  }
+  document.body.removeChild(textarea);
+}">content_copy</span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-size: 15px; text-align: start; display: inline; background-color: #272B60;  border-radius: 4px;  color: #BFC2FF;  padding:2px 4px; font-family: JetBrains Mono;  width: fit-content;  display: inline; ">pushUIEvent</div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;"> is an extension function that exists in the Android codebase:</div>
+          </span></div>
+      </div>
+      <div style="display: flex; flex-direction: column; clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-top: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-bottom: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-start: 0px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-end: 0px; ">
+        <div id="ea2309dd-df86-47e5-a836-d98b55f403b7" style="font-weight: 500; color: #BFC2FF; font-size: 16px; text-align: start; display: inline; padding: 12px;  overflow: auto; "><pre> fun CoroutineScope.pushUIEvent(type: Type) {<br>      this.launch {<br>         _androidUIEventChannel.send(type)<br>      }<br>}</pre></div>
+        <div style="background-color: #3E4278; "><span class="material-icons" style="margin: 10px;  user-select: none; cursor: pointer;  font-size: 16px;  color: #BFC2FF; " onclick="const currentCodeBlock = document.getElementById('ea2309dd-df86-47e5-a836-d98b55f403b7');
+const textToCopy = currentCodeBlock.innerText;
+
+if (navigator.clipboard &amp;&amp; navigator.clipboard.writeText) {
+  navigator.clipboard.writeText(textToCopy)
+    .then(() =&gt; console.log('Copied to clipboard!'))
+    .catch(err =&gt; alert('Copy failed: ' + err));
+} else {
+  const textarea = document.createElement('textarea');
+  textarea.value = textToCopy;
+  textarea.style.position = 'absolute';
+  textarea.style.left = '-9999px';
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand('copy');
+    console.log('Copied via execCommand');
+  } catch (err) {
+    alert('Fallback copy failed: ' + err);
+  }
+  document.body.removeChild(textarea);
+}">content_copy</span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">So I think we are clear on the usage of coroutines in KMP. Similarly, I have also used shared flows in some cases, like:</div>
+          </span></div>
+      </div>
+      <div style="display: flex; flex-direction: column; clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-top: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-bottom: 10px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-start: 0px;  clip-path: inset(0.0 0.0 0.0 0.0 round 15px); ;  overflow: hidden;  background-color: #1e1e2e;  border: 2.75px solid #3E4278; border-radius: 15px;  margin-inline-end: 0px; ">
+        <div id="b672ad86-0f81-4315-9e5d-c78bdd7a1fbc" style="font-weight: 500; color: #BFC2FF; font-size: 16px; text-align: start; display: inline; padding: 12px;  overflow: auto; "><pre>@Composable<br>actual fun PlatformSpecificBackHandler(init: () -&gt; Unit) {<br>    val navController = LocalNavController.current<br>    val coroutineScope = rememberCoroutineScope()<br>    BackHandler(onBack = {<br>        if (navController.previousBackStackEntry == null) {<br>            coroutineScope.launch {<br>                UIEvent.pushUIEvent(UIEvent.Type.MinimizeTheApp)<br>            }<br>        }<br>    })<br>}</pre></div>
+        <div style="background-color: #3E4278; "><span class="material-icons" style="margin: 10px;  user-select: none; cursor: pointer;  font-size: 16px;  color: #BFC2FF; " onclick="const currentCodeBlock = document.getElementById('b672ad86-0f81-4315-9e5d-c78bdd7a1fbc');
+const textToCopy = currentCodeBlock.innerText;
+
+if (navigator.clipboard &amp;&amp; navigator.clipboard.writeText) {
+  navigator.clipboard.writeText(textToCopy)
+    .then(() =&gt; console.log('Copied to clipboard!'))
+    .catch(err =&gt; alert('Copy failed: ' + err));
+} else {
+  const textarea = document.createElement('textarea');
+  textarea.value = textToCopy;
+  textarea.style.position = 'absolute';
+  textarea.style.left = '-9999px';
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand('copy');
+    console.log('Copied via execCommand');
+  } catch (err) {
+    alert('Fallback copy failed: ' + err);
+  }
+  document.body.removeChild(textarea);
+}">content_copy</span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">Which is collected from the Android codebase to minimize the app.</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">I'm sure there are other ways to implement all of this, but I did it like this, and all this remains solid handling in my use cases.</div>
+          </span></div>
+      </div>
+      <div style="display: flex; flex-direction: row; justify-content: center; align-items: center; ">
+        <div style="width: 98.0%;  border: 1.15px solid #1e1e2e; border-radius: 5px;  background-color: #1e1e2e;  margin-top: 8.5px;  width: 98.0%;  border: 1.15px solid #1e1e2e; border-radius: 5px;  background-color: #1e1e2e;  margin-bottom: 5px;  width: 98.0%;  border: 1.15px solid #1e1e2e; border-radius: 5px;  background-color: #1e1e2e;  margin-inline-start: 0px;  width: 98.0%;  border: 1.15px solid #1e1e2e; border-radius: 5px;  background-color: #1e1e2e;  margin-inline-end: 0px; "></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">I think KMP is great at what it does with the existing tooling support. I didn't ship to iOS yet, so I'm not sure how it impacts anything, but I'm certainly sure that the </div>
+            <div style="font-weight: 600; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline; "><a style = "color: #BFC2FF" href="https://x.com/ChrisKruegerDev/status/1950493507212148883" target="_blank">size of the app is massive on iOS</a></div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">, but it seems it will only get better.</div>
+          </span></div>
+      </div>
+      <div style="position: relative; ">
+        <div style="display: flex; flex-direction: column; "><span style="margin-top: 2.5px;  margin-bottom: 2.5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  font-size: 0px; ">
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">We really came a long way (</div>
+            <div style="font-weight: 600; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline; "><a style = "color: #BFC2FF" href="https://web.archive.org/web/20140802140223/https://kotlinlang.org/" target="_blank">Captured on Aug 02 2014</a></div>
+            <div style="font-weight: 400; color: #E4E1E9; font-family: &quot;Inter&quot;; font-size: 18px; text-align: start; display: inline; width: fit-content;  display: inline;  line-height: 1.5; white-space: pre-wrap; word-break: break-word;">).</div>
+          </span></div>
+      </div>
+<img src="/images/kotlin-site-archive-capture-2014.png" style="object-position: center; object-fit: cover; margin-top: 5px;  margin-bottom: 5px;  margin-inline-start: 0px;  margin-inline-end: 0px;  border: 2.75px solid #3E4278; border-radius: 15px; ">
+      <div style="height: 25px; "></div>
+      <div style="display: flex; flex-direction: column; padding: 10px;  border: 1.5px solid #BFC2FF; border-radius: 15px; "><span class="material-icons" style="color: #BFC2FF;  ">info</span>
+        <div style="height: 5px; "></div>
+        <div style="font-weight: 600; color: #BFC2FF; font-family: &quot;Inter&quot;; font-size: 16px; text-align: start; display: inline; ">This site is built with <a style="color: #BFC2FF" href="https://github.com/sakethpathike/kapsule" target="_blank">kapsule</a> and powered by <a style="color: #BFC2FF" href="https://github.com/sakethpathike/kamp">kamp</a>.</div>
+      </div>
+      <div style="height: 25px; "></div>
+    </div>
+  </body>
+</html>
