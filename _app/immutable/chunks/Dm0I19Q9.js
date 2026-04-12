@@ -29,7 +29,7 @@ printers, Nvidia GPUs, or software I don't personally use. This is not a formal 
 
 # openSUSE Tumbleweed experience
 
-![alt|caption=<p style="text-align: left; margin: 0; font-family: var(--font-text); font-size: 14px; line-height: 1.4; color: var(--color-text);">Image by <a href="https://www.reddit.com/user/rendered-praxidice/" style="color: var(--color-heading); text-decoration: underline;">u/rendered-praxidice</a>, <a href="https://www.reddit.com/r/openSUSE/comments/1276lju/opensuse_wallpaper_fanart/#lightbox" style="color: var(--color-heading); text-decoration: underline;">Original Post</a></p>](/src/content/images/tumbleweed-experience-1.jpeg)
+![alt|caption=<p style="text-align: left; margin: 0; font-family: var(--font-text); font-size: 14px; line-height: 1.4; color: var(--color-text);">Image by <a href="https://www.reddit.com/user/rendered-praxidice/" style="color: var(--color-heading); text-decoration: underline;">u/rendered-praxidice</a>, <a href="https://www.reddit.com/r/openSUSE/comments/1276lju/opensuse_wallpaper_fanart/#lightbox" style="color: var(--color-heading); text-decoration: underline;">Original Post</a></p>](/images/chameleon-experience/artwork.jpeg)
 
 Now this time with Linux and an operating system in general, it was and still is a great experience. I usually use my
 desktop for either programming some stuff, playing RDR2, or general browsing. These are the only reasons why I use my
@@ -40,7 +40,7 @@ I didn't do any ricing yet since I need absolutely nothing on the screen except 
 small panel on the bottom right which shows current date and time along with media player. This auto-hides if any window
 is on the front, especially the full-screen ones. I have a shortcut to trigger it if I want to see the time.
 
-![](/src/content/images/tumbleweed-experience-2.jpg)
+![](/images/chameleon-experience/desktop-bg.jpg)
 
 I use activities in KDE a lot since switching between apps is much easier. I open different apps in different
 activities, so instead of switching apps, I just switch activities. It is just more convenient because I can configure
@@ -55,7 +55,7 @@ using CLI more than ever.
 I've played RDR2 on both Windows and Tumbleweed. On Tumbleweed, gaming is excellent. I have spent more than 60 hours
 in-game, and it works perfectly fine.
 
-![](/src/content/images/tumbleweed-experience-3.png)
+![](/images/chameleon-experience/rdr2-time-played.png)
 
 ![embed](https://drive.google.com/file/d/1hM5sa3xQlo4kAJcNMHGaaUvhrv1ineQ3/preview)
 
@@ -188,4 +188,5 @@ No.
 No.
 
 ### Does it get the work done?
+
 ![tenor|width=100px|height=100px](https://tenor.com/view/yeah-john-wick-keanu-reeves-john-wick-chapter-4-jw4-gif-12555304645715891364)`;export{e as default};

@@ -24,21 +24,21 @@ All this in a nutshell looks like:
 
 \`\`\`kotlin
 suspend fun syncData() {
-   if (canPushToServer()) {
-      pushUnSyncedDataToServer()
-   }
+    if (canPushToServer()) {
+        pushUnSyncedDataToServer()
+    }
 
-   if (canReadFromServer()) {
-      establishSocketConnectionAndPerformOperations()
+    if (canReadFromServer()) {
+        establishSocketConnectionAndPerformOperations()
 
-      getTombstonesInfoFromServer(after = TIME_STAMP).let {
-         deleteFromLocalDataBasedOnTombstones(it)
-      }
+        getTombstonesInfoFromServer(after = TIME_STAMP).let {
+            deleteFromLocalDataBasedOnTombstones(it)
+        }
 
-      getNewUpdatesFromServer(after = TIME_STAMP).let {
-         updateLocalDataBasedOnRemoteUpdates(it)
-      }
-   }
+        getNewUpdatesFromServer(after = TIME_STAMP).let {
+            updateLocalDataBasedOnRemoteUpdates(it)
+        }
+    }
 }
 \`\`\`
 
@@ -49,46 +49,46 @@ blocks will be true. Hence, we need to implement \`Client-to-Server\` and \`Serv
 
 In this case, we only need to consider:
 
-1. Pushing \`CREATE\`-\`UPDATE\`-\`DELETE\` operations that happen locally.  
+1. Pushing \`CREATE\`-\`UPDATE\`-\`DELETE\` operations that happen locally.
    That's all we care about. But there may be cases when the \`sync-server\` might not be up. In that case, we need to
    save what's supposed to be pushed so that whenever the server and app are up, the app can send those changes. This
    also makes it local-first, as irrespective of server changes; it will always update locally.
 
-Now, the first thing is to *try saving locally and then pushing the changes*. There are many operations where we need
+Now, the first thing is to **try saving locally and then pushing the changes**. There are many operations where we need
 to push changes to the server, so I made a generic function that works for all these cases where we need to perform
 local operations and then push to the remote server:
 
 \`\`\`kotlin
 fun <LocalType, RemoteType> performLocalOperationWithRemoteSyncFlow(
-   performRemoteOperation: Boolean,
-   remoteOperation: suspend () -> Flow<Result<RemoteType>> = { emptyFlow() },
-   remoteOperationOnSuccess: suspend (RemoteType) -> Unit = {},
-   onRemoteOperationFailure: suspend () -> Unit = {},
-   localOperation: suspend () -> LocalType
+    performRemoteOperation: Boolean,
+    remoteOperation: suspend () -> Flow<Result<RemoteType>> = { emptyFlow() },
+    remoteOperationOnSuccess: suspend (RemoteType) -> Unit = {},
+    onRemoteOperationFailure: suspend () -> Unit = {},
+    localOperation: suspend () -> LocalType
 ): Flow<Result<LocalType>> {
-   return flow {
-      emit(Result.Loading())
-      val localResult = localOperation()
-      Result.Success(localResult).let { success ->
-         if (performRemoteOperation && canPushToServer()) {
-            remoteOperation().collect { remoteResult ->
-               remoteResult.onFailure { failureMessage ->
-                  success.isRemoteExecutionSuccessful = false
-                  success.remoteFailureMessage = failureMessage
-                  onRemoteOperationFailure()
-               }
-               remoteResult.onSuccess {
-                  remoteOperationOnSuccess(it.data)
-               }
+    return flow {
+        emit(Result.Loading())
+        val localResult = localOperation()
+        Result.Success(localResult).let { success ->
+            if (performRemoteOperation && canPushToServer()) {
+                remoteOperation().collect { remoteResult ->
+                    remoteResult.onFailure { failureMessage ->
+                        success.isRemoteExecutionSuccessful = false
+                        success.remoteFailureMessage = failureMessage
+                        onRemoteOperationFailure()
+                    }
+                    remoteResult.onSuccess {
+                        remoteOperationOnSuccess(it.data)
+                    }
+                }
             }
-         }
-         emit(success)
-      }
-   }.catchAsThrowableAndEmitFailure(init = {
-      if (performRemoteOperation && canPushToServer()) {
-         onRemoteOperationFailure()
-      }
-   })
+            emit(success)
+        }
+    }.catchAsThrowableAndEmitFailure(init = {
+        if (performRemoteOperation && canPushToServer()) {
+            onRemoteOperationFailure()
+        }
+    })
 }
 \`\`\`
 
@@ -96,7 +96,8 @@ It may seem like a lot is happening, but it's not. What this does is:
 
 1. Perform local operation.
 2. Try to push changes. If successful, the operation is successful.
-3. If pushing fails, \`onRemoteOperationFailure()\` will be triggered if the sync type is set to \`Client-to-Server\` or \`Two-Way Sync\`.
+3. If pushing fails, \`onRemoteOperationFailure()\` will be triggered if the sync type is set to \`Client-to-Server\` or
+   \`Two-Way Sync\`.
 
 Now we need to figure out how to save the operations locally when there's a failure on the remote server (mostly because
 the server is down), so once the server is up, Linkora App can send those operations.
@@ -106,9 +107,9 @@ For that, I have a table called \`PendingSyncQueue\`:
 \`\`\`kotlin
 @Entity("pending_sync_queue")
 data class PendingSyncQueue(
-   @PrimaryKey(autoGenerate = true) val id: Long = 0,
-   val operation: String,
-   val payload: String
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    val operation: String,
+    val payload: String
 )
 \`\`\`
 
@@ -119,32 +120,32 @@ A simple example of how this is done:
 
 \`\`\`kotlin
 onRemoteOperationFailure = {
-   pendingSyncQueueRepo.addInQueue(
-      PendingSyncQueue(
-         operation = RemoteRoute.Link.ARCHIVE_LINK.name,
-         payload = Json.encodeToString(
-            IDBasedDTO(
-               linkId, eventTimestamp
+    pendingSyncQueueRepo.addInQueue(
+        PendingSyncQueue(
+            operation = RemoteRoute.Link.ARCHIVE_LINK.name,
+            payload = Json.encodeToString(
+                IDBasedDTO(
+                    linkId, eventTimestamp
+                )
             )
-         )
-      )
-   )
+        )
+    )
 }
 \`\`\`
 
-Where *every* DTO contains \`correlation\`. Here, the \`IDBasedDTO\` looks like:
+Where **every** DTO contains \`correlation\`. Here, the \`IDBasedDTO\` looks like:
 
 \`\`\`kotlin
 @Serializable
 data class IDBasedDTO(
-   val id: Long,
-   val eventTimestamp: Long,
-   val correlation: Correlation = AppPreferences.getCorrelation(),
+    val id: Long,
+    val eventTimestamp: Long,
+    val correlation: Correlation
 )
 
 @Serializable
 data class Correlation(
-   val id: String, val clientName: String
+    val id: String, val clientName: String
 )
 \`\`\`
 
@@ -157,39 +158,39 @@ considered earlier, here's how it will be sent:
 
 \`\`\`kotlin
 when (queue.operation) {
-   ARCHIVE_LINK.name -> {
-      val idBasedDTO = Json.decodeFromString<IDBasedDTO>(queueItem.payload)
-      val remoteLinkId = localLinksRepo.getRemoteLinkId(idBasedDTO.id)
-      remoteLinksRepo.archiveALink(idBasedDTO.copy(id = remoteLinkId))
-         .removeQueueItemAndSyncTimestamp(queueItem.id)
-   }
+    ARCHIVE_LINK.name -> {
+        val idBasedDTO = Json.decodeFromString<IDBasedDTO>(queueItem.payload)
+        val remoteLinkId = localLinksRepo.getRemoteLinkId(idBasedDTO.id)
+        remoteLinksRepo.archiveALink(idBasedDTO.copy(id = remoteLinkId))
+            .removeQueueItemAndSyncTimestamp(queueItem.id)
+    }
 }
 
 private suspend inline fun Flow<Result<TimeStampBasedResponse>>.removeQueueItemAndSyncTimestamp(
-   queueId: Long
+    queueId: Long
 ) {
-   this.collectLatest {
-      it.onSuccess {
-         pendingSyncQueueRepo.removeFromQueue(queueId)
-         preferencesRepository.updateLastSyncedWithServerTimeStamp(it.data.eventTimestamp)
-      }
-   }
+    this.collectLatest {
+        it.onSuccess {
+            pendingSyncQueueRepo.removeFromQueue(queueId)
+            preferencesRepository.updateLastSyncedWithServerTimeStamp(it.data.eventTimestamp)
+        }
+    }
 }
 
 @Serializable
 data class TimeStampBasedResponse(
-   val eventTimestamp: Long,
-   val message: String
+    val eventTimestamp: Long,
+    val message: String
 )
 \`\`\`
 
-This way, we can confirm the client will definitely send the data to the server (if it gets uninstalled, we can't do
-anything about it).
+This way, we can confirm the client will definitely send the data to the server *(if it gets uninstalled, we can't do
+anything about it)*.
 
 In conclusion, the following image should give you a clear idea of how all these components work together to ensure
 \`Client-to-Server\` sync works as expected:
 
-![client to server in linkora](/src/content/images/linkora-sync--client-to-server.png)
+![client to server in linkora](/images/linkora-sync/client-to-server.png)
 
 Now on the server-side, LWW (Last Write Wins) is implemented for some routes where updating is required. This makes sure
 the server only updates newer values in case all clients and the server aren't up at the same time:
@@ -197,24 +198,24 @@ the server only updates newer values in case all clients and the server aren't u
 \`\`\`kotlin
 // on server-side
 private fun checkForLWWConflictAndThrow(id: Long, timeStamp: Long) {
-   transaction {
-      FoldersTable.select(FoldersTable.lastModified).where {
-         FoldersTable.id.eq(id)
-      }.let {
-         if (it.single()[FoldersTable.lastModified] > timeStamp) {
-            throw LWWConflictException()
-         }
-      }
-   }
+    transaction {
+        FoldersTable.select(FoldersTable.lastModified).where {
+            FoldersTable.id.eq(id)
+        }.let {
+            if (it.single()[FoldersTable.lastModified] > timeStamp) {
+                throw LWWConflictException()
+            }
+        }
+    }
 }
 ---
 override suspend fun markAsArchive(idBasedDTO: IDBasedDTO): Result<TimeStampBasedResponse> {
-   return try {
-      checkForLWWConflictAndThrow(id = idBasedDTO.id, timeStamp = idBasedDTO.eventTimestamp)
-      // further impl
-   } catch (e: Exception) {
-      Result.Failure(e)
-   }
+    return try {
+        checkForLWWConflictAndThrow(id = idBasedDTO.id, timeStamp = idBasedDTO.eventTimestamp)
+        // further impl
+    } catch (e: Exception) {
+        Result.Failure(e)
+    }
 }
 \`\`\`
 
@@ -225,14 +226,14 @@ and is needed for the \`sync-server\`:
 @Entity(tableName = "folders")
 @Serializable
 data class Folder(
-   val name: String,
-   val note: String,
-   val parentFolderId: Long?,
-   @PrimaryKey(autoGenerate = true)
-   val localId: Long = 0,
-   val remoteId: Long? = null,
-   val isArchived: Boolean = false,
-   val lastModified: Long
+    val name: String,
+    val note: String,
+    val parentFolderId: Long?,
+    @PrimaryKey(autoGenerate = true)
+    val localId: Long = 0,
+    val remoteId: Long? = null,
+    val isArchived: Boolean = false,
+    val lastModified: Long
 )
 \`\`\`
 
@@ -246,8 +247,8 @@ sent from the server (since server operations happen there).
 
 Changes can be read in two ways:
 
-1. *Using sockets* if both app and server are online.
-2. *Custom implementations* if the client is offline or disconnected from the server.
+1. **Using sockets** if both app and server are online.
+2. **Custom implementations** if the client is offline or disconnected from the server.
 
 ### 1. Using sockets if both app and server are online
 
@@ -256,26 +257,26 @@ follows:
 
 \`\`\`kotlin
 private suspend fun updateLocalDBAccordingToEvent(
-   deserializedWebSocketEvent: WebSocketEvent
+    deserializedWebSocketEvent: WebSocketEvent
 ) {
-   when (deserializedWebSocketEvent.operation) {
-      MARK_FOLDER_AS_ARCHIVE.name -> {
-         val idBasedDTO = json.decodeFromJsonElement<IDBasedDTO>(
-            deserializedWebSocketEvent.payload
-         )
-         if (idBasedDTO.correlation.isSameAsCurrentClient()) {
-            preferencesRepository.updateLastSyncedWithServerTimeStamp(idBasedDTO.eventTimestamp)
-            return
-         }
+    when (deserializedWebSocketEvent.operation) {
+        MARK_FOLDER_AS_ARCHIVE.name -> {
+            val idBasedDTO = json.decodeFromJsonElement<IDBasedDTO>(
+                deserializedWebSocketEvent.payload
+            )
+            if (idBasedDTO.correlation.isSameAsCurrentClient()) {
+                preferencesRepository.updateLastSyncedWithServerTimeStamp(idBasedDTO.eventTimestamp)
+                return
+            }
 
-         val folderId = localFoldersRepo.getLocalIdOfAFolder(idBasedDTO.id)
-         if (folderId != null) {
-            localFoldersRepo.markFolderAsArchive(
-               folderId, viaSocket = true
-            ).collectAndUpdateTimestamp(idBasedDTO.eventTimestamp)
-         }
-      }
-   }
+            val folderId = localFoldersRepo.getLocalIdOfAFolder(idBasedDTO.id)
+            if (folderId != null) {
+                localFoldersRepo.markFolderAsArchive(
+                    folderId, viaSocket = true
+                ).collectAndUpdateTimestamp(idBasedDTO.eventTimestamp)
+            }
+        }
+    }
 }
 \`\`\`
 
@@ -294,9 +295,9 @@ We track deleted items using a server-side \`Tombstone\` table structured as:
 
 \`\`\`kotlin
 object TombstoneTable : LongIdTable("tombstone") {
-   val deletedAt = long("deleted_at")
-   val operation = text("operation")
-   val payload = text("payload")
+    val deletedAt = long("deleted_at")
+    val operation = text("operation")
+    val payload = text("payload")
 }
 \`\`\`
 
@@ -304,14 +305,14 @@ The following example should give a brief idea about how this table is used:
 
 \`\`\`kotlin
 transaction {
-   TombStoneHelper.insert(
-      payload = Json.encodeToString(idBasedDTO),
-      operation = LinkRoute.DELETE_A_LINK.name,
-      deletedAt = eventTimestamp
-   )
-   LinksTable.deleteWhere {
-      id.eq(idBasedDTO.id)
-   }
+    TombStoneHelper.insert(
+        payload = Json.encodeToString(idBasedDTO),
+        operation = LinkRoute.DELETE_A_LINK.name,
+        deletedAt = eventTimestamp
+    )
+    LinksTable.deleteWhere {
+        id.eq(idBasedDTO.id)
+    }
 }
 \`\`\`
 
@@ -326,24 +327,24 @@ changes made after that timestamp:
 
 \`\`\`kotlin
 LinksTable.selectAll().where {
-   LinksTable.lastModified.greater(TIME_STAMP)
+    LinksTable.lastModified.greater(TIME_STAMP)
 }.toList().forEach {
-   updatedLinks.add(
-      Link(
-         id = it[LinksTable.id].value,
-         linkType = LinkType.valueOf(it[LinksTable.linkType]),
-         title = it[LinksTable.linkTitle],
-         url = it[LinksTable.url],
-         baseURL = it[LinksTable.baseURL],
-         imgURL = it[LinksTable.imgURL],
-         note = it[LinksTable.note],
-         idOfLinkedFolder = it[LinksTable.idOfLinkedFolder],
-         userAgent = it[LinksTable.userAgent],
-         markedAsImportant = it[LinksTable.markedAsImportant],
-         mediaType = MediaType.valueOf(it[LinksTable.mediaType]),
-         eventTimestamp = it[LinksTable.lastModified]
-      )
-   )
+    updatedLinks.add(
+        Link(
+            id = it[LinksTable.id].value,
+            linkType = LinkType.valueOf(it[LinksTable.linkType]),
+            title = it[LinksTable.linkTitle],
+            url = it[LinksTable.url],
+            baseURL = it[LinksTable.baseURL],
+            imgURL = it[LinksTable.imgURL],
+            note = it[LinksTable.note],
+            idOfLinkedFolder = it[LinksTable.idOfLinkedFolder],
+            userAgent = it[LinksTable.userAgent],
+            markedAsImportant = it[LinksTable.markedAsImportant],
+            mediaType = MediaType.valueOf(it[LinksTable.mediaType]),
+            eventTimestamp = it[LinksTable.lastModified]
+        )
+    )
 }
 \`\`\`
 
@@ -353,8 +354,10 @@ In conclusion, the following images should give you a clear idea of how all thes
 \`Server-to-Client\` sync operates as expected:
 
 1. If both app and server are online.
-   ![](/src/content/images/linkora-sync--server-to-client-with-socket.png)
+   ![](/images/linkora-sync/server-to-client-with-socket.png)
 2. If the client is offline or disconnected from the server.
-   ![](/src/content/images/linkora-sync--server-to-client-with-manual.png)
+   ![](/images/linkora-sync/server-to-client-with-manual.png)
+
 ---
-Overall, this is how synchronization works in Linkora. These operations are also used when performing manual syncing or importing data from external files, but that is outside the context of this topic, hence I didn't include it.`;export{e as default};
+Overall, this is how synchronization works in Linkora. These operations are also used when performing manual syncing or
+importing data from external files, but that is outside the context of this topic, hence I didn't include it.`;export{e as default};
