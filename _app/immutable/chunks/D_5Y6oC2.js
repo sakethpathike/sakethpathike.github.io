@@ -358,6 +358,9 @@ In conclusion, the following images should give you a clear idea of how all thes
 2. If the client is offline or disconnected from the server.
    ![](/images/linkora-sync/server-to-client-with-manual.png)
 
+<div style="height: 6px"/>
+
 ---
+
 Overall, this is how synchronization works in Linkora. These operations are also used when performing manual syncing or
 importing data from external files, but that is outside the context of this topic, hence I didn't include it.`;export{e as default};
