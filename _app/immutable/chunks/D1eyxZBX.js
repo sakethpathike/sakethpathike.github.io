@@ -1,4 +1,4 @@
-import{$ as e,C as t,I as n,L as ee,Q as r,R as i,S as a,b as o}from"./C5o3b5G5.js";import"./CFKVnMbq.js";import"./-ToDqmqz.js";import{t as s}from"./DgtPQTdQ.js";import{o as te,r as c,s as l}from"./CyA6SKKM.js";var u={title:`Kotlin Multiplatform, in practice`,description:`It Works, and It's Actually Good.`,pubDatetime:`Aug 03, 2025 07:30 PM IST`},{title:d,description:f,pubDatetime:p}=u,ne=a(`<a href="https://kotlinlang.org/" rel="nofollow">kotlinlang.org</a> used to say <code>A modern programming language that makes developers happier</code> and
+import{$ as e,C as t,I as n,L as ee,Q as r,R as i,S as a,b as o}from"./C5o3b5G5.js";import"./CFKVnMbq.js";import"./-ToDqmqz.js";import{t as s}from"./DgtPQTdQ.js";import{c,i as l,s as te}from"./0ymMVGy1.js";var u={title:`Kotlin Multiplatform, in practice`,description:`Multiplatform is fun, at least with Kotlin.`,pubDatetime:`Aug 03, 2025 07:30 PM IST`},{title:d,description:f,pubDatetime:p}=u,ne=a(`<a href="https://kotlinlang.org/" rel="nofollow">kotlinlang.org</a> used to say <code>A modern programming language that makes developers happier</code> and
 they did make one which I think is <em>the one</em> .`,1),re=a(`Kotlin decouples the platform-specific implementations with <code>actual</code> and <code>expect</code> , which makes you directly deal with
 the platform-specific stuff.`,1),ie=a(`<code>expect</code> is the <em>skeleton</em> while the actual implementation of it lies in the usage of <code>actual</code> across targeted
 platforms.`,1),ae=a(`If the project is targeting Android and desktop, then the respective implementation for these platforms must be
@@ -17,15 +17,15 @@ makes sense, and on picking it, send the directory URI back, which we can collec
 impacts anything, but I’m certainly sure that
 the <a href="https://x.com/ChrisKruegerDev/status/1950493507212148883" rel="nofollow">size of the app is massive on iOS</a> , but it seems it will
 only get better.`,1),ge=a(`We really came a long
-way ( <a href="https://web.archive.org/web/20140802140223/https://kotlinlang.org/" rel="nofollow">Captured on Aug 02 2014</a> ).`,1),_e=a(`<!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <hr/> <!> <!> <p><!></p>`,1);function m(a){var u=_e(),d=ee(u);c(d,{children:(e,t)=>{var n=ne();r(5),o(e,n)},$$slots:{default:!0}});var f=i(d,2);c(f,{children:(e,n)=>{r(),o(e,t(`While I got to know about Kotlin from Android development, it has grown a lot since then. The first-party
+way ( <a href="https://web.archive.org/web/20140802140223/https://kotlinlang.org/" rel="nofollow">Captured on Aug 02 2014</a> ).`,1),_e=a(`<!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <hr/> <!> <!> <p><!></p>`,1);function m(a){var u=_e(),d=ee(u);l(d,{children:(e,t)=>{var n=ne();r(5),o(e,n)},$$slots:{default:!0}});var f=i(d,2);l(f,{children:(e,n)=>{r(),o(e,t(`While I got to know about Kotlin from Android development, it has grown a lot since then. The first-party
 library/frameworks/tools support from JetBrains and the Kotlin team, and the software related to development using
 Kotlin, built and maintained by the community, made the language fun and interesting to work with, not specifically on
-Android, but also in the backend.`))},$$slots:{default:!0}});var p=i(f,2);c(p,{children:(e,n)=>{r(),o(e,t(`Now that there is an official language server, I hope it will continue to evolve further. I’m kinda biased towards
-Kotlin for a couple of reasons. Irrespective of that, I think Kotlin is great at what it does.`))},$$slots:{default:!0}});var m=i(p,2);l(m,{level:1,children:(e,n)=>{r(),o(e,t(`Multiplatform with Kotlin`))},$$slots:{default:!0}});var h=i(m,2);c(h,{children:(e,t)=>{r();var n=re();r(4),o(e,n)},$$slots:{default:!0}});var g=i(h,2);c(g,{children:(e,n)=>{r(),o(e,t(`The core and common logic is separated from the respective platform stuff in a typical KMP project, so you end up
-writing platform-specific stuff individually while the common code remains the same across the targeted platforms.`))},$$slots:{default:!0}});var _=i(g,2);c(_,{children:(e,t)=>{var n=ie();r(5),o(e,n)},$$slots:{default:!0}});var v=i(_,2);s(v,{text:`expect suspend fun deleteAutoBackups(
+Android, but also in the backend.`))},$$slots:{default:!0}});var p=i(f,2);l(p,{children:(e,n)=>{r(),o(e,t(`Now that there is an official language server, I hope it will continue to evolve further. I’m kinda biased towards
+Kotlin for a couple of reasons. Irrespective of that, I think Kotlin is great at what it does.`))},$$slots:{default:!0}});var m=i(p,2);c(m,{level:1,children:(e,n)=>{r(),o(e,t(`Multiplatform with Kotlin`))},$$slots:{default:!0}});var h=i(m,2);l(h,{children:(e,t)=>{r();var n=re();r(4),o(e,n)},$$slots:{default:!0}});var g=i(h,2);l(g,{children:(e,n)=>{r(),o(e,t(`The core and common logic is separated from the respective platform stuff in a typical KMP project, so you end up
+writing platform-specific stuff individually while the common code remains the same across the targeted platforms.`))},$$slots:{default:!0}});var _=i(g,2);l(_,{children:(e,t)=>{var n=ie();r(5),o(e,n)},$$slots:{default:!0}});var v=i(_,2);s(v,{text:`expect suspend fun deleteAutoBackups(
     backupLocation: String,
     threshold: Int, onCompletion: (deletionCount: Int) -> Unit
-)`});var y=i(v,2);c(y,{children:(e,t)=>{r();var n=ae();r(2),o(e,n)},$$slots:{default:!0}});var b=i(y,2);c(b,{children:(e,n)=>{r(),o(e,t(`Now on Android, the implementation for this may look like:`))},$$slots:{default:!0}});var x=i(b,2);s(x,{text:`actual suspend fun deleteAutoBackups(
+)`});var y=i(v,2);l(y,{children:(e,t)=>{r();var n=ae();r(2),o(e,n)},$$slots:{default:!0}});var b=i(y,2);l(b,{children:(e,n)=>{r(),o(e,t(`Now on Android, the implementation for this may look like:`))},$$slots:{default:!0}});var x=i(b,2);s(x,{text:`actual suspend fun deleteAutoBackups(
     backupLocation: String, threshold: Int, onCompletion: (deletionCount: Int) -> Unit
 ) {
     try {
@@ -41,7 +41,7 @@ writing platform-specific stuff individually while the common code remains the s
         e.printStackTrace()
         e.pushSnackbar()
     }
-}`});var S=i(x,2);c(S,{children:(e,n)=>{r(),o(e,t(`But the same function’s implementation on a desktop target will look like:`))},$$slots:{default:!0}});var ve=i(S,2);s(ve,{text:`actual suspend fun deleteAutoBackups(
+}`});var S=i(x,2);l(S,{children:(e,n)=>{r(),o(e,t(`But the same function’s implementation on a desktop target will look like:`))},$$slots:{default:!0}});var ve=i(S,2);s(ve,{text:`actual suspend fun deleteAutoBackups(
     backupLocation: String, threshold: Int, onCompletion: (deletionCount: Int) -> Unit
 ) {
     try {
@@ -56,17 +56,17 @@ writing platform-specific stuff individually while the common code remains the s
         e.printStackTrace()
         e.pushSnackbar()
     }
-}`});var C=i(ve,2);c(C,{children:(e,n)=>{r(),o(e,t(`The platform-specific APIs or implementations get involved with this expect/actual mechanism, which makes things
-straightforward and pretty clear.`))},$$slots:{default:!0}});var w=i(C,2);c(w,{children:(e,t)=>{r();var n=oe();r(2),o(e,n)},$$slots:{default:!0}});var T=i(w,2);c(T,{children:(e,n)=>{r(),o(e,t(`If you are dealing with composables or classes or an interface implementation on specific platforms or anything that is
-platform-specific, this mechanism remains the same.`))},$$slots:{default:!0}});var E=i(T,2);c(E,{children:(e,n)=>{r(),o(e,t(`I never tried other multiplatform frameworks/tools, but I think this is the simplest yet finest way to deal with
+}`});var C=i(ve,2);l(C,{children:(e,n)=>{r(),o(e,t(`The platform-specific APIs or implementations get involved with this expect/actual mechanism, which makes things
+straightforward and pretty clear.`))},$$slots:{default:!0}});var w=i(C,2);l(w,{children:(e,t)=>{r();var n=oe();r(2),o(e,n)},$$slots:{default:!0}});var T=i(w,2);l(T,{children:(e,n)=>{r(),o(e,t(`If you are dealing with composables or classes or an interface implementation on specific platforms or anything that is
+platform-specific, this mechanism remains the same.`))},$$slots:{default:!0}});var E=i(T,2);l(E,{children:(e,n)=>{r(),o(e,t(`I never tried other multiplatform frameworks/tools, but I think this is the simplest yet finest way to deal with
 platform-level implementations, although most of the commonly used libraries like Coil, Ktor, koin, Room, and material
 components (via Compose multiplatform) already support KMP, but there may be cases where you have to stick with
-platform-level APIs, and I think KMP does it most finely.`))},$$slots:{default:!0}});var D=i(E,2);l(D,{level:2,children:(e,n)=>{r(),o(e,t(`The Nitpicks`))},$$slots:{default:!0}});var O=i(D,2);c(O,{children:(e,n)=>{r(),o(e,t(`Now the nitpick I have here has to do more with CMP than KMP: CMP is maintained by JetBrains, which is not on the latest
+platform-level APIs, and I think KMP does it most finely.`))},$$slots:{default:!0}});var D=i(E,2);c(D,{level:2,children:(e,n)=>{r(),o(e,t(`The Nitpicks`))},$$slots:{default:!0}});var O=i(D,2);l(O,{children:(e,n)=>{r(),o(e,t(`Now the nitpick I have here has to do more with CMP than KMP: CMP is maintained by JetBrains, which is not on the latest
 version regularly with respect to the upstream version, and some components like material expressive aren’t yet possible
-to use directly in the common codebase, but again, this is just a nitpick.`))},$$slots:{default:!0}});var k=i(O,2);c(k,{children:(e,n)=>{r(),o(e,t(`This has nothing to do with KMP, but you also need to know that yep, this sort of thing exists where you might end up
+to use directly in the common codebase, but again, this is just a nitpick.`))},$$slots:{default:!0}});var k=i(O,2);l(k,{children:(e,n)=>{r(),o(e,t(`This has nothing to do with KMP, but you also need to know that yep, this sort of thing exists where you might end up
 not using the library you used to use when on a single targeted codebase, so you end up writing your own thing in the
-common codebase or with expect/actual blocks, which is fine, at least for me.`))},$$slots:{default:!0}});var A=i(k,2);c(A,{children:(e,t)=>{r();var n=se();r(2),o(e,n)},$$slots:{default:!0}});var j=i(A,2);c(j,{children:(e,t)=>{r();var n=ce();r(2),o(e,n)},$$slots:{default:!0}});var M=i(j,2);l(M,{level:1,children:(e,n)=>{r(),o(e,t(`Coroutines and Flows in KMP`))},$$slots:{default:!0}});var N=i(M,2);c(N,{children:(e,t)=>{r();var n=le();r(2),o(e,n)},$$slots:{default:!0}});var P=i(N,2);c(P,{children:(e,t)=>{r();var n=ue();r(4),o(e,n)},$$slots:{default:!0}});var F=i(P,2);c(F,{children:(e,n)=>{r(),o(e,t(`We need the “Event-driven” style to complete the operation; this is, of course, your typical asynchronous use case,
-which Kotlin coroutines and flows do excellently in my usage.`))},$$slots:{default:!0}});var I=i(F,2);c(I,{children:(e,n)=>{r(),o(e,t(`This function needs to use platform-specific APIs to pick a directory:`))},$$slots:{default:!0}});var L=i(I,2);s(L,{text:`expect suspend fun pickADirectory(): String?`});var R=i(L,2);c(R,{children:(e,n)=>{r(),o(e,t(`Now, you would call this typically from a ViewModel or any other class; when dealing with the desktop target, this is
+common codebase or with expect/actual blocks, which is fine, at least for me.`))},$$slots:{default:!0}});var A=i(k,2);l(A,{children:(e,t)=>{r();var n=se();r(2),o(e,n)},$$slots:{default:!0}});var j=i(A,2);l(j,{children:(e,t)=>{r();var n=ce();r(2),o(e,n)},$$slots:{default:!0}});var M=i(j,2);c(M,{level:1,children:(e,n)=>{r(),o(e,t(`Coroutines and Flows in KMP`))},$$slots:{default:!0}});var N=i(M,2);l(N,{children:(e,t)=>{r();var n=le();r(2),o(e,n)},$$slots:{default:!0}});var P=i(N,2);l(P,{children:(e,t)=>{r();var n=ue();r(4),o(e,n)},$$slots:{default:!0}});var F=i(P,2);l(F,{children:(e,n)=>{r(),o(e,t(`We need the “Event-driven” style to complete the operation; this is, of course, your typical asynchronous use case,
+which Kotlin coroutines and flows do excellently in my usage.`))},$$slots:{default:!0}});var I=i(F,2);l(I,{children:(e,n)=>{r(),o(e,t(`This function needs to use platform-specific APIs to pick a directory:`))},$$slots:{default:!0}});var L=i(I,2);s(L,{text:`expect suspend fun pickADirectory(): String?`});var R=i(L,2);l(R,{children:(e,n)=>{r(),o(e,t(`Now, you would call this typically from a ViewModel or any other class; when dealing with the desktop target, this is
 straightforward, you implement something like:`))},$$slots:{default:!0}});var z=i(R,2);s(z,{text:`actual suspend fun pickADirectory(): String? {
     val fileDialog = FileDialog(
         Frame(),
@@ -76,7 +76,7 @@ straightforward, you implement something like:`))},$$slots:{default:!0}});var z=
     fileDialog.isVisible = true
     val sourceDirectory = File(fileDialog.directory)
     // rest of the implementation
-}`});var B=i(z,2);c(B,{children:(e,n)=>{r(),o(e,t(`When targeting Android, the implementation will be based on Android-specific APIs.`))},$$slots:{default:!0}});var V=i(B,2);c(V,{children:(e,t)=>{r();var n=de();r(6),o(e,n)},$$slots:{default:!0}});var H=i(V,2);c(H,{children:(e,t)=>{var n=fe();r(3),o(e,n)},$$slots:{default:!0}});var U=i(H,2);c(U,{children:(e,n)=>{r(),o(e,t(`The implementation would look like:`))},$$slots:{default:!0}});var W=i(U,2);s(W,{text:`actual suspend fun pickADirectory(): String? {
+}`});var B=i(z,2);l(B,{children:(e,n)=>{r(),o(e,t(`When targeting Android, the implementation will be based on Android-specific APIs.`))},$$slots:{default:!0}});var V=i(B,2);l(V,{children:(e,t)=>{r();var n=de();r(6),o(e,n)},$$slots:{default:!0}});var H=i(V,2);l(H,{children:(e,t)=>{var n=fe();r(3),o(e,n)},$$slots:{default:!0}});var U=i(H,2);l(U,{children:(e,n)=>{r(),o(e,t(`The implementation would look like:`))},$$slots:{default:!0}});var W=i(U,2);s(W,{text:`actual suspend fun pickADirectory(): String? {
     AndroidUIEvent.pushUIEvent(AndroidUIEvent.Type.PickADirectory)
     return suspendCancellableCoroutine { continuation ->
         val listenerJob = CoroutineScope(continuation.context).launch {
@@ -93,7 +93,7 @@ straightforward, you implement something like:`))},$$slots:{default:!0}});var z=
             listenerJob.cancel()
         }
     }
-}`});var G=i(W,2);c(G,{children:(e,t)=>{r();var n=pe();r(4),o(e,n)},$$slots:{default:!0}});var K=i(G,2);s(K,{text:`val activityResultLauncherForPickingADirectory =
+}`});var G=i(W,2);l(G,{children:(e,t)=>{r();var n=pe();r(4),o(e,n)},$$slots:{default:!0}});var K=i(G,2);s(K,{text:`val activityResultLauncherForPickingADirectory =
     rememberLauncherForActivityResult(contract = OpenDocumentTreeWithPermissionsContract()) { uri: Uri? ->
         // persist the URI permissions and then send back the URI
         coroutineScope.pushUIEvent(
@@ -107,11 +107,11 @@ LaunchedEffect(Unit) {
         activityResultLauncherForPickingADirectory.launch(null)
     }
     }
-}`});var q=i(K,2);c(q,{children:(e,t)=>{var n=me();r(),o(e,n)},$$slots:{default:!0}});var J=i(q,2);s(J,{text:` fun CoroutineScope.pushUIEvent(type: Type) {
+}`});var q=i(K,2);l(q,{children:(e,t)=>{var n=me();r(),o(e,n)},$$slots:{default:!0}});var J=i(q,2);s(J,{text:` fun CoroutineScope.pushUIEvent(type: Type) {
     this.launch {
         _androidUIEventChannel.send(type)
     }
-}`});var Y=i(J,2);c(Y,{children:(e,n)=>{r(),o(e,t(`So I think we are clear on the usage of coroutines in KMP. Similarly, I have also used shared flows in some cases, like:`))},$$slots:{default:!0}});var X=i(Y,2);s(X,{text:`@Composable
+}`});var Y=i(J,2);l(Y,{children:(e,n)=>{r(),o(e,t(`So I think we are clear on the usage of coroutines in KMP. Similarly, I have also used shared flows in some cases, like:`))},$$slots:{default:!0}});var X=i(Y,2);s(X,{text:`@Composable
 actual fun PlatformSpecificBackHandler(init: () -> Unit) {
     val navController = LocalNavController.current
     val coroutineScope = rememberCoroutineScope()
@@ -122,5 +122,5 @@ actual fun PlatformSpecificBackHandler(init: () -> Unit) {
             }
         }
     })
-}`});var Z=i(X,2);c(Z,{children:(e,n)=>{r(),o(e,t(`Which is collected from the Android codebase to minimize the app.`))},$$slots:{default:!0}});var Q=i(Z,2);c(Q,{children:(e,n)=>{r(),o(e,t(`I’m sure there are other ways to implement all of this, but I did it like this, and all this remains solid handling in
-my use cases.`))},$$slots:{default:!0}});var $=i(Q,4);c($,{children:(e,t)=>{r();var n=he();r(2),o(e,n)},$$slots:{default:!0}});var ye=i($,2);c(ye,{children:(e,t)=>{r();var n=ge();r(2),o(e,n)},$$slots:{default:!0}});var be=i(ye,2);te(n(be),{src:`/images/kmp-in-practice/kotlin-site-archive-capture-2014.png`}),e(be),o(a,u)}export{m as default,u as metadata};
+}`});var Z=i(X,2);l(Z,{children:(e,n)=>{r(),o(e,t(`Which is collected from the Android codebase to minimize the app.`))},$$slots:{default:!0}});var Q=i(Z,2);l(Q,{children:(e,n)=>{r(),o(e,t(`I’m sure there are other ways to implement all of this, but I did it like this, and all this remains solid handling in
+my use cases.`))},$$slots:{default:!0}});var $=i(Q,4);l($,{children:(e,t)=>{r();var n=he();r(2),o(e,n)},$$slots:{default:!0}});var ye=i($,2);l(ye,{children:(e,t)=>{r();var n=ge();r(2),o(e,n)},$$slots:{default:!0}});var be=i(ye,2);te(n(be),{src:`/images/kmp-in-practice/kotlin-site-archive-capture-2014.png`}),e(be),o(a,u)}export{m as default,u as metadata};

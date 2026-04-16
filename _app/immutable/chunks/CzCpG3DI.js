@@ -1,6 +1,6 @@
 var e=`---
 title: "Kotlin Multiplatform, in practice"
-description: "It Works, and It's Actually Good."
+description: "Multiplatform is fun, at least with Kotlin."
 pubDatetime: "Aug 03, 2025 07:30 PM IST" 
 ---
 

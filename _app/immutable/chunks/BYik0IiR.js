@@ -1,8 +1,13 @@
 var e=`---
-title: "Synchronization in Linkora"
-description: "Offline-First Two-Way Sync with Conflict Resolution That Just Works."
+title: "Data Synchronization in Linkora"
+description: "Old skool synchronization methods still hold up."
 pubDatetime: "Feb 16, 2025 01:05 PM IST"
 ---
+
+<Badge>Update (April 15, 2026)<br/><br/>This post goes over the custom sync setup that runs Linkora today, which
+combines an
+operation queue with basic Last-Write-Wins and tombstones. While this gets the job done for a single user, there are
+more solid ways to handle offline data, and I am currently looking into proper CRDTs.</Badge>
 
 [Linkora App](https://github.com/LinkoraApp/Linkora) uses multiple _techniques_ to make sure the data is synced with the
 remote database even when the [self-hostable sync-server](https://github.com/LinkoraApp/sync-server) is
