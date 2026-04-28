@@ -1,7 +1,8 @@
 var e=`---
 title: "Kotlin Multiplatform, in practice"
 description: "Multiplatform is fun, at least with Kotlin."
-pubDatetime: "Aug 03, 2025 07:30 PM IST" 
+pubDatetime: "Aug 03, 2025 07:30 PM IST"
+staticRes: "kmp-in-practice"
 ---
 
 [kotlinlang.org](https://kotlinlang.org/) used to say \`A modern programming language that makes developers happier\` and

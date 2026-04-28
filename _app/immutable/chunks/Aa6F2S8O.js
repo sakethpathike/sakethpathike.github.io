@@ -2,6 +2,7 @@ var e=`---
 title: "Data Synchronization in Linkora"
 description: "Old skool synchronization methods still hold up."
 pubDatetime: "Feb 16, 2025 01:05 PM IST"
+staticRes: "linkora-sync"
 ---
 
 <Badge>Update (April 15, 2026)<br/><br/>This post goes over the custom sync setup that runs Linkora today, which
