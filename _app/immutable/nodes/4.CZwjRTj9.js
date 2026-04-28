@@ -1,4 +1,4 @@
-import{B as e,H as t,R as n,S as r,U as i,X as a,Z as o,a as s,k as c,tt as l,w as u}from"../chunks/CXOUEYH_.js";import"../chunks/CFKVnMbq.js";import{t as d}from"../chunks/DM0zDPzu.js";import"../chunks/DCKuasBZ.js";import{t as f}from"../chunks/B2HDiynK.js";var p=`:root {
+import{B as e,H as t,R as n,S as r,U as i,X as a,Z as o,a as s,k as c,tt as l,w as u}from"../chunks/CXOUEYH_.js";import"../chunks/CFKVnMbq.js";import{t as d}from"../chunks/Bd_X8DsF.js";import"../chunks/DCKuasBZ.js";import{t as f}from"../chunks/B2HDiynK.js";var p=`:root {
     --font-text: 'Schibsted Grotesk', sans-serif;
     --font-heading: 'JetBrains Mono', monospace;
     --h-family: var(--font-heading);
@@ -125,4 +125,4 @@ a {
 `).map(e=>e.trim()).join(`
 `));let y=p.match(/body\.theme-light\s*{([^}]+)}/);y&&i(_,y[1].trim().split(`
 `).map(e=>e.trim()).join(`
-`)),s(),d(u,{currentBaseRoute:`misc`,meta:{ogImageSrc:`/images/misc.png`},children:(t,i)=>{var a=m(),o=e(n(a),14),s=e(n(o),2),u=n(s);f(u,{filename:`dark`,get text(){return c(g)}}),f(e(u,2),{filename:`light`,get text(){return c(_)}}),l(s),l(o),l(a),r(t,a)},$$slots:{default:!0}}),a()}export{h as component};
+`)),s(),d(u,{currentBaseRoute:`misc`,meta:{ogImageSrc:`https://sakethpathike.github.io/images/misc.png`},children:(t,i)=>{var a=m(),o=e(n(a),14),s=e(n(o),2),u=n(s);f(u,{filename:`dark`,get text(){return c(g)}}),f(e(u,2),{filename:`light`,get text(){return c(_)}}),l(s),l(o),l(a),r(t,a)},$$slots:{default:!0}}),a()}export{h as component};
