@@ -5,7 +5,7 @@ pubDatetime: "Jun 25, 2026 9:30 PM IST"
 staticRes: "web-capture-in-linkora"
 ---
 
-\`monolith\` is an amazing library built in Rust to save any webpage as a single, portable HTML page. The next version of
+[\`monolith\`](https://crates.io/crates/monolith) is an amazing library built in Rust to save any webpage as a single, portable HTML page. The next version of
 Linkora, v0.18.0, will have this feature called \`web-capture\` which completely depends on this library. The next few
 sections cover how this is implemented, plus the technical stuff that makes it work.
 
