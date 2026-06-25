@@ -1,6 +1,6 @@
 var e=`---
 title: "Data Synchronization in Linkora"
-description: "Old skool synchronization methods still hold up."
+description: ""
 pubDatetime: "Feb 16, 2025 01:05 PM IST"
 staticRes: "linkora-sync"
 ---
