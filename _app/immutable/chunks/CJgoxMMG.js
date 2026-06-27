@@ -1,4 +1,4 @@
-import{B as e,R as t,S as n,T as r,et as i,tt as a,w as o,z as s}from"./CXOUEYH_.js";import"./CFKVnMbq.js";import"./DCKuasBZ.js";import{t as c}from"./B2HDiynK.js";import{t as l}from"./N-6q-Igo.js";import{a as u,i as d,o as f,r as p,s as m}from"./CkcsRIrl.js";var h={title:`Data Synchronization in Linkora`,description:``,pubDatetime:`Feb 16, 2025 01:05 PM IST`,staticRes:`linkora-sync`},{title:g,description:_,pubDatetime:v,staticRes:y}=h,ee=o(`Update (April 15, 2026)<br/><br/>This post goes over the custom sync setup that runs Linkora today, which
+import{B as e,R as t,S as n,T as r,et as i,tt as a,w as o,z as s}from"./CXOUEYH_.js";import"./CFKVnMbq.js";import"./DCKuasBZ.js";import{t as c}from"./B2HDiynK.js";import{t as l}from"./N-6q-Igo.js";import{a as u,c as d,i as f,o as p,s as m}from"./DJSaBRCA.js";var h={title:`Data Synchronization in Linkora`,description:``,pubDatetime:`Feb 16, 2025 01:05 PM IST`,staticRes:`linkora-sync`},{title:g,description:_,pubDatetime:v,staticRes:y}=h,ee=o(`Update (April 15, 2026)<br/><br/>This post goes over the custom sync setup that runs Linkora today, which
 combines an
 operation queue with basic Last-Write-Wins and tombstones. While this gets the job done for a single user, there are
 more solid ways to handle offline data, and I am currently looking into proper CRDTs.`,1),te=o(`<a href="https://github.com/LinkoraApp/Linkora" rel="nofollow">Linkora App</a> uses multiple <em>techniques</em> to make sure the data is synced with the
@@ -21,7 +21,7 @@ anything about it)</em> .`,1),pe=o(`In conclusion, the following image should gi
 and is needed for the <code>sync-server</code> :`,1),he=o(`<code>Client-to-Server</code> focuses on pushing changes, while <code>Server-to-Client</code> focuses on reading changes that occurred on the remote database through the server.`,1),ge=o(`The app saves a <code>TIME_STAMP</code> in its preferences, updated at every successful remote request. The <code>TIME_STAMP</code> value is
 sent from the server (since server operations happen there).`,1),_e=o(`<strong>Using sockets</strong> if both app and server are online.`,1),ve=o(`<strong>Custom implementations</strong> if the client is offline or disconnected from the server.`,1),ye=o(`Updating data after the last known <!>.`,1),be=o(`We track deleted items using a server-side <code>Tombstone</code> table structured as:`,1),xe=o(`As mentioned earlier, the local database in the app contains a column called <code>lastModified</code> . Similarly, tables in the
 remote database also include this column. The app sends its last known <code>TIME_STAMP</code> to the server, which returns all
-changes made after that timestamp:`,1),Se=o(`In conclusion, the following images should give you a clear idea of how all these components work together to make sure <code>Server-to-Client</code> sync operates as expected:`,1),Ce=o(`If both app and server are online. <!>`,1),we=o(`If the client is offline or disconnected from the server. <!>`,1),Te=o(`<!> <!> <!> <ul><!><!><!></ul> <!> <!> <!> <!> <!> <!> <ol><!></ol> <!> <!> <!> <ol><!><!><!></ol> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <p><!></p> <!> <!> <!> <!> <!> <!> <!> <!> <ol><!><!></ol> <!> <!> <!> <!> <!> <!> <ol><!><!></ol> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <ol><!><!></ol> <div style="height: 6px"></div> <hr/> <!>`,1);function b(o){var h=Te(),g=s(h);l(g,{children:(e,t)=>{i();var r=ee();i(3),n(e,r)},$$slots:{default:!0}});var _=e(g,2);p(_,{children:(e,t)=>{var r=te();i(5),n(e,r)},$$slots:{default:!0}});var v=e(_,2);p(v,{children:(e,t)=>{i();var r=ne();i(2),n(e,r)},$$slots:{default:!0}});var y=e(v,2),b=t(y);d(b,{children:(e,t)=>{u(e,{text:`Client To Server`})},$$slots:{default:!0}});var x=e(b);d(x,{children:(e,t)=>{u(e,{text:`Server To Client`})},$$slots:{default:!0}}),d(e(x),{children:(e,t)=>{u(e,{text:`Two-Way Sync`})},$$slots:{default:!0}}),a(y);var S=e(y,2);p(S,{children:(e,t)=>{i(),n(e,r(`Based on the selected option, Linkora will handle the respective implementations.`))},$$slots:{default:!0}});var C=e(S,2);p(C,{children:(e,t)=>{i(),n(e,r(`All this in a nutshell looks like:`))},$$slots:{default:!0}});var w=e(C,2);c(w,{text:`suspend fun syncData() {
+changes made after that timestamp:`,1),Se=o(`In conclusion, the following images should give you a clear idea of how all these components work together to make sure <code>Server-to-Client</code> sync operates as expected:`,1),Ce=o(`If both app and server are online. <!>`,1),we=o(`If the client is offline or disconnected from the server. <!>`,1),Te=o(`<!> <!> <!> <ul><!><!><!></ul> <!> <!> <!> <!> <!> <!> <ol><!></ol> <!> <!> <!> <ol><!><!><!></ol> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <p><!></p> <!> <!> <!> <!> <!> <!> <!> <!> <ol><!><!></ol> <!> <!> <!> <!> <!> <!> <ol><!><!></ol> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <!> <ol><!><!></ol> <div style="height: 6px"></div> <hr/> <!>`,1);function b(o){var h=Te(),g=s(h);l(g,{children:(e,t)=>{i();var r=ee();i(3),n(e,r)},$$slots:{default:!0}});var _=e(g,2);f(_,{children:(e,t)=>{var r=te();i(5),n(e,r)},$$slots:{default:!0}});var v=e(_,2);f(v,{children:(e,t)=>{i();var r=ne();i(2),n(e,r)},$$slots:{default:!0}});var y=e(v,2),b=t(y);u(b,{children:(e,t)=>{f(e,{children:(e,t)=>{p(e,{text:`Client To Server`})},$$slots:{default:!0}})},$$slots:{default:!0}});var x=e(b);u(x,{children:(e,t)=>{f(e,{children:(e,t)=>{p(e,{text:`Server To Client`})},$$slots:{default:!0}})},$$slots:{default:!0}}),u(e(x),{children:(e,t)=>{f(e,{children:(e,t)=>{p(e,{text:`Two-Way Sync`})},$$slots:{default:!0}})},$$slots:{default:!0}}),a(y);var S=e(y,2);f(S,{children:(e,t)=>{i(),n(e,r(`Based on the selected option, Linkora will handle the respective implementations.`))},$$slots:{default:!0}});var C=e(S,2);f(C,{children:(e,t)=>{i(),n(e,r(`All this in a nutshell looks like:`))},$$slots:{default:!0}});var w=e(C,2);c(w,{text:`suspend fun syncData() {
     if (canPushToServer()) {
         pushUnSyncedDataToServer()
     }
@@ -37,7 +37,7 @@ changes made after that timestamp:`,1),Se=o(`In conclusion, the following images
             updateLocalDataBasedOnRemoteUpdates(it)
         }
     }
-}`});var T=e(w,2);p(T,{children:(e,t)=>{i();var r=re();i(6),n(e,r)},$$slots:{default:!0}});var E=e(T,2);m(E,{level:3,children:(e,t)=>{i(),n(e,r(`1. Client-to-Server`))},$$slots:{default:!0}});var D=e(E,2);p(D,{children:(e,t)=>{i(),n(e,r(`In this case, we only need to consider:`))},$$slots:{default:!0}});var O=e(D,2);d(t(O),{children:(t,r)=>{i();var a=ie(),o=e(s(a));u(o,{text:`CREATE`});var c=e(o,2);u(c,{text:`UPDATE`});var l=e(c,2);u(l,{text:`DELETE`}),u(e(l,2),{text:`sync-server`}),i(),n(t,a)},$$slots:{default:!0}}),a(O);var k=e(O,2);p(k,{children:(e,t)=>{i();var r=ae();i(2),n(e,r)},$$slots:{default:!0}});var A=e(k,2);c(A,{text:`fun <LocalType, RemoteType> performLocalOperationWithRemoteSyncFlow(
+}`});var T=e(w,2);f(T,{children:(e,t)=>{i();var r=re();i(6),n(e,r)},$$slots:{default:!0}});var E=e(T,2);d(E,{level:3,children:(e,t)=>{i(),n(e,r(`1. Client-to-Server`))},$$slots:{default:!0}});var D=e(E,2);f(D,{children:(e,t)=>{i(),n(e,r(`In this case, we only need to consider:`))},$$slots:{default:!0}});var O=e(D,2);u(t(O),{children:(t,r)=>{f(t,{children:(t,r)=>{i();var a=ie(),o=e(s(a));p(o,{text:`CREATE`});var c=e(o,2);p(c,{text:`UPDATE`});var l=e(c,2);p(l,{text:`DELETE`}),p(e(l,2),{text:`sync-server`}),i(),n(t,a)},$$slots:{default:!0}})},$$slots:{default:!0}}),a(O);var k=e(O,2);f(k,{children:(e,t)=>{i();var r=ae();i(2),n(e,r)},$$slots:{default:!0}});var A=e(k,2);c(A,{text:`fun <LocalType, RemoteType> performLocalOperationWithRemoteSyncFlow(
     performRemoteOperation: Boolean,
     remoteOperation: suspend () -> Flow<Result<RemoteType>> = { emptyFlow() },
     remoteOperationOnSuccess: suspend (RemoteType) -> Unit = {},
@@ -67,13 +67,13 @@ changes made after that timestamp:`,1),Se=o(`In conclusion, the following images
             onRemoteOperationFailure()
         }
     })
-}`});var j=e(A,2);p(j,{children:(e,t)=>{i(),n(e,r(`It may seem like a lot is happening, but it’s not. What this does is:`))},$$slots:{default:!0}});var M=e(j,2),N=t(M);d(N,{children:(e,t)=>{i(),n(e,r(`Perform local operation.`))},$$slots:{default:!0}});var P=e(N);d(P,{children:(e,t)=>{i(),n(e,r(`Try to push changes. If successful, the operation is successful.`))},$$slots:{default:!0}}),d(e(P),{children:(t,r)=>{i();var a=oe(),o=e(s(a));u(o,{text:`onRemoteOperationFailure()`});var c=e(o,2);u(c,{text:`Client-to-Server`}),u(e(c,2),{text:`Two-Way Sync`}),i(),n(t,a)},$$slots:{default:!0}}),a(M);var F=e(M,2);p(F,{children:(e,t)=>{i(),n(e,r(`Now we need to figure out how to save the operations locally when there’s a failure on the remote server (mostly because
-the server is down), so once the server is up, Linkora App can send those operations.`))},$$slots:{default:!0}});var I=e(F,2);p(I,{children:(e,t)=>{i();var r=se();i(2),n(e,r)},$$slots:{default:!0}});var L=e(I,2);c(L,{text:`@Entity("pending_sync_queue")
+}`});var j=e(A,2);f(j,{children:(e,t)=>{i(),n(e,r(`It may seem like a lot is happening, but it’s not. What this does is:`))},$$slots:{default:!0}});var M=e(j,2),N=t(M);u(N,{children:(e,t)=>{f(e,{children:(e,t)=>{i(),n(e,r(`Perform local operation.`))},$$slots:{default:!0}})},$$slots:{default:!0}});var P=e(N);u(P,{children:(e,t)=>{f(e,{children:(e,t)=>{i(),n(e,r(`Try to push changes. If successful, the operation is successful.`))},$$slots:{default:!0}})},$$slots:{default:!0}}),u(e(P),{children:(t,r)=>{f(t,{children:(t,r)=>{i();var a=oe(),o=e(s(a));p(o,{text:`onRemoteOperationFailure()`});var c=e(o,2);p(c,{text:`Client-to-Server`}),p(e(c,2),{text:`Two-Way Sync`}),i(),n(t,a)},$$slots:{default:!0}})},$$slots:{default:!0}}),a(M);var F=e(M,2);f(F,{children:(e,t)=>{i(),n(e,r(`Now we need to figure out how to save the operations locally when there’s a failure on the remote server (mostly because
+the server is down), so once the server is up, Linkora App can send those operations.`))},$$slots:{default:!0}});var I=e(F,2);f(I,{children:(e,t)=>{i();var r=se();i(2),n(e,r)},$$slots:{default:!0}});var L=e(I,2);c(L,{text:`@Entity("pending_sync_queue")
 data class PendingSyncQueue(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val operation: String,
     val payload: String
-)`});var R=e(L,2);p(R,{children:(e,t)=>{i();var r=ce();i(4),n(e,r)},$$slots:{default:!0}});var z=e(R,2);p(z,{children:(e,t)=>{i(),n(e,r(`A simple example of how this is done:`))},$$slots:{default:!0}});var B=e(z,2);c(B,{text:`onRemoteOperationFailure = {
+)`});var R=e(L,2);f(R,{children:(e,t)=>{i();var r=ce();i(4),n(e,r)},$$slots:{default:!0}});var z=e(R,2);f(z,{children:(e,t)=>{i(),n(e,r(`A simple example of how this is done:`))},$$slots:{default:!0}});var B=e(z,2);c(B,{text:`onRemoteOperationFailure = {
     pendingSyncQueueRepo.addInQueue(
         PendingSyncQueue(
             operation = RemoteRoute.Link.ARCHIVE_LINK.name,
@@ -84,7 +84,7 @@ data class PendingSyncQueue(
             )
         )
     )
-}`});var V=e(B,2);p(V,{children:(e,t)=>{i();var r=le();i(6),n(e,r)},$$slots:{default:!0}});var H=e(V,2);c(H,{text:`@Serializable
+}`});var V=e(B,2);f(V,{children:(e,t)=>{i();var r=le();i(6),n(e,r)},$$slots:{default:!0}});var H=e(V,2);c(H,{text:`@Serializable
 data class IDBasedDTO(
     val id: Long,
     val eventTimestamp: Long,
@@ -94,7 +94,7 @@ data class IDBasedDTO(
 @Serializable
 data class Correlation(
     val id: String, val clientName: String
-)`});var Ee=e(H,2);p(Ee,{children:(e,t)=>{var r=ue();i(3),n(e,r)},$$slots:{default:!0}});var U=e(Ee,2);p(U,{children:(e,t)=>{i();var r=de();i(2),n(e,r)},$$slots:{default:!0}});var W=e(U,2);c(W,{text:`when (queue.operation) {
+)`});var Ee=e(H,2);f(Ee,{children:(e,t)=>{var r=ue();i(3),n(e,r)},$$slots:{default:!0}});var U=e(Ee,2);f(U,{children:(e,t)=>{i();var r=de();i(2),n(e,r)},$$slots:{default:!0}});var W=e(U,2);c(W,{text:`when (queue.operation) {
     ARCHIVE_LINK.name -> {
         val idBasedDTO = Json.decodeFromString<IDBasedDTO>(queueItem.payload)
         val remoteLinkId = localLinksRepo.getRemoteLinkId(idBasedDTO.id)
@@ -118,7 +118,7 @@ private suspend inline fun Flow<Result<TimeStampBasedResponse>>.removeQueueItemA
 data class TimeStampBasedResponse(
     val eventTimestamp: Long,
     val message: String
-)`});var G=e(W,2);p(G,{children:(e,t)=>{i();var r=fe();i(2),n(e,r)},$$slots:{default:!0}});var K=e(G,2);p(K,{children:(e,t)=>{i();var r=pe();i(2),n(e,r)},$$slots:{default:!0}});var q=e(K,2);f(t(q),{src:`/images/linkora-sync/client-to-server.png`}),a(q);var J=e(q,2);p(J,{children:(e,t)=>{i(),n(e,r(`Now on the server-side, LWW (Last Write Wins) is implemented for some routes where updating is required. This makes sure
+)`});var G=e(W,2);f(G,{children:(e,t)=>{i();var r=fe();i(2),n(e,r)},$$slots:{default:!0}});var K=e(G,2);f(K,{children:(e,t)=>{i();var r=pe();i(2),n(e,r)},$$slots:{default:!0}});var q=e(K,2);m(t(q),{src:`/images/linkora-sync/client-to-server.png`}),a(q);var J=e(q,2);f(J,{children:(e,t)=>{i(),n(e,r(`Now on the server-side, LWW (Last Write Wins) is implemented for some routes where updating is required. This makes sure
 the server only updates newer values in case all clients and the server aren’t up at the same time:`))},$$slots:{default:!0}});var De=e(J,2);c(De,{text:`// on server-side
 private fun checkForLWWConflictAndThrow(id: Long, timeStamp: Long) {
     transaction {
@@ -139,7 +139,7 @@ override suspend fun markAsArchive(idBasedDTO: IDBasedDTO): Result<TimeStampBase
     } catch (e: Exception) {
         Result.Failure(e)
     }
-}`});var Oe=e(De,2);p(Oe,{children:(e,t)=>{i();var r=me();i(4),n(e,r)},$$slots:{default:!0}});var ke=e(Oe,2);c(ke,{text:`@Entity(tableName = "folders")
+}`});var Oe=e(De,2);f(Oe,{children:(e,t)=>{i();var r=me();i(4),n(e,r)},$$slots:{default:!0}});var ke=e(Oe,2);c(ke,{text:`@Entity(tableName = "folders")
 @Serializable
 data class Folder(
     val name: String,
@@ -150,7 +150,7 @@ data class Folder(
     val remoteId: Long? = null,
     val isArchived: Boolean = false,
     val lastModified: Long
-)`});var Ae=e(ke,2);m(Ae,{level:3,children:(e,t)=>{i(),n(e,r(`2. Server-to-Client`))},$$slots:{default:!0}});var je=e(Ae,2);p(je,{children:(e,t)=>{var r=he();i(3),n(e,r)},$$slots:{default:!0}});var Me=e(je,2);p(Me,{children:(e,t)=>{i();var r=ge();i(4),n(e,r)},$$slots:{default:!0}});var Ne=e(Me,2);p(Ne,{children:(e,t)=>{i(),n(e,r(`Changes can be read in two ways:`))},$$slots:{default:!0}});var Y=e(Ne,2),Pe=t(Y);d(Pe,{children:(e,t)=>{var r=_e();i(),n(e,r)},$$slots:{default:!0}}),d(e(Pe),{children:(e,t)=>{var r=ve();i(),n(e,r)},$$slots:{default:!0}}),a(Y);var Fe=e(Y,2);m(Fe,{level:3,children:(e,t)=>{i(),n(e,r(`1. Using sockets if both app and server are online`))},$$slots:{default:!0}});var Ie=e(Fe,2);p(Ie,{children:(e,t)=>{i(),n(e,r(`When both app and server are online, it’s simple: use sockets and update as required. Linkora App handles this as
+)`});var Ae=e(ke,2);d(Ae,{level:3,children:(e,t)=>{i(),n(e,r(`2. Server-to-Client`))},$$slots:{default:!0}});var je=e(Ae,2);f(je,{children:(e,t)=>{var r=he();i(3),n(e,r)},$$slots:{default:!0}});var Me=e(je,2);f(Me,{children:(e,t)=>{i();var r=ge();i(4),n(e,r)},$$slots:{default:!0}});var Ne=e(Me,2);f(Ne,{children:(e,t)=>{i(),n(e,r(`Changes can be read in two ways:`))},$$slots:{default:!0}});var Y=e(Ne,2),Pe=t(Y);u(Pe,{children:(e,t)=>{f(e,{children:(e,t)=>{var r=_e();i(),n(e,r)},$$slots:{default:!0}})},$$slots:{default:!0}}),u(e(Pe),{children:(e,t)=>{f(e,{children:(e,t)=>{var r=ve();i(),n(e,r)},$$slots:{default:!0}})},$$slots:{default:!0}}),a(Y);var Fe=e(Y,2);d(Fe,{level:3,children:(e,t)=>{i(),n(e,r(`1. Using sockets if both app and server are online`))},$$slots:{default:!0}});var Ie=e(Fe,2);f(Ie,{children:(e,t)=>{i(),n(e,r(`When both app and server are online, it’s simple: use sockets and update as required. Linkora App handles this as
 follows:`))},$$slots:{default:!0}});var Le=e(Ie,2);c(Le,{text:`private suspend fun updateLocalDBAccordingToEvent(
     deserializedWebSocketEvent: WebSocketEvent
 ) {
@@ -172,11 +172,11 @@ follows:`))},$$slots:{default:!0}});var Le=e(Ie,2);c(Le,{text:`private suspend f
             }
         }
     }
-}`});var Re=e(Le,2);p(Re,{children:(e,t)=>{i(),n(e,r(`Similarly handle for every possible operation.`))},$$slots:{default:!0}});var ze=e(Re,2);m(ze,{level:3,children:(e,t)=>{i(),n(e,r(`2. Custom implementations if the client is offline or disconnected from the server`))},$$slots:{default:!0}});var Be=e(ze,2);p(Be,{children:(e,t)=>{i(),n(e,r(`We need to handle two scenarios if the client is offline or disconnected from the server:`))},$$slots:{default:!0}});var X=e(Be,2),Ve=t(X);d(Ve,{children:(e,t)=>{i(),n(e,r(`Handling deletions.`))},$$slots:{default:!0}}),d(e(Ve),{children:(t,r)=>{i();var a=ye();u(e(s(a)),{text:`TIME_STAMP`}),i(),n(t,a)},$$slots:{default:!0}}),a(X);var He=e(X,2);m(He,{level:3,children:(e,t)=>{i(),n(e,r(`2.1 Handling deletions when offline`))},$$slots:{default:!0}});var Ue=e(He,2);p(Ue,{children:(e,t)=>{i();var r=be();i(2),n(e,r)},$$slots:{default:!0}});var We=e(Ue,2);c(We,{text:`object TombstoneTable : LongIdTable("tombstone") {
+}`});var Re=e(Le,2);f(Re,{children:(e,t)=>{i(),n(e,r(`Similarly handle for every possible operation.`))},$$slots:{default:!0}});var ze=e(Re,2);d(ze,{level:3,children:(e,t)=>{i(),n(e,r(`2. Custom implementations if the client is offline or disconnected from the server`))},$$slots:{default:!0}});var Be=e(ze,2);f(Be,{children:(e,t)=>{i(),n(e,r(`We need to handle two scenarios if the client is offline or disconnected from the server:`))},$$slots:{default:!0}});var X=e(Be,2),Ve=t(X);u(Ve,{children:(e,t)=>{f(e,{children:(e,t)=>{i(),n(e,r(`Handling deletions.`))},$$slots:{default:!0}})},$$slots:{default:!0}}),u(e(Ve),{children:(t,r)=>{f(t,{children:(t,r)=>{i();var a=ye();p(e(s(a)),{text:`TIME_STAMP`}),i(),n(t,a)},$$slots:{default:!0}})},$$slots:{default:!0}}),a(X);var He=e(X,2);d(He,{level:3,children:(e,t)=>{i(),n(e,r(`2.1 Handling deletions when offline`))},$$slots:{default:!0}});var Ue=e(He,2);f(Ue,{children:(e,t)=>{i();var r=be();i(2),n(e,r)},$$slots:{default:!0}});var We=e(Ue,2);c(We,{text:`object TombstoneTable : LongIdTable("tombstone") {
     val deletedAt = long("deleted_at")
     val operation = text("operation")
     val payload = text("payload")
-}`});var Ge=e(We,2);p(Ge,{children:(e,t)=>{i(),n(e,r(`The following example should give a brief idea about how this table is used:`))},$$slots:{default:!0}});var Ke=e(Ge,2);c(Ke,{text:`transaction {
+}`});var Ge=e(We,2);f(Ge,{children:(e,t)=>{i(),n(e,r(`The following example should give a brief idea about how this table is used:`))},$$slots:{default:!0}});var Ke=e(Ge,2);c(Ke,{text:`transaction {
     TombStoneHelper.insert(
         payload = Json.encodeToString(idBasedDTO),
         operation = LinkRoute.DELETE_A_LINK.name,
@@ -185,8 +185,8 @@ follows:`))},$$slots:{default:!0}});var Le=e(Ie,2);c(Le,{text:`private suspend f
     LinksTable.deleteWhere {
         id.eq(idBasedDTO.id)
     }
-}`});var Z=e(Ke,2);p(Z,{children:(e,t)=>{i(),n(e,r(`And now on the client side, when both the app and server are online, we pull these tombstone records and delete the
-corresponding items locally.`))},$$slots:{default:!0}});var qe=e(Z,2);m(qe,{level:3,children:(e,t)=>{i(),n(e,r(`2.2 Updating data after the last known TIME_STAMP`))},$$slots:{default:!0}});var Je=e(qe,2);p(Je,{children:(e,t)=>{i();var r=xe();i(4),n(e,r)},$$slots:{default:!0}});var Ye=e(Je,2);c(Ye,{text:`LinksTable.selectAll().where {
+}`});var Z=e(Ke,2);f(Z,{children:(e,t)=>{i(),n(e,r(`And now on the client side, when both the app and server are online, we pull these tombstone records and delete the
+corresponding items locally.`))},$$slots:{default:!0}});var qe=e(Z,2);d(qe,{level:3,children:(e,t)=>{i(),n(e,r(`2.2 Updating data after the last known TIME_STAMP`))},$$slots:{default:!0}});var Je=e(qe,2);f(Je,{children:(e,t)=>{i();var r=xe();i(4),n(e,r)},$$slots:{default:!0}});var Ye=e(Je,2);c(Ye,{text:`LinksTable.selectAll().where {
     LinksTable.lastModified.greater(TIME_STAMP)
 }.toList().forEach {
     updatedLinks.add(
@@ -205,5 +205,5 @@ corresponding items locally.`))},$$slots:{default:!0}});var qe=e(Z,2);m(qe,{leve
             eventTimestamp = it[LinksTable.lastModified]
         )
     )
-}`});var Xe=e(Ye,2);p(Xe,{children:(e,t)=>{i(),n(e,r(`Now the collected updates will be sent back to client, which it will update accordingly.`))},$$slots:{default:!0}});var Ze=e(Xe,2);p(Ze,{children:(e,t)=>{i();var r=Se();i(2),n(e,r)},$$slots:{default:!0}});var Q=e(Ze,2),$=t(Q);d($,{children:(t,r)=>{i();var a=Ce();f(e(s(a)),{src:`/images/linkora-sync/server-to-client-with-socket.png`}),n(t,a)},$$slots:{default:!0}}),d(e($),{children:(t,r)=>{i();var a=we();f(e(s(a)),{src:`/images/linkora-sync/server-to-client-with-manual.png`}),n(t,a)},$$slots:{default:!0}}),a(Q),p(e(Q,6),{children:(e,t)=>{i(),n(e,r(`Overall, this is how synchronization works in Linkora. These operations are also used when performing manual syncing or
+}`});var Xe=e(Ye,2);f(Xe,{children:(e,t)=>{i(),n(e,r(`Now the collected updates will be sent back to client, which it will update accordingly.`))},$$slots:{default:!0}});var Ze=e(Xe,2);f(Ze,{children:(e,t)=>{i();var r=Se();i(2),n(e,r)},$$slots:{default:!0}});var Q=e(Ze,2),$=t(Q);u($,{children:(t,r)=>{f(t,{children:(t,r)=>{i();var a=Ce();m(e(s(a)),{src:`/images/linkora-sync/server-to-client-with-socket.png`}),n(t,a)},$$slots:{default:!0}})},$$slots:{default:!0}}),u(e($),{children:(t,r)=>{f(t,{children:(t,r)=>{i();var a=we();m(e(s(a)),{src:`/images/linkora-sync/server-to-client-with-manual.png`}),n(t,a)},$$slots:{default:!0}})},$$slots:{default:!0}}),a(Q),f(e(Q,6),{children:(e,t)=>{i(),n(e,r(`Overall, this is how synchronization works in Linkora. These operations are also used when performing manual syncing or
 importing data from external files, but that is outside the context of this topic, hence I didn’t include it.`))},$$slots:{default:!0}}),n(o,h)}export{b as default,h as metadata};
