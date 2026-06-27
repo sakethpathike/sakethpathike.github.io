@@ -1,7 +1,7 @@
 var e=`---
 title: "Building Webpage Capture in Linkora"
 description: "Rust, JNI, file descriptors, and coroutines that don't know they've been cancelled."
-pubDatetime: "Jun 25, 2026 9:30 PM IST"
+pubDatetime: "Jun 27, 2026 9:30 PM IST"
 staticRes: "web-capture-in-linkora"
 ---
 
