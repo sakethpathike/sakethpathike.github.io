@@ -365,23 +365,48 @@ Coroutine cancellation affects children of a parent scope which might involve th
 be affected by these cancellations. In fact, the Kotlin coroutine never truly gets cancelled or completed until the Rust
 operations are completed.
 
-Thread is the only subject that both Rust and Kotlin understand. Rust knows nothing about Kotlin coroutines. A coroutine
-in Kotlin is a state machine that happens to be cooperative, managed via structured concurrency and dispatchers across
-threads. Normally, when a Kotlin coroutine gets cancelled, its execution stops, it yields its resources back to the
-thread pool, and the GC clears up the memory. It doesn't cancel any thread because it is not a thread to begin with.
+The thread is the only subject that both Rust and Kotlin understand. Rust knows nothing
+about Kotlin coroutines. A coroutine in Kotlin is a heap-allocated state object managed by
+Dispatchers and Structured Concurrency. It relies on sequential invocations of \`resumeWith\`
+to drive its compiled \`invokeSuspend\` state machine (\`suspend\` functions), yielding control
+back to the executing thread whenever it hits a suspension point so other tasks can be
+resumed or started.
 
-But when Kotlin calls Rust, Rust uses the physical OS thread which the coroutine was operating on. The thread is now in
-control of Rust and not Kotlin. Since Kotlin cannot safely nuke an active OS thread without crashing the app, the thread
-is not released back to the pool. Rust is still fetching and will eventually write to the files for the calls that have
-been made.
+Normally, when a Kotlin coroutine gets cancelled, its cancellation status is
+flagged. A \`CancellationException\` is then thrown the next time the coroutine enters or is
+resumed at a suspension point that checks for cancellation status. This means cancellation
+is cooperative and not instantaneous, as the exception is only triggered when the coroutine
+enters or is resumed at a suspension point that actively validates the cancellation state.
+It doesn't cancel or interrupt any thread during this process because it is not a thread to
+begin with.
 
-Of course, the calls which don't reach Rust will never be downloaded. But the ones that got in before cancellation will
-have no effect from this cancellation and continue to do whatever they are doing.
+This cooperative model only applies where suspension points exist. A blocking JNI call into
+native code falls into the same category, such as a Rust function invoked synchronously with
+no \`delay\`, \`yield\`, or other suspend call anywhere inside it:
 
-Kotlin will only throw the \`CancellationException\`, or whatever you are manually throwing, when Rust finally completes
-its
-work and hands the thread back. If you are using \`invokeOnCompletion\`, this will only get triggered when Rust completes
-the operation.
+\`\`\`kotlin
+val job = launch(PlatformIODispatcher) {
+    val result = webCapture.saveHTMLPage(...) // blocking JNI call, no suspension point inside
+}
+job.cancel() // native call keeps running regardless
+\`\`\`
+
+Wrapping the call in a coroutine doesn't make it interruptible on its own. There's nothing
+inside the native call for the runtime to intercept, so the coroutine only notices the
+cancellation once the call returns and execution reaches a suspension point that actually
+checks for it. Making a call like this cancellable means wrapping it with
+\`suspendCancellableCoroutine\` instead, which gives a hook to signal the native side to abort,
+if the native API supports that.
+
+For cleanup tied directly to cancellation, \`CancellableContinuation\` provides \`invokeOnCancellation\`, a handler
+registered on the continuation itself. It acts as an anchor inside \`suspendCancellableCoroutine\` to run cleanup the
+moment the cancellation signal hits while the coroutine is still paused. This allows us to trigger our cleanup code to
+abort the Rust function, because if we waited for the coroutine to resume, the Rust function would have
+already finished and there would be nothing left to nuke.
+
+If you're using \`invokeOnCompletion\`, the same applies: it only fires once Rust completes
+the operation and hands the thread back.
+
 Consider the following code:
 
 \`\`\`
@@ -402,7 +427,7 @@ testScope.launch {
         try {
             emit(Result.Loading("web-capture: Downloading $url"))
             webCapture.saveHTMLPage(
-                nativeFolderPath = preferencesRepository.getPreferences().webCapturesLocation,
+                nativeFolderPath = webCapturesLocation,
                 url = url,
                 ...
             ).onSuccess {
@@ -517,6 +542,7 @@ Here are some links I went through via search results while working on this \`we
 6. https://www.reddit.com/r/rust/comments/1cpjyib/to_catch_unwind_or_not_to_catch_unwind/
 7. https://source.android.com/docs/setup/build/rust/building-rust-modules/android-rust-patterns#android-logging
 8. https://docs.rs/android_logger/0.10.1/android_logger/
+9. https://kotlinlang.org/spec/asynchronous-programming-with-coroutines.html
 
 This feature is currently on the \`dev\` branch since it is not yet completed for a release. If you want to see how this
 works across Android and Desktop via Kotlin Multiplatform, check
