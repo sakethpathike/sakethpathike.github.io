@@ -1,6 +1,6 @@
 var e=`---
 title: "Building Webpage Capture in Linkora"
-description: "Rust, JNI, file descriptors, and coroutines that don't know they've been cancelled."
+description: "Rust, JNI, file descriptors, and forking monolith to support coroutines that don't know they've been cancelled."
 pubDatetime: "Jun 27, 2026 9:30 PM IST"
 staticRes: "web-capture-in-linkora"
 ---
@@ -13,9 +13,13 @@ constraints shaping it (i.e. this is a log and not a tutorial nor any sort of gu
 **TL;DR**: Web capture in Linkora v0.18.0 currently boils down to passing a file descriptor to Rust so it can write
 directly to disk. The rest of this log covers the why: how heap memory differs between Rust and ART, how JNI handles
 data types and exceptions, what happens to coroutine cancellations when Rust takes over the thread, why the other three
-approaches risk leaking or aren't worth the hassle, and the current benchmarks on concurrent downloads.
+approaches risk leaking or aren't worth the hassle, why cancellation needed a \`monolith\` fork (\`capture-core\`) to
+actually
+reach Rust, how callbacks replace JNI exceptions for error reporting, how results get routed back to Kotlin from
+whatever thread \`tokio\` hands the work to, and the current benchmarks on concurrent
+downloads.
 
-### Heap
+# Heap
 
 Before starting the actual implementation, we need to know how heap memory is managed by Android Runtime (ART) and Rust.
 Since heap memory gets allocated dynamically during runtime, some things might not work the way we expect when
@@ -35,7 +39,7 @@ integrating things like this.
 Now with this integration, we're supposed to respect these constraints and only access or share data that isn't going to
 crash at runtime, since there's no way to verify the integration of these two at compile time.
 
-### JNI
+# JNI
 
 Thankfully, JNI does the heavy lifting here and we have to think about very few things that we're supposed to handle.
 With Linkora, we're supposed to handle the HTML content returned by the \`monolith\` library and write it to the folder
@@ -95,7 +99,7 @@ whatever it's supposed to. Although it doesn't throw instantly, when you do \`en
 holds onto that pending exception and throws it the moment Rust completes its operations and hands control back
 over to Kotlin.
 
-### Writing to file
+# Writing to file
 
 Now that we have essentially everything we need, writing the HTML content to a file on disk is what remains. Things are
 fun here, since doing it differently could just lead to dangling pointers. I've thought about this in a couple of ways:
@@ -128,10 +132,10 @@ Before the fourth approach though, I went through the first three *on paper*, an
 3. The third approach is more practical than either of these, with two caveats. You can never know the size of this byte
    array ahead of time, since the size of the byte array is known to Rust and not Kotlin. You'd need two calls into
    Rust, one which returns the size of the array, and then the rest of the implementation continues. The other issue is
-   quite obvious if you went through the stack overflow post I've referred to earlier in the heap section. This is more
+   obvious if you went through the stack overflow post I've referred to earlier in the heap section. This is more
    practical than the ones above, but the fourth is the simplest way to do this that doesn't suck.
 
-### File descriptors
+# File descriptors
 
 You pass the file descriptor to Rust, and that is pretty much it:
 
@@ -165,6 +169,10 @@ You pass the file descriptor to Rust, and that is pretty much it:
 Since the file descriptor works at the kernel level, this just works. Rust
 doesn't need to actually have any idea of how a URI on Android resolves, or anything like that.
 
+Putting it all together, here is how Kotlin and Rust interact to make this possible:
+
+![kt-rs-file-write](/images/web-capture-in-linkora/kt-rs-file-write.png)
+
 Now, things might go wrong here; Rust can panic and force crash the app, especially since we are out of boundary when
 operating from Kotlin and we have no control over it. Thankfully, Rust has \`catch_unwind\` which helps in catching the
 panics that can unwind, for which you must not have \`panic = "abort"\` in the release profile. This is what Linkora
@@ -195,7 +203,7 @@ pub extern "system" fn Java_com_sakethh_linkora_JVMAndAndroidWebCapture_saveHTML
 
 ![panic-handle](/images/web-capture-in-linkora/panic-handle.png)
 
-### Benchmarks & Profiling
+# Benchmarks & Profiling
 
 I have it set up as follows just for manual testing:
 
@@ -240,7 +248,7 @@ listOf(
 )
 \`\`\`
 
-#### Concurrent downloads
+## Concurrent downloads
 
 In this example, I have set it to 4 downloads at a time:
 
@@ -319,7 +327,7 @@ For context, here are the final sizes of these self-contained files:
 CPU and memory readings from the Android Profiler on a build that is the same as release:
 
 <video controls width="100%">
-    <source src="https://59a32181-7426-4354.netlify.app/web-capture/Concurrent.mp4" type="video/mp4">
+    <source src="https://59a32181-7426-4354.netlify.app/web-capture/concurrent-profile.mp4" type="video/mp4">
 </video>
 
 This hit a peak of 404 MB, by the time \`write_all\` gets called on the Rust side, the entire HTML doc, base64-embedded
@@ -328,7 +336,7 @@ hitting 404 MB (although it's peak and not average) isn't good and might nuke th
 exception, especially on low-end devices, while streaming the bytes might be a better solution than allocating
 everything once, but it doesn't exist yet within \`monolith\`.
 
-CPU usage remained quite normal (the app's usage is the green graph inside the Profiler's CPU timeline).
+CPU usage remained normal (the app's usage is the green graph inside the Profiler's CPU timeline).
 
 Logs:
 
@@ -359,7 +367,7 @@ Logs:
 
 10 downloads concurrently (4 at any given time) took 43 seconds.
 
-### Coroutine Cancellation
+# Cancellation
 
 Coroutine cancellation affects children of a parent scope which might involve the calls to Rust, but Rust code will not
 be affected by these cancellations. In fact, the Kotlin coroutine never truly gets cancelled or completed until the Rust
@@ -530,9 +538,272 @@ can make another JNI call to manually stop the operation, or pass down a shared 
 Rust). The Rust code must then periodically check this boolean flag to see if a cancellation happened. This is exactly
 what you would do manually by checking \`isActive\` in pure Kotlin.
 
+<Badge>The following has been added on July 14, 2026</Badge>
+
+You can make another JNI call to manually stop the operation, if it supports it. The problem is, well... it doesn't.
+\`monolith\` itself doesn't support external cancellation. So I ended up forking it and adding that support myself. It now
+lives as \`capture-core\` in the \`LinkoraApp\` org on GitHub.
+
+Now, the function \`create_monolithic_document\` accepts a \`CancelToken\`, which takes an \`AtomicBoolean\`. Blocking
+operations
+inside \`monolith\` itself, recursive walks, loops, and so on, get checked periodically since I control that code.
+External
+library calls like \`reqwest\`, \`regex\`, and \`html5ever\` only get checked before the call starts, since I don't control
+what
+happens inside them. Once the flag trips, it forces a panic (\`EXTERNAL_CANCELLATION_PANIC\`) to instantly halt execution.
+You can read more about how this works in the capture-core README [here](https://github.com/LinkoraApp/capture-core).
+
+Now it does respect our cancellation. Whenever a coroutine cancellation is triggered from Kotlin, \`capture-core\` checks
+it periodically and will cancel the operation. Setting this up is quite simple:
+
+\`\`\`kotlin
+var captureJob: Job? = null
+...
+captureJob = viewModelScope.launch(PlatformIODispatcher) {
+    launch {
+        delay(5.seconds)
+        captureJob?.cancel()
+    }
+    webCapture.saveHTMLPage(...)
+}
+
+\`\`\`
+
+This, of course, cancels the work of the coroutine, but \`webCapture.saveHTMLPage\`'s native code will still be running.
+So we have to hook a trigger for Rust cancellation whenever the Kotlin coroutine gets cancelled, which takes us back to
+\`suspendCancellableCoroutine\`.
+
+The implementation of \`saveHTMLPage\` should now look like:
+
+\`\`\`kotlin
+suspend fun saveHTMLPage(
+    ...
+): Boolean = suspendCancellableCoroutine { continuation ->
+    ...
+    continuation.invokeOnCancellation {
+        // JNI function
+        cancelWebCapture(
+            key = opKey,
+            ...
+        )
+    }
+    ...
+}
+
+\`\`\`
+
+Now on Rust, we can have something like:
+
+\`\`\`rust
+#[unsafe(no_mangle)]
+pub extern "system" fn Java_com_sakethh_linkora_JVMAndAndroidWebCapture_cancelWebCapture(
+    mut env: JNIEnv,
+    _class: JClass,
+    ...
+) {
+    ...
+        cancel_token.trigger_cancellation(); // will trigger the cancellation of the monolith (capture-core) lib
+    ...
+}
+
+\`\`\`
+
+When put together, the complete cooperative cancellation system between Kotlin and Rust looks exactly like this:
+
+![kt-rs-cancellation](/images/web-capture-in-linkora/kt-rs-cancellation.png)
+
+Which in the console would look like:
+
+![kt-rs-cancellation-console](/images/web-capture-in-linkora/kt-rs-cancellation-console.png)
+
+We can go further and add breakpoints for debugging:
+
+1. Cancelling triggers the external function that stops native work.
+   <video controls width="100%">
+      <source src="https://59a32181-7426-4354.netlify.app/web-capture/debug-cancellation-trigger.mp4" type="video/mp4">
+    </video>
+2. Sequence on how the cancellation works.
+   <video controls width="100%">
+    <source src="https://59a32181-7426-4354.netlify.app/web-capture/debug-sequence.mp4" type="video/mp4">
+    </video>
+
+Debugging Rust
+code [requires workarounds and isn't quite straightforward](https://slack-chats.kotlinlang.org/t/27171780/anyone-interested-in-using-rust-with-kotlin-multiplatform-cr#01828127-07f8-40ba-9b43-15da36eb8237).
+
+# Handling Panics without Exceptions
+
+Now, how do we report when things go wrong in Rust? As mentioned, you can always throw exceptions,
+but dealing with JNI exceptions is a nightmare. The public documentation doesn't mention anything about exception
+clearance or its limits. I ended up deadlocking some tests for several minutes, when they should have been completed
+within a minute.
+
+![alt|caption=Test deadlock due to exception clearance](/images/web-capture-in-linkora/test-exception-deadlock.png)
+![alt|caption=Tests work as expected](/images/web-capture-in-linkora/test-exception-deadlock-free.png)
+
+The obvious solution is callbacks, but you can't just pass \`onThrown: () -> Unit\`, since this gets compiled to
+\`Function0<Unit>\`. \`Unit\` isn't \`void\`. It is still an object living on the Kotlin heap, so you would have to explicitly
+handle it with \`()Ljava/lang/Object;\` instead of the *true void* \`()V\`. If not, Rust will panic, and the rabbit hole for
+type handling goes on...
+
+Alternatively, we can use functional interfaces (SAM conversions). Instead of throwing exceptions, we can send
+information about this unusual behavior safely via callbacks. With SAM conversions, although the lambda syntax is just
+for styling, the compilation generates a regular, concrete object that JNI and Rust can work with.
+
+\`\`\`
+object JVMAndAndroidWebCapture {
+    fun interface OnThrown {
+        fun onThrown(message: String)
+    }
+    ...
+
+    private external fun cancelWebCapture(
+        key: String,
+        onThrown: OnThrown,
+    )
+    ...
+
+    saveHTMLPage(
+    ...
+    onThrown = { message ->
+        val cont = pendingCaptures.remove(opKey)
+        if (cont?.isActive == true) {
+            cont.resumeWithException(IllegalStateException(message))
+        }
+    }
+    ...
+}
+\`\`\`
+
+You could use anonymous objects instead of SAM conversions here. However, SAM conversions work especially well with a
+non-capturing lambda. In that case, they refer to the same instance throughout the application's lifecycle and avoid
+memory allocation on each call. While that's not the case here (since we capture state), the memory allocation will be
+the same as with anonymous objects.
+
+# Result Handling
+
+Now that cancellation is properly handled, we still need some way to reach back to Kotlin once the work finishes, since
+these web-capture operations happen on a random thread that \`tokio\` chooses during runtime.
+
+In our case, there can be multiple senders sending messages asynchronously, but
+processing happens synchronously (mailbox). This is exactly
+how [Kotlin actors](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.channels/actor.html) (
+now obsolete) worked.
+
+\`\`\`rust
+let (capture_status_sender, capture_status_receiver) = mpsc::channel::<RouterMessage>();
+\`\`\`
+
+For senders, I have a function which handles sending the events to the channel, which is implemented as:
+
+\`\`\`rust
+fn send_router_message(message: RouterMessage) {
+    let capture_sender_guard = CAPTURE_RESULT_SENDER
+        .lock()
+        .unwrap_or_else(|poisoned| poisoned.into_inner());
+
+    if let Some(sender) = capture_sender_guard.as_ref() {
+        let _ = sender.send(message);
+    }
+}
+\`\`\`
+
+where \`RouterMessage\` is similar to how you would represent your events in a \`sealed\` interface:
+
+\`\`\`rust
+enum RouterMessage {
+    CaptureResult {
+        op_key: String,
+        is_success: bool,
+    },
+    CaptureError {
+        op_key: String,
+        error_message: String,
+    },
+    Shutdown,
+}
+\`\`\`
+
+And it is received in a background thread:
+
+\`\`\`
+...
+std::thread::spawn(move || {
+    ...
+    while let Ok(message) = capture_status_receiver.recv() {
+        match message {
+            RouterMessage::CaptureResult { op_key, is_success } => {
+                on_capture_result(...);
+            }
+            RouterMessage::CaptureError { op_key, error_message } => {
+                on_capture_result(...);
+            }
+            RouterMessage::Shutdown => {
+                ...
+            }
+        }
+    }
+});
+\`\`\`
+
+That \`EXTERNAL_CANCELLATION_PANIC\` panic gets caught by the same \`catch_unwind\` from earlier, and ends up on this same
+background thread. Since it's just a cancellation acknowledgment and not an actual result, it just gets logged there, no
+call back to \`onCaptureResult\`, since Kotlin's coroutine is already cancelled by that point anyway.
+
+\`on_capture_result\` is a helper function which will send the results back to Kotlin, i.e., Rust has to call the function
+that belongs to Kotlin:
+
+\`\`\`rust
+fn on_capture_result(env: &mut JNIEnv, global_ref: &GlobalRef, op_key: JString, is_success: bool) {
+    let _ = env.call_method(
+        global_ref,
+        "onCaptureResult",
+        "(Ljava/lang/String;Z)V",
+        &[JValue::Object(&*op_key), JValue::Bool(is_success.into())],
+    );
+}
+\`\`\`
+
+From Kotlin, you would receive it like:
+
+\`\`\`kotlin
+private val pendingCaptures = ConcurrentHashMap<String, CancellableContinuation<Boolean>>()
+...
+private fun onCaptureResult(
+    opKey: String,
+    success: Boolean,
+) {
+    val continuation = pendingCaptures.remove(opKey)
+    if (continuation?.isActive == true) {
+        continuation.resume(success)
+    }
+}
+...
+\`\`\`
+
+Putting it all together, the result handling system looks like this:
+
+![kt-rs-result](/images/web-capture-in-linkora/kt-rs-result.png)
+
+Collecting results only works while that background thread is alive. I have separate functions, triggered from Kotlin,
+to spin it up and shut it down from the Rust side.
+
+# Conclusion
+
+This entire asynchronous working of things on both sides gave me the foundation I needed for this feature. Now as the
+core
+implementation works, I gotta build a couple of things on top of this, so user-facing things will be much more flexible
+and can be used practically.
+
+If you zoom out to see how everything works together, this is what it looks like:
+
+![overview](/images/web-capture-in-linkora/overview.png)
+
+Native interop is fun, especially if Kotlin and Rust are working together, until you have to deal with JNI limitations.
+It didn't really affect a lot except that deadlock with JNI exceptions, which was solvable pretty simply.
+
 ---
 
-Here are some links I went through via search results while working on this \`web-capture\` feature so far:
+Here are some resources I have gone through so far while working on this \`web-capture\` feature:
 
 1. https://www.reddit.com/r/rust/comments/38ka6i/how_to_close_a_file/
 2. https://www.reddit.com/r/rust/comments/1duc594/reading_granted_content_file_uris_on_android/
@@ -543,7 +814,8 @@ Here are some links I went through via search results while working on this \`we
 7. https://source.android.com/docs/setup/build/rust/building-rust-modules/android-rust-patterns#android-logging
 8. https://docs.rs/android_logger/0.10.1/android_logger/
 9. https://kotlinlang.org/spec/asynchronous-programming-with-coroutines.html
+10. https://kotlinlang.org/docs/fun-interfaces.html
+11. https://verdagon.dev/blog/exploring-seamless-rust-interop-part-2
 
-This feature is currently on the \`dev\` branch since it is not yet completed for a release. If you want to see how this
-works across Android and Desktop via Kotlin Multiplatform, check
+If you want to see how this works across Android and Desktop via Kotlin Multiplatform, check
 out: https://github.com/LinkoraApp/Linkora/tree/dev`;export{e as default};

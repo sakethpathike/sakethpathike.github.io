@@ -1,0 +1,1 @@
+import{C as e,I as t,T as n,V as r,at as i,f as a,g as o,i as s,it as c}from"./BWc9umX3.js";import"./CFKVnMbq.js";var l=n(`<span><!></span>`);function u(n,u){let d=s(u,`fullWidth`,3,!1);var f=l();let p;o(r(f),()=>u.children??i),c(f),t(()=>p=a(f,1,`badge svelte-gfx6ra`,null,p,{full:d()})),e(n,f)}export{u as t};
