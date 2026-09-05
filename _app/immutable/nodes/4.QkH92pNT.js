@@ -1,4 +1,4 @@
-import{$ as e,C as t,G as n,K as r,T as i,U as a,V as o,a as s,et as c,it as l,j as u}from"../chunks/BWc9umX3.js";import"../chunks/CFKVnMbq.js";import{t as d}from"../chunks/CEIAhSia.js";import"../chunks/6OkQQOUT.js";import{t as f}from"../chunks/826G_Alq.js";var p=`:root {
+import{$ as e,C as t,G as n,K as r,T as i,U as a,V as o,a as s,et as c,it as l,j as u}from"../chunks/BZpmPeOn.js";import"../chunks/D1hYfEew.js";import{t as d}from"../chunks/74FSXvTm.js";import"../chunks/CsQX8471.js";import{t as f}from"../chunks/DsZaJxEG.js";var p=`:root {
     --font-text: 'Schibsted Grotesk', sans-serif;
     --font-heading: 'JetBrains Mono', monospace;
     --h-family: var(--font-heading);
