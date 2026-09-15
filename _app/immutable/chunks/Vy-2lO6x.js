@@ -1,6 +1,6 @@
 var e=`---
 title: "The Chameleon Experience"
-description: "openSUSE Tumbleweed is a solid rock that rolls."
+description: ""
 pubDatetime: "Dec 24, 2025 9:30 PM IST"
 staticRes: "chameleon-experience"
 ---

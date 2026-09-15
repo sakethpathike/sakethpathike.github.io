@@ -1,6 +1,6 @@
 var e=`---
 title: "Kotlin Multiplatform, in practice"
-description: "Multiplatform is fun, at least with Kotlin."
+description: ""
 pubDatetime: "Aug 03, 2025 07:30 PM IST"
 staticRes: "kmp-in-practice"
 ---

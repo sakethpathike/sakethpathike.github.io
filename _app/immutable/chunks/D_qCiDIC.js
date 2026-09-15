@@ -1,6 +1,6 @@
 var e=`---
 title: "Building Webpage Capture in Linkora"
-description: "Rust, JNI, file descriptors, and forking monolith to support coroutines that don't know they've been cancelled."
+description: ""
 pubDatetime: "Jun 27, 2026 9:30 PM IST"
 staticRes: "web-capture-in-linkora"
 ---
@@ -803,7 +803,25 @@ It didn't really affect a lot except that deadlock with JNI exceptions, which wa
 
 ---
 
-Here are some resources I have gone through so far while working on this \`web-capture\` feature:
+<Badge>Current state of web-capture (v0.20.0+)</Badge>
+
+The above implementation worked across v0.18.0 and v0.19.0. Now the only issue with this system is memory usage,
+especially on Android. To fix this, I can either fix things in capture-core or rewrite monolith's implementation in
+Kotlin with a better implementation. Of course, I did the latter. [kapture](https://github.com/sakethpathike/kapture) is a Kotlin Multiplatform library that's
+essentially based on monolith's implementation, but kapture uses temp files during archiving instead of holding
+everything in memory, and streams Base64 instead of encoding everything at once with bit manipulation. The rest of the
+process stays linear in time.
+
+I've tested against the same pages I tested earlier for monolith memory usage. This reduces memory consumption by ~36%
+at peak, with the tradeoff being file I/O calls that were never made with monolith. But at least this way, we consume
+less memory compared to previous implementation. So it's either that or this, we gotta pick one either
+way.
+
+![kapture-cpu-mem-usage](/images/web-capture-in-linkora/kapture-cpu-mem-usage.png)
+
+---
+
+Here are some resources I have gone through while working on this \`web-capture\` feature:
 
 1. https://www.reddit.com/r/rust/comments/38ka6i/how_to_close_a_file/
 2. https://www.reddit.com/r/rust/comments/1duc594/reading_granted_content_file_uris_on_android/
@@ -816,6 +834,8 @@ Here are some resources I have gone through so far while working on this \`web-c
 9. https://kotlinlang.org/spec/asynchronous-programming-with-coroutines.html
 10. https://kotlinlang.org/docs/fun-interfaces.html
 11. https://verdagon.dev/blog/exploring-seamless-rust-interop-part-2
+12. https://stackoverflow.com/questions/4080988/why-does-base64-encoding-require-padding-if-the-input-length-is-not-divisible-by
 
 If you want to see how this works across Android and Desktop via Kotlin Multiplatform, check
-out: https://github.com/LinkoraApp/Linkora/tree/dev`;export{e as default};
+out (v0.18.0): https://github.com/LinkoraApp/Linkora/tree/33bffebd136c86404baf3d926657ae8660a576bc
+`;export{e as default};
