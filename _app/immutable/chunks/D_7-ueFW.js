@@ -10,8 +10,7 @@ This post goes over the older localization implementations Linkora replaced, and
 # The Ugly
 
 I've had some form of this since Linkora [v0.7.0](https://github.com/LinkoraApp/Linkora/releases/tag/release-v0.7.0),
-back in Aug 2024. Since we needed
-unique identifiers to represent a translation and its respective value, I had it like:
+back in Aug 2024. Since I needed unique identifiers to represent a translation and its respective value, I had it like:
 
 \`\`\`kotlin
 object LocalizedStrings : ViewModel() {
@@ -88,11 +87,14 @@ object Localization {
 
 I had extensions based on the \`Key\` to use the key directly and get the localized string and use in the Compose code.
 
-That dynamic value got replaced during runtime, which obviously isn't flexible enough. This whole enum thing
-doesn't stay maintainable, now that I look back on this.
+The placeholder tokens in those default values, like \`\${LinkoraPlaceHolder.First.value}\`, got replaced by the actual
+values at runtime, which obviously isn't flexible enough. Looking back, I have no idea why I wrapped it in
+\`derivedStateOf\` or used \`runBlocking\` to load
+strings individually instead of just pulling all the rows at once.
 
-Essentially, this gets messy too. It got to a point where I got rid of this design and moved to something simpler, where
-adding a key/value pair to \`default.json\` is the only manual step and everything else falls into place.
+Those are easy fixes, but the underlying design gets messy. It got to a point where I got rid of it and moved to
+something simpler, where adding a key/value pair to
+\`default.json\` is the only manual step and everything else falls into place.
 
 # The Good
 
@@ -102,7 +104,7 @@ I got rid of \`the bad\` and switched to an entirely new implementation which is
 
 ## Single Source of Truth
 
-We need a single source of truth for both the [localization-server](https://github.com/LinkoraApp/localization-server)
+I need a single source of truth for both the [localization-server](https://github.com/LinkoraApp/localization-server)
 and the app, and I don't want to maintain any type of
 dataclass or anything manually. Previously I manually maintained \`default.json\` based on the enums. Now \`default.json\`
 is the single source of truth:
@@ -126,7 +128,7 @@ is the single source of truth:
 \`\`\`
 
 The \`key\` is the same as the enum entry name. The dynamic values are similar to Android string resource placeholders,
-which we will get into later.
+which I will get into later.
 
 ## Build-Time Code Generation
 
@@ -246,7 +248,7 @@ create a new instance from that language's values, and the UI reflects it.
 
 ## CompositionLocal
 
-We can access the strings from composable code or regular Kotlin code. For regular Kotlin code, pass the instance
+You can access the strings from composable code or regular Kotlin code. For regular Kotlin code, pass the instance
 directly. For Compose, I used \`CompositionLocal\` to pass the instance down the Compose tree so it can be
 accessed across composables.
 
@@ -270,7 +272,7 @@ CompositionLocalProvider(
 }
 \`\`\`
 
-Since \`localizedStrings\` is now passed down to the composables/Compose tree, it can be used as:
+Since \`localizedStrings\` is now passed down the Compose tree, it can be used as:
 
 \`\`\`kotlin filename="Composable.kt"
 @Composable
@@ -282,14 +284,13 @@ fun AppLang() {
 
 ## Dynamic Strings
 
-\`localizedStrings.AppLanguage\` happens to be just static information, but we got a lot of cases where we need dynamic
+\`localizedStrings.AppLanguage\` happens to be just static information, but I have a lot of cases where I need dynamic
 values. Previously I replaced reserved placeholder strings of the app with dynamic values. That worked, but it gets
 painful to
 maintain since the list of reserved placeholder strings has to be maintained manually.
 
-With \`The Good\` I got rid of those reserved placeholder strings
-and
-went with a similar approach on how Android manages it with their placeholders in the string resources. For this, I have
+With \`The Good\`, I got rid of those reserved placeholder strings and went with a similar approach to how Android manages
+them in string resources. For this, I have
 \`>{N}\` where \`N\` can be \`0\` or any other positive number which the app will replace with dynamic values during runtime.
 
 Since placeholder positions can vary by language, numbering them lets translators reorder the placeholders without
@@ -301,14 +302,14 @@ The logic for this is straightforward:
 
 - If \`}\` isn't found, it isn't valid syntax and the text should be used as literal chars and not the syntax.
 
-2. Read the index of received arguments based on this number, i.e., for \`Never >{3} >{1} >{0} >{2}\` if the arguments
+2. Look up the argument at that index. For example, for \`Never >{3} >{1} >{0} >{2}\` if the arguments
    are
    \`["you", "give", "up", "gonna"]\`, the final text will
    be [Never gonna give you up](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
 
-- The position doesn't matter since we just replace things based on the provided \`N\`
+- The position doesn't matter since it just replaces things based on the provided \`N\`
 
-3. And repeat from step 1 until we complete the chars of a string.
+3. Repeat from step 1 until reaching the end of the string.
 
 In code it will look like:
 
@@ -368,8 +369,8 @@ fun String.replaceActual(vararg actuals: String): String {
 }
 \`\`\`
 
-This replacement is less efficient, isn't single pass, and would go through the replacement on each iteration while
-creating a string object on each iteration regardless of whether it's used, but works.
+This replacement is less efficient, isn't single pass, and rescans the entire string on each iteration while creating a
+new string object regardless of whether the placeholder actually exists, but it works.
 
 Which can be used as:
 
@@ -380,7 +381,7 @@ localizedStrings.AddANewLinkIn
 
 ### Why \`>{N}\`
 
-There will be no combination of characters in normal text that means anything meaningful if it starts with \`>{\`. i.e.,
+There is no combination of characters in normal text that means anything meaningful when starting with \`>{\`. i.e.,
 the syntax is dumber than the regular \`{N}\` so I just went with that.
 
 ## Previews
@@ -423,18 +424,16 @@ flow and provided to the Compose tree, as mentioned earlier.
 
 Translations are pulled from the local tables on app launch or when updating the language within the app, so the keys
 and values of the strings exist within the local database and are pulled only when necessary, instead of calling it
-every time. Once we get all the strings from the table we
-create
-an instance of \`LocalizedStrings\` and use it everywhere via \`CompositionLocal\` or regular Kotlin calls. So strings
-aren't
-loaded from remote calls but completely local once we have key/value pairs of these translations.
+every time. Once I get all the strings from the table, I create an instance of \`LocalizedStrings\` and use it everywhere
+via \`CompositionLocal\` or regular Kotlin calls. So strings aren't loaded from remote calls, but are completely local once
+those key/value pairs exist in the database.
 
 New keys added to \`default.json\` will show the English default value until a contributor submits a translation for that
 language.
 
 # Zooming Out
 
-So every time there is a new string in the app, I only have to add it to the \`default.json\` and the rest falls into
+So every time there is a new string in the app, I only have to add it to \`default.json\` and the rest falls into
 place.
 
 Now if you zoom out and see how all these work together, it would be like this:
