@@ -40,7 +40,7 @@ object LocalizedStrings : ViewModel() {
 }
 \`\`\`
 
-Now, as you can tell... it gets nasty real fast and only gets worse with every line.
+Now, as you can tell... it only gets worse with every line.
 
 # The Bad
 

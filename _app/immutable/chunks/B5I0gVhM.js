@@ -62,7 +62,7 @@ using this design for my OSS projects going forward.`,1),Re=r(`<!> <!> <!> <!> <
         }
         ...
     }
-}`});var h=i(ie,2);l(h,{children:(n,r)=>{s(),e(n,t(`Now, as you can tell… it gets nasty real fast and only gets worse with every line.`))},$$slots:{default:!0}});var g=i(h,2);d(g,{level:1,children:(n,r)=>{s(),e(n,t(`The Bad`))},$$slots:{default:!0}});var _=i(g,2);l(_,{children:(t,n)=>{s();var r=oe();s(2),e(t,r)},$$slots:{default:!0}});var v=i(_,2);c(v,{text:`object Localization {
+}`});var h=i(ie,2);l(h,{children:(n,r)=>{s(),e(n,t(`Now, as you can tell… it only gets worse with every line.`))},$$slots:{default:!0}});var g=i(h,2);d(g,{level:1,children:(n,r)=>{s(),e(n,t(`The Bad`))},$$slots:{default:!0}});var _=i(g,2);l(_,{children:(t,n)=>{s();var r=oe();s(2),e(t,r)},$$slots:{default:!0}});var v=i(_,2);c(v,{text:`object Localization {
     private val localizedStrings = mutableStateMapOf<String, String>()
 
     fun loadLocalizedStrings(
