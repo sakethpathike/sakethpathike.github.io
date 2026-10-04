@@ -5,7 +5,7 @@ pubDatetime: "Oct 03, 2026 2:30 PM IST"
 staticRes: "localization-ota"
 ---
 
-Linkora has shipped three different OTA localization setups to skip app releases for translation updates, without
+[Linkora](https://github.com/LinkoraApp/Linkora) has shipped three different OTA localization setups to skip app releases for translation updates, without
 relying on third-party SDKs. This post goes over the first two client-side implementations I replaced, and details the
 third one that runs the app today.
 
