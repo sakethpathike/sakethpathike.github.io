@@ -5,7 +5,9 @@ pubDatetime: "Oct 03, 2026 2:30 PM IST"
 staticRes: "localization-ota"
 ---
 
-This post goes over the older localization implementations Linkora replaced, and the OTA setup that runs it today.
+Linkora has shipped three different OTA localization setups to skip app releases for translation updates, without
+relying on third-party SDKs. This post goes over the first two client-side implementations I replaced, and details the
+third one that runs the app today.
 
 # The Ugly
 
@@ -425,7 +427,8 @@ flow and provided to the Compose tree, as mentioned earlier.
 Translations are pulled from the local tables on app launch or when updating the language within the app, so the keys
 and values of the strings exist within the local database and are pulled only when necessary, instead of calling it
 every time. Once I get all the strings from the table, I create an instance of \`LocalizedStrings\` and use it everywhere
-via \`CompositionLocal\` or regular Kotlin calls. So strings aren't loaded from remote calls, but are completely local once
+via \`CompositionLocal\` or regular Kotlin calls. So strings aren't loaded from remote calls, but are completely local
+once
 those key/value pairs exist in the database.
 
 New keys added to \`default.json\` will show the English default value until a contributor submits a translation for that
