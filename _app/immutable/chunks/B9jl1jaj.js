@@ -5,7 +5,8 @@ pubDatetime: "Oct 03, 2026 2:30 PM IST"
 staticRes: "localization-ota"
 ---
 
-[Linkora](https://github.com/LinkoraApp/Linkora) has shipped three different OTA localization setups to skip app releases for translation updates, without
+[Linkora](https://github.com/LinkoraApp/Linkora) has shipped three different OTA localization setups to skip app
+releases for translation updates, without
 relying on third-party SDKs. This post goes over the first two client-side implementations I replaced, and details the
 third one that runs the app today.
 
@@ -352,10 +353,10 @@ fun String.replaceActual(vararg actuals: String): String {
 }
 \`\`\`
 
-The above implementation consumes every region it scans. If a closing bracket is found, the index jumps past it even
-when the tag is invalid. If no closing bracket remains, the rest of the string is appended and the loop stops. Since the
-scanned regions do not overlap, total lookup work is bounded by \`O(N)\`. Appending the output costs \`O(S)\`, where \`S\` is
-the final output length. Time complexity is \`O(N + S)\`. Space complexity for the retained output is \`O(S)\`.
+The implementation consumes every region it scans. When a closing bracket is found, the index jumps past it, even if the
+tag is invalid. If no closing bracket remains, the rest of the string is appended and the loop terminates. Because the
+scanned regions never overlap, the total lookup work is bounded by \`O(N)\`. Appending to the output costs \`O(S)\`, where \`S\` is
+the final output length. So the overall time complexity is \`O(N + S)\`, and the retained output uses \`O(S)\` space.
 
 The \`substring\` calls add temporary allocations, but their total scanned content is still bounded by \`O(N)\`.
 
