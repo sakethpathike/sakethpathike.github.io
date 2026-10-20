@@ -1,4 +1,4 @@
-import{$ as e,C as t,G as n,K as r,T as i,U as a,V as o,a as s,et as c,it as l,j as u}from"../chunks/BZpmPeOn.js";import"../chunks/D1hYfEew.js";import{t as d}from"../chunks/0u7rpsMg.js";import{t as f}from"../chunks/CPN26mfg.js";var p=`:root {
+import{$ as e,C as t,G as n,K as r,T as i,U as a,V as o,a as s,et as c,it as l,j as u}from"../chunks/BZpmPeOn.js";import"../chunks/D1hYfEew.js";import{t as d}from"../chunks/CRB4hhe0.js";import{t as f}from"../chunks/CPN26mfg.js";var p=`:root {
     --font-text: 'Schibsted Grotesk', sans-serif;
     --font-heading: 'JetBrains Mono', monospace;
     --h-family: var(--font-heading);
@@ -117,7 +117,7 @@ a {
             and a few other pieces, which turned into a custom SSG called <a href="https://github.com/sakethpathike/kamp" target="_blank" rel="noopener noreferrer">kamp</a>.
             It served well for a while, but making
             the static snapshot logic keep up with every single change just wasn't practical long-term. It got archived
-            and open-sourced under AGPLv3.</p> <p class="svelte-1ago2e9">Now the site runs on SvelteKit. Most of the HTML is literally copy-pasted
+            and open-sourced under AGPLv3.</p> <p class="svelte-1ago2e9">Now the site uses SvelteKit. Most of the HTML is literally copy-pasted
             from previous Kamp iterations. A new color scheme, fonts, and a few design changes for components are the
             main differences; other than that, it's mostly the same thing.</p> <h3 class="svelte-1ago2e9">Site License</h3> <p class="svelte-1ago2e9">Unless otherwise stated, all written content on the blog is licensed under <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC
                 4.0</a>.
